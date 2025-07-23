@@ -2,22 +2,43 @@
 
 import { login } from '@/actions/forms/login';
 import { LoginFormState } from '@/lib/zod/loginFormSchema';
+import { useAuth } from 'authentication-service-react-sdk';
+import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
 
 export default function LoginForm() {
-  const [state, action, isPending] = useActionState<LoginFormState>(login, {
-    message: '',
-  });
+	const router = useRouter();
+	const { login: setLogin } = useAuth();
 
-  return (
-    <form action={action}>
-      <input type="email" />
-      <p>{state?.errors?.email || ''}</p>
+	const handleSubmit = async (
+		prevState: LoginFormState | null,
+		formData: FormData
+	) => {
+		const result = await login(prevState, formData);
 
-      <input type="password" />
-      <p>{state?.errors?.password || ''}</p>
+		if (result?.accessToken && result?.user) {
+			// Handle successful login
+			setLogin({ accessToken: result.accessToken, user: result.user });
 
-      <button type="submit">{isPending ? 'Logging in...' : 'Submit'}</button>
-    </form>
-  );
+			router.push('/');
+		}
+
+		return result;
+	};
+
+	const [state, action, isPending] = useActionState(handleSubmit, null);
+
+	return (
+		<form action={action}>
+			<input type='email' name='email' id='email' />
+			<p>{state?.errors?.email || ''}</p>
+
+			<input type='password' name='password' id='password' />
+			<p>{state?.errors?.password || ''}</p>
+
+			<button type='submit' disabled={isPending}>
+				{isPending ? 'Logging in...' : 'Submit'}
+			</button>
+		</form>
+	);
 }
