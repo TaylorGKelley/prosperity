@@ -23,6 +23,7 @@ async function isAuthorized(
     const requiredPermissions = protectedRoutes[path];
 
     // Check if authenticated and get permissions
+    console.log('making user-permissions request');
     const response = await axiosWithAuth.get<{ permissions: string[] }>(
       `${process.env.AUTH_SERVICE_BASE_URL!}/user-permissions/${process.env
         .AUTH_SERVICE_CLIENT_ID!}`,
@@ -47,15 +48,7 @@ async function isAuthorized(
 
     return true;
   } catch (error) {
-    if (error instanceof AxiosError) {
-      console.error('Request failed:', {
-        url: error.config?.url,
-        sentHeaders: error.config?.headers,
-        responseStatus: error.response?.status,
-        responseData: error.response?.data,
-      });
-    }
-
+    console.log((error as AxiosError).message);
     return false;
   }
 }

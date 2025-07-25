@@ -2,13 +2,19 @@ import 'server-only';
 import axios from 'axios';
 import { cookies } from 'next/headers';
 
-export async function getCSRFToken() {
+export type CSRFCookies = {
+  xsrfToken: string;
+  _csrf: string;
+};
+
+export async function getCSRFToken(): Promise<CSRFCookies> {
   const cookieStore = await cookies();
 
   // return csrf token stored in cookie
   const xsrfToken = cookieStore.get('xsrfToken')?.value;
-  if (xsrfToken) {
-    return xsrfToken;
+  const _csrf = cookieStore.get('_csrf')?.value;
+  if (xsrfToken && _csrf) {
+    return { xsrfToken, _csrf: _csrf };
   }
 
   // if it's not already stored in the cookie, refresh via the api
@@ -18,11 +24,11 @@ export async function getCSRFToken() {
   );
 
   // Pass along _csrf cookie
-  const setCookieHeader = response.headers['set-cookie'];
-  if (setCookieHeader) {
-    // Extract the token value from the cookie string
-    const csrfToken = setCookieHeader[0].split(';')[0].split('=')[1];
-    // Set the cookie with just the token value
+  const setCookieHeader = response.headers['set-cookie']?.toString();
+  const csrfToken = setCookieHeader?.split(';')[0].split('=')[1];
+
+  // Set the cookie with just the token value
+  if (csrfToken) {
     cookieStore.set({
       name: '_csrf',
       value: csrfToken,
@@ -41,5 +47,5 @@ export async function getCSRFToken() {
     sameSite: 'lax',
   });
 
-  return response.data.csrfToken;
+  return { xsrfToken: response.data.csrfToken, _csrf: csrfToken || _csrf! };
 }
