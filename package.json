@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.83.0",
-    "authentication-service-react-sdk": "github:TaylorGKelley/authentication-service-react-sdk",
+    "authentication-service-nextjs-sdk": "github:TaylorGKelley/authentication-service-nextjs-sdk",
     "axios": "^1.10.0",
     "graphql-request": "^7.2.0",
     "next": "15.3.3",

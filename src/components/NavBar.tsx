@@ -1,6 +1,5 @@
 'use client';
 
-import { useAuth } from 'authentication-service-react-sdk';
 import Link from 'next/link';
 import React from 'react';
 
@@ -28,15 +27,15 @@ const links = [
 ] as const;
 
 function NavBar() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   return (
     <nav>
-      {user ? (
+      {/* {user ? (
         <span>Welcome, {`${user.firstName} ${user.lastName}`}!</span>
       ) : (
         <Link href={'/auth/login'}>Log in</Link>
-      )}
+      )} */}
       <ul>
         {links.map((link) => (
           <li key={link.id}>
