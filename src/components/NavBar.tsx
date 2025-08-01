@@ -9,28 +9,28 @@ const links = [
     title: 'Home',
     url: '/',
   },
-  {
-    id: 1,
-    title: 'Budget',
-    url: '/budget',
-  },
-  {
-    id: 2,
-    title: 'wallet',
-    url: '/wallet',
-  },
-  {
-    id: 3,
-    title: 'account',
-    url: '/account',
-  },
+  // {
+  //   id: 1,
+  //   title: 'Budget',
+  //   url: '/budget',
+  // },
+  // {
+  //   id: 2,
+  //   title: 'wallet',
+  //   url: '/wallet',
+  // },
+  // {
+  //   id: 3,
+  //   title: 'account',
+  //   url: '/account',
+  // },
 ] as const;
 
 function NavBar() {
   // const { user } = useAuth();
 
   return (
-    <nav>
+    <nav className="p-6">
       {/* {user ? (
         <span>Welcome, {`${user.firstName} ${user.lastName}`}!</span>
       ) : (

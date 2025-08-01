@@ -1,6 +1,10 @@
 'use server';
 
 import loginFormSchema, { LoginFormState } from '@/lib/zod/loginFormSchema';
+import parseCookie from '@/utils/parseCookie';
+import { User } from 'authentication-service-nextjs-sdk';
+import axios from 'axios';
+import { cookies } from 'next/headers';
 
 export async function login(
   _prevState: LoginFormState | null,
@@ -19,25 +23,37 @@ export async function login(
 
     const { email, password } = result.data;
 
-    // Login request
-    // {
-    //   accessToken: string;
-    //   user: User | null;
-    //   message?: string;
-    // }
-
-    const response = await fetch('/api/auth/login', {
-      method: 'get',
-      body: new URLSearchParams({
-        username: email,
-        password,
-      }),
+    const response = await axios.post<{
+      accessToken: string;
+      user: User;
+    }>(`${process.env.AUTH_SERVICE_HOST_URL}/api/v1/login`, {
+      username: email,
+      password,
     });
 
-    const data = await response.json();
+    const cookieStore = await cookies();
+
+    const accessToken = response.data.accessToken;
+    const refreshCookie = parseCookie(
+      'refreshToken',
+      response.headers['set-cookie']
+    );
+
+    cookieStore.set('accessToken', accessToken, {
+      expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+      httpOnly: true,
+      path: '/',
+      sameSite: 'lax',
+    });
+    cookieStore.set('refreshToken', refreshCookie.Value, {
+      httpOnly: refreshCookie.HttpOnly || true,
+      expires: refreshCookie.Expires,
+      path: refreshCookie.Path ?? '/',
+      sameSite: refreshCookie.SameSite || 'lax',
+    });
 
     return {
-      user: data.user,
+      user: response.data.user,
     };
   } catch (error) {
     return {
