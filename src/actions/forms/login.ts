@@ -1,23 +1,17 @@
 'use server';
 
 import loginFormSchema, { LoginFormState } from '@/lib/zod/loginFormSchema';
-import { User } from 'authentication-service-react-sdk';
-import axios from 'axios';
-import { cookies } from 'next/headers';
 
 export async function login(
   _prevState: LoginFormState | null,
   formData: FormData
 ): Promise<LoginFormState> {
   try {
-    const cookieStore = await cookies();
-
     // Validate input
     const result = loginFormSchema.safeParse(Object.fromEntries(formData));
 
     if (!result.success) {
       return {
-        accessToken: null,
         user: null,
         errors: result.error.flatten().fieldErrors,
       };
@@ -26,57 +20,27 @@ export async function login(
     const { email, password } = result.data;
 
     // Login request
-    const response = await axios.post<{
-      accessToken: string;
-      user: User | null;
-      message?: string;
-    }>('http://localhost:7001/api/v1/login', {
-      username: email,
-      password,
+    // {
+    //   accessToken: string;
+    //   user: User | null;
+    //   message?: string;
+    // }
+
+    const response = await fetch('/api/auth/login', {
+      method: 'get',
+      body: new URLSearchParams({
+        username: email,
+        password,
+      }),
     });
 
-    if (response.status == 200 || response.status == 201) {
-      // Forward the Set-Cookie header from the response
-      const setCookieHeader = response.headers['set-cookie'];
-      if (setCookieHeader) {
-        // Extract the token value from the cookie string
-        const refreshToken = setCookieHeader[0].split(';')[0].split('=')[1];
-        // Set the cookie with just the token value
-        cookieStore.set({
-          name: 'refreshToken',
-          value: refreshToken,
-          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // +7 days
-          httpOnly: true,
-          path: '/',
-          sameSite: 'lax',
-          secure: process.env.NODE_ENV === 'production',
-        });
-      }
+    const data = await response.json();
 
-      // Set AccessToken cookie for server-side access
-      cookieStore.set({
-        name: 'accessToken',
-        value: response.data.accessToken,
-        httpOnly: true,
-        path: '/',
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-      });
-
-      return {
-        accessToken: response.data.accessToken,
-        user: response.data.user,
-      };
-    } else {
-      return {
-        accessToken: null,
-        user: null,
-        error: response.data.message,
-      };
-    }
+    return {
+      user: data.user,
+    };
   } catch (error) {
     return {
-      accessToken: null,
       user: null,
       error: (error as Error).message,
     };

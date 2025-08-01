@@ -2,43 +2,43 @@
 
 import { login } from '@/actions/forms/login';
 import { LoginFormState } from '@/lib/zod/loginFormSchema';
-import { useAuth } from 'authentication-service-react-sdk';
+// import { useAuth } from 'authentication-service-nextjs-sdk';
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
 
 export default function LoginForm() {
-	const router = useRouter();
-	const { login: setLogin } = useAuth();
+  const router = useRouter();
+  // const { login: setLogin } = useAuth();
 
-	const handleSubmit = async (
-		prevState: LoginFormState | null,
-		formData: FormData
-	) => {
-		const result = await login(prevState, formData);
+  const handleSubmit = async (
+    prevState: LoginFormState | null,
+    formData: FormData
+  ) => {
+    const result = await login(prevState, formData);
 
-		if (result?.accessToken && result?.user) {
-			// Handle successful login
-			setLogin({ accessToken: result.accessToken, user: result.user });
+    if (result?.user) {
+      // Handle successful login
+      // setLogin({ accessToken: result.accessToken, user: result.user });
 
-			router.push('/');
-		}
+      router.push('/');
+    }
 
-		return result;
-	};
+    return result;
+  };
 
-	const [state, action, isPending] = useActionState(handleSubmit, null);
+  const [state, action, isPending] = useActionState(handleSubmit, null);
 
-	return (
-		<form action={action}>
-			<input type='email' name='email' id='email' />
-			<p>{state?.errors?.email || ''}</p>
+  return (
+    <form action={action}>
+      <input type="email" name="email" id="email" />
+      <p>{state?.errors?.email || ''}</p>
 
-			<input type='password' name='password' id='password' />
-			<p>{state?.errors?.password || ''}</p>
+      <input type="password" name="password" id="password" />
+      <p>{state?.errors?.password || ''}</p>
 
-			<button type='submit' disabled={isPending}>
-				{isPending ? 'Logging in...' : 'Submit'}
-			</button>
-		</form>
-	);
+      <button type="submit" disabled={isPending}>
+        {isPending ? 'Logging in...' : 'Submit'}
+      </button>
+    </form>
+  );
 }
