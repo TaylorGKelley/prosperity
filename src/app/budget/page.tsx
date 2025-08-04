@@ -9,5 +9,23 @@ export default async function Budget() {
 		};
 	}>(`${process.env.AUTH_SERVICE_HOST_URL}/api/v1/users/me`);
 
-	return <div>Budget, {response.success ? JSON.stringify(response.data) : response.message}</div>;
+	if (!response.success) {
+		return (
+			<section className='py-4 px-8'>
+				<h4 className='text-3xl font-semibold mb-2'>Budget</h4>
+				<p>Error fetching user data: {response.message}</p>
+			</section>
+		);
+	}
+
+	return (
+		<section className='py-4 px-8'>
+			<h4 className='text-3xl font-semibold mb-2'>Budget</h4>
+			<p>
+				Welcome, <strong>{response.data.user.email}</strong>! Your user ID is{' '}
+				<strong>{response.data.user.id}</strong>.
+			</p>
+			<p>This is a placeholder page for the future budget page content.</p>
+		</section>
+	);
 }
