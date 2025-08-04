@@ -4,6 +4,7 @@ import { useAuthContext } from 'authentication-service-nextjs-sdk/client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
+import LogoutForm from './forms/LogoutForm';
 
 const links = [
 	{
@@ -45,7 +46,10 @@ function NavBar() {
 			</ul>
 
 			{user ? (
-				<span>Welcome, {user.email.split('@')[0]}!</span>
+				<div className='flex gap-4 items-center'>
+					<span>Welcome, {user.email.split('@')[0]}!</span>
+					<LogoutForm />
+				</div>
 			) : (
 				<div className='flex gap-4'>
 					<Link href={'/auth/login'}>Log in</Link>

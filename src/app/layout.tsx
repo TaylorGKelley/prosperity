@@ -25,13 +25,14 @@ export default async function RootLayout({
 	const response = await fetchWithAuth<{
 		user: User;
 		permissions: string[];
-	}>(`${process.env.AUTH_SERVICE_HOST_URL}/api/v1/users/me`);
+	}>(
+		`${process.env.AUTH_SERVICE_HOST_URL}/api/v1/user-permissions/${process.env.AUTH_SERVICE_CONNECTED_SERVICE_ID}`,
+	);
 
 	return (
 		<AuthProvider
 			permissions={response.success ? response.data.permissions : []}
-			user={response.success ? response.data.user : null}
-		>
+			user={response.success ? response.data.user : null}>
 			<html lang='en'>
 				<body className={`${inter.variable} antialiased`}>
 					<header>

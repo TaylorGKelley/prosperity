@@ -1,7 +1,7 @@
 'use client';
 
 import logout from '@/actions/forms/logout';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import React, { useActionState } from 'react';
 
 export default function LogoutForm() {
