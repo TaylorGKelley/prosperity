@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 
 // This is used to protect an entire page from a user, redirecting to /unauthorized
 const protectedPaths: Record<string, string[]> = {
+	'/': ['default'],
 	'/budget': ['default'],
 };
 
@@ -12,7 +13,7 @@ export default withAuth(
 	},
 	{
 		protectedPaths,
-	}
+	},
 );
 
 export const config = {

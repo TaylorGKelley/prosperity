@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
-
 const links = [
 	{
 		id: 0,
@@ -38,9 +37,7 @@ function NavBar() {
 			<ul className='flex gap-6'>
 				{links.map((link) => (
 					<li key={link.id}>
-						<Link
-							className={`${pathname === link.url ? 'underline' : ''}`}
-							href={link.url}>
+						<Link className={`${pathname === link.url ? 'underline' : ''}`} href={link.url}>
 							{link.title}
 						</Link>
 					</li>
@@ -50,7 +47,11 @@ function NavBar() {
 			{user ? (
 				<span>Welcome, {user.email.split('@')[0]}!</span>
 			) : (
-				<Link href={'/auth/login'}>Log in</Link>
+				<div className='flex gap-4'>
+					<Link href={'/auth/login'}>Log in</Link>
+					{'/'}
+					<Link href={'/auth/register'}>Sign Up</Link>
+				</div>
 			)}
 		</nav>
 	);
