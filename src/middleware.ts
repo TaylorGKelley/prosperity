@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { withAuth } from 'authentication-service-nextjs-sdk';
+import { withAuth } from 'authentication-service-nextjs-sdk/server';
 
 // This is used to protect an entire page from a user, redirecting to /unauthorized
 const protectedPaths: Record<string, string[]> = {
