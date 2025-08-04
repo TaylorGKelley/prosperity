@@ -9,10 +9,5 @@ export default async function Budget() {
 		};
 	}>(`${process.env.AUTH_SERVICE_HOST_URL}/api/v1/users/me`);
 
-	return (
-		<div>
-			Budget,{' '}
-			{response.success ? JSON.stringify(response.data) : response.message}
-		</div>
-	);
+	return <div>Budget, {response.success ? JSON.stringify(response.data) : response.message}</div>;
 }

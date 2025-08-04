@@ -1,4 +1,4 @@
-type Cookie = {
+interface Cookie {
   Name: string;
   Value: string;
   HttpOnly?: boolean;
@@ -8,7 +8,7 @@ type Cookie = {
   Expires?: Date;
   'Max-Age'?: number;
   Domain?: string;
-};
+}
 
 const parseCookie = (name: string, cookieHeader: string[] | undefined) => {
   if (!cookieHeader || cookieHeader.length === 0) return {} as Cookie;

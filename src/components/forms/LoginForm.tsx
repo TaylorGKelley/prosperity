@@ -1,9 +1,10 @@
 'use client';
 
-import { login } from '@/actions/forms/login';
-import { type LoginFormState } from '@/lib/zod/loginFormSchema';
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
+
+import { login } from '@/actions/forms/login';
+import { type LoginFormState } from '@/lib/zod/loginFormSchema';
 
 export default function LoginForm() {
 	const router = useRouter();
@@ -26,22 +27,22 @@ export default function LoginForm() {
 	return (
 		<form action={action} className='flex gap-2 flex-col w-sm'>
 			<input
-				type='email'
-				name='email'
-				id='email'
 				className='p-2 rounded-md bg-white'
+				id='email'
+				name='email'
+				type='email'
 			/>
 			<p>{state?.errors?.email || ''}</p>
 
 			<input
-				type='password'
-				name='password'
-				id='password'
 				className='p-2 rounded-md bg-white'
+				id='password'
+				name='password'
+				type='password'
 			/>
 			<p>{state?.errors?.password || ''}</p>
 
-			<button type='submit' disabled={isPending}>
+			<button disabled={isPending} type='submit'>
 				{isPending ? 'Logging in...' : 'Submit'}
 			</button>
 

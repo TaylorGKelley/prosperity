@@ -1,12 +1,13 @@
 'use server';
 
+import { type User } from 'authentication-service-nextjs-sdk/server';
+import axios from 'axios';
+import { cookies } from 'next/headers';
+
 import loginFormSchema, {
 	type LoginFormState,
 } from '@/lib/zod/loginFormSchema';
 import parseCookie from '@/utils/parseCookie';
-import { type User } from 'authentication-service-nextjs-sdk/server';
-import axios from 'axios';
-import { cookies } from 'next/headers';
 
 export async function login(
 	_prevState: LoginFormState | null,

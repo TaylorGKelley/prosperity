@@ -1,4 +1,4 @@
-import { User } from 'authentication-service-nextjs-sdk/server';
+import type { User } from 'authentication-service-nextjs-sdk/server';
 import z from 'zod';
 
 const loginFormSchema = z.object({

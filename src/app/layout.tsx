@@ -1,12 +1,11 @@
-import type { Metadata } from 'next';
+import { type Metadata } from 'next';
 import { Inter } from 'next/font/google';
+
+import { fetchWithAuth, type User } from 'authentication-service-nextjs-sdk/server';
+
 import './globals.css';
 import NavBar from '@/components/NavBar';
 import { AuthProvider } from '@/context/AuthProvider';
-import {
-	fetchWithAuth,
-	type User,
-} from 'authentication-service-nextjs-sdk/server';
 
 const inter = Inter({
 	variable: '--font-inter-sans',
@@ -30,8 +29,9 @@ export default async function RootLayout({
 
 	return (
 		<AuthProvider
+			permissions={response.success ? response.data.permissions : []}
 			user={response.success ? response.data.user : null}
-			permissions={response.success ? response.data.permissions : []}>
+		>
 			<html lang='en'>
 				<body className={`${inter.variable} antialiased`}>
 					<header>

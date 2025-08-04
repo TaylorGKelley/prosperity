@@ -1,10 +1,10 @@
 'use client';
 
+import { useAuthContext } from 'authentication-service-nextjs-sdk/client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React from 'react';
 
-import { useAuthContext } from 'authentication-service-nextjs-sdk/client';
-import { usePathname } from 'next/navigation';
 
 const links = [
 	{
@@ -39,8 +39,8 @@ function NavBar() {
 				{links.map((link) => (
 					<li key={link.id}>
 						<Link
-							href={link.url}
-							className={`${pathname === link.url ? 'underline' : ''}`}>
+							className={`${pathname === link.url ? 'underline' : ''}`}
+							href={link.url}>
 							{link.title}
 						</Link>
 					</li>
