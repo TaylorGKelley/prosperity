@@ -1,8 +1,10 @@
 'use server';
 
-import loginFormSchema, { LoginFormState } from '@/lib/zod/loginFormSchema';
+import loginFormSchema, {
+	type LoginFormState,
+} from '@/lib/zod/loginFormSchema';
 import parseCookie from '@/utils/parseCookie';
-import { User } from 'authentication-service-nextjs-sdk/server';
+import { type User } from 'authentication-service-nextjs-sdk/server';
 import axios from 'axios';
 import { cookies } from 'next/headers';
 
