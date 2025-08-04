@@ -21,7 +21,6 @@ export default async function Home() {
 			<h4 className='text-2xl font-semibold'>
 				Welcome back, {response.data.user?.email?.split('@')[0]}
 			</h4>
-			{JSON.stringify(response.data)}
 		</main>
 	);
 }
