@@ -1,4 +1,5 @@
 import { fetchWithAuth, type User } from 'authentication-service-nextjs-sdk/server';
+import Link from 'next/link';
 
 export default async function Home() {
 	const response = await fetchWithAuth<{ user: User }>(
@@ -21,6 +22,14 @@ export default async function Home() {
 			<h4 className='text-2xl font-semibold'>
 				Welcome back, {response.data.user?.email?.split('@')[0]}
 			</h4>
+			<section className='mt-6'>
+				<div className='flex justify-between items-center max-w-sm'>
+					<h5 className='text-xl font-semibold'>Transactions</h5>
+					<Link href='/transactions' className='underline'>
+						View All
+					</Link>
+				</div>
+			</section>
 		</main>
 	);
 }

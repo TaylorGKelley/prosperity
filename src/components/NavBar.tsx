@@ -18,9 +18,9 @@ const links = [
 		url: '/budget',
 	},
 	// {
-	//   id: 2,
-	//   title: 'wallet',
-	//   url: '/wallet',
+	// 	id: 2,
+	// 	title: 'wallet',
+	// 	url: '/wallet',
 	// },
 	// {
 	//   id: 3,

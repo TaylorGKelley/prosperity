@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "next dev --turbopack",
 		"build": "next build",
-		"start": "next start"
+		"start": "next start",
+		"gql:generate": "graphql-codegen --config graphql.codegen.yml"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.13.9",
@@ -21,6 +22,9 @@
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
+		"@graphql-codegen/cli": "5.0.7",
+		"@graphql-codegen/typescript": "^4.1.6",
+		"@graphql-codegen/typescript-resolvers": "^4.5.1",
 		"@tailwindcss/postcss": "^4",
 		"@types/node": "^20",
 		"@types/react": "^19",
@@ -28,6 +32,7 @@
 		"eslint": "^9",
 		"eslint-config-next": "15.3.3",
 		"tailwindcss": "^4",
-		"typescript": "^5"
+		"typescript": "^5",
+		"@graphql-codegen/client-preset": "4.8.3"
 	}
 }
