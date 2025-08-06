@@ -1,9 +1,10 @@
 import 'server-only';
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 
 export const createGraphClient = async () => {
+	const headerStore = await headers();
 	const cookieStore = await cookies();
 
 	const httpLink = createHttpLink({
@@ -11,7 +12,10 @@ export const createGraphClient = async () => {
 	});
 
 	const authLink = setContext((_, { headers }) => {
-		const accessToken = cookieStore.get('accessToken')?.value;
+		const isRefreshed = headerStore.get('x-token-refreshed') === 'true';
+		const accessToken = isRefreshed
+			? headerStore.get('x-access-token') || ''
+			: cookieStore.get('accessToken')?.value || '';
 
 		return {
 			headers: {
