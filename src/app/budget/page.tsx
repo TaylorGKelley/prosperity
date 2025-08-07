@@ -1,31 +1,29 @@
-import { fetchWithAuth } from 'authentication-service-nextjs-sdk/server';
+import { createGraphClient } from '@/lib/graphql';
+import { GET_CATEGORIES } from '@/lib/graphql/queries/categories';
+import {
+	type CategoriesQuery,
+	type CategoriesQueryVariables,
+} from '@/lib/graphql/schema/operations';
+import Link from 'next/link';
 import React from 'react';
 
 export default async function Budget() {
-	const response = await fetchWithAuth<{
-		user?: {
-			id: number;
-			email: string;
-		};
-	}>(`${process.env.AUTH_SERVICE_HOST_URL}/api/v1/users/me`);
-
-	if (!response.success) {
-		return (
-			<section className='py-4 px-8'>
-				<h4 className='text-3xl font-semibold mb-2'>Budget</h4>
-				<p>Error fetching user data: {response.message}</p>
-			</section>
-		);
-	}
+	const client = await createGraphClient();
+	const { data } = await client.query<CategoriesQuery, CategoriesQueryVariables>({
+		query: GET_CATEGORIES,
+	});
 
 	return (
-		<section className='py-4 px-8'>
-			<h4 className='text-3xl font-semibold mb-2'>Budget</h4>
-			<p>
-				Welcome, <strong>{response.data.user?.email}</strong>! Your user ID is{' '}
-				<strong>{response.data.user?.id}</strong>.
-			</p>
-			<p>This is a placeholder page for the future budget page content.</p>
+		<section>
+			<Link href='/budget/add-category' className='underline mb-2'>
+				Add a category
+			</Link>
+			<h3 className='text-2xl'>Categories</h3>
+			<ul>
+				{data.categories.map((category) => (
+					<li key={category.id}>{category.name}</li>
+				))}
+			</ul>
 		</section>
 	);
 }

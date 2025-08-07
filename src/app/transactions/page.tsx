@@ -1,5 +1,5 @@
 import { createGraphClient } from '@/lib/graphql';
-import { GET_TRANSACTION } from '@/lib/graphql/queries/transactions';
+import { GET_TRANSACTIONS } from '@/lib/graphql/queries/transactions';
 import {
 	type TransactionsQuery,
 	type TransactionsQueryVariables,
@@ -10,7 +10,7 @@ import React from 'react';
 export default async function Transactions() {
 	const graphClient = await createGraphClient();
 	const { data } = await graphClient.query<TransactionsQuery, TransactionsQueryVariables>({
-		query: GET_TRANSACTION,
+		query: GET_TRANSACTIONS,
 	});
 
 	return (

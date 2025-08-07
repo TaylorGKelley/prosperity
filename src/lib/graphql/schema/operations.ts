@@ -136,10 +136,24 @@ export type UpdateTransactionInput = {
   transactionType?: InputMaybe<TransactionType>;
 };
 
+export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', id: string, name: string, amount: number, startDate: Date, endDate?: Date | null }> };
+
 export type CategoriesIdNameQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CategoriesIdNameQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', id: string, name: string }> };
+
+export type CreateCategoryMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  amount: Scalars['Float']['input'];
+  startDate: Scalars['DateTime']['input'];
+}>;
+
+
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id: string, name: string, amount: number, startDate: Date, endDate?: Date | null } };
 
 export type TransactionsQueryVariables = Exact<{ [key: string]: never; }>;
 

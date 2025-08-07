@@ -4,7 +4,7 @@ import React, { type PropsWithChildren } from 'react';
 import { useFormStatus } from 'react-dom';
 
 type SubmitButtonProps = PropsWithChildren<{
-	disabled: boolean;
+	disabled?: boolean;
 }>;
 
 export default function SubmitButton({ disabled, children }: SubmitButtonProps) {

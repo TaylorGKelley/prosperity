@@ -22,7 +22,11 @@ export default function Input({
 	placeholder,
 	className,
 	...attributes
-}: InputProps & InputHTMLAttributes<HTMLInputElement>) {
+}: InputProps &
+	Omit<
+		InputHTMLAttributes<HTMLInputElement>,
+		'aria-invalid' | 'aria-describedby' | 'autoComplete'
+	>) {
 	const hasError = errors && errors.length > 0;
 	const errorId = `${id}-error`;
 
@@ -40,6 +44,7 @@ export default function Input({
 				placeholder={placeholder}
 				aria-invalid={hasError}
 				aria-describedby={hasError ? errorId : undefined}
+				autoComplete={name}
 				className={cn('w-full px-3 py-2 border rounded-md', className, {
 					'border-red-500': hasError,
 					'border-gray-300': !hasError,
