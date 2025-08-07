@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils/tailwind';
+import { cn } from '@/utils';
 import React, { type InputHTMLAttributes } from 'react';
 
 type InputProps = {
