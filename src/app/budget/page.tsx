@@ -3,7 +3,7 @@ import React from 'react';
 
 export default async function Budget() {
 	const response = await fetchWithAuth<{
-		user: {
+		user?: {
 			id: number;
 			email: string;
 		};
@@ -22,8 +22,8 @@ export default async function Budget() {
 		<section className='py-4 px-8'>
 			<h4 className='text-3xl font-semibold mb-2'>Budget</h4>
 			<p>
-				Welcome, <strong>{response.data.user.email}</strong>! Your user ID is{' '}
-				<strong>{response.data.user.id}</strong>.
+				Welcome, <strong>{response.data.user?.email}</strong>! Your user ID is{' '}
+				<strong>{response.data.user?.id}</strong>.
 			</p>
 			<p>This is a placeholder page for the future budget page content.</p>
 		</section>
