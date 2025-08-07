@@ -29,7 +29,7 @@ export async function createTransaction(
 		const { title, amount, categoryId, transactionType, date, description } = result.data;
 
 		// Send Graph Mutation
-		const client = await createGraphClient();
+		const client = await createGraphClient({ isInServerAction: true });
 		const { data } = await client.mutate<
 			CreateTransactionMutation,
 			CreateTransactionMutationVariables
