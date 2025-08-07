@@ -15,6 +15,15 @@ const inter = Inter({
 export const metadata: Metadata = {
 	title: 'Prosperity',
 	description: 'Your personal finance tracker',
+	openGraph: {
+		title: 'Prosperity Budgeting',
+		description:
+			'A budgeting and finance tracking site, to help keep track of purchases and monthly spending.',
+		url: '',
+		siteName: 'Prosperity',
+		locale: 'en_US',
+		type: 'website',
+	},
 };
 
 export default async function RootLayout({
