@@ -1,12 +1,19 @@
 'use client';
 
 import { createTransaction } from '@/actions/forms/transaction/create';
-import { TransactionType } from '@/lib/graphql/schema/operations';
+import { type Category, TransactionType } from '@/lib/graphql/schema/operations';
 import { type CreateTransactionFormState } from '@/lib/zod/createTransactionFormSchema';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useActionState } from 'react';
+import React, { use, useActionState } from 'react';
 
-export default function CreateTransactionForm() {
+type CreateTransactionFormProps = {
+	categoriesQuery: Promise<Pick<Category, 'id' | 'name'>[]>;
+};
+
+export default function CreateTransactionForm({ categoriesQuery }: CreateTransactionFormProps) {
+	const categories = use(categoriesQuery);
+
 	const router = useRouter();
 
 	const handleSubmit = async (prevState: CreateTransactionFormState | null, formData: FormData) => {
@@ -21,6 +28,14 @@ export default function CreateTransactionForm() {
 
 	const [state, action, isPending] = useActionState(handleSubmit, null);
 
+	if (categories && categories.length < 1) {
+		return (
+			<p>
+				Please <Link href='/budget'>add a budget category</Link>
+			</p>
+		);
+	}
+
 	return (
 		<form action={action} className='flex gap-2 flex-col w-sm'>
 			<input
@@ -33,6 +48,7 @@ export default function CreateTransactionForm() {
 				min='0.00'
 				max='999999.00'
 				step='0.01'
+				defaultValue={state?.values.amount}
 			/>
 			<p>{state?.errors?.amount || ''}</p>
 
@@ -43,17 +59,32 @@ export default function CreateTransactionForm() {
 				placeholder='title'
 				type='text'
 				required
+				defaultValue={state?.values.title}
 			/>
 			<p>{state?.errors?.title || ''}</p>
 
 			<select
 				className='p-2 rounded-md bg-gray-800'
+				id='categoryId'
+				name='categoryId'
+				required
+				defaultValue={state?.values.categoryId}>
+				<option value={undefined}>Select a category</option>
+				{categories.map(({ id, name }) => (
+					<option key={id} value={id} className='bg-gray-900'>
+						{name}
+					</option>
+				))}
+			</select>
+			<p>{state?.errors?.categoryId || ''}</p>
+
+			<select
+				className='p-2 rounded-md bg-gray-800'
 				id='transactionType'
 				name='transactionType'
-				required>
-				<option value={undefined} selected disabled>
-					Select a transfer type
-				</option>
+				required
+				defaultValue={state?.values.transactionType}>
+				<option value={undefined}>Select a transfer type</option>
 				{Object.values(TransactionType).map((key) => (
 					<option key={key} value={key} className='bg-gray-900'>
 						{key}
@@ -69,6 +100,7 @@ export default function CreateTransactionForm() {
 				placeholder='date'
 				type='date'
 				required
+				defaultValue={state?.values.date}
 			/>
 			<p>{state?.errors?.date || ''}</p>
 
@@ -77,6 +109,7 @@ export default function CreateTransactionForm() {
 				id='description'
 				name='description'
 				placeholder='Description...'
+				defaultValue={state?.values.description}
 			/>
 			<p>{state?.errors?.description}</p>
 

@@ -1,3 +1,11 @@
+'use server';
+
+import { createGraphClient } from '@/lib/graphql';
+import { CREATE_TRANSACTION } from '@/lib/graphql/queries/transactions';
+import {
+	type CreateTransactionMutation,
+	type CreateTransactionMutationVariables,
+} from '@/lib/graphql/schema/operations';
 import createTransactionFormSchema, {
 	type CreateTransactionFormState,
 } from '@/lib/zod/createTransactionFormSchema';
@@ -14,27 +22,38 @@ export async function createTransaction(
 			return {
 				transaction: null,
 				errors: result.error.flatten().fieldErrors,
+				values: Object.fromEntries(formData),
 			};
 		}
 
-		const { title, amount, transactionType, date, description } = result.data;
+		const { title, amount, categoryId, transactionType, date, description } = result.data;
 
 		// Send Graph Mutation
-
-		return {
-			transaction: {
-				id: '',
+		const client = await createGraphClient();
+		const { data } = await client.mutate<
+			CreateTransactionMutation,
+			CreateTransactionMutationVariables
+		>({
+			mutation: CREATE_TRANSACTION,
+			variables: {
 				title,
 				amount,
+				categoryId,
 				transactionType,
 				date,
 				description,
 			},
+		});
+
+		return {
+			transaction: data?.createTransaction,
+			values: Object.fromEntries(formData),
 		};
 	} catch (error) {
 		return {
 			transaction: null,
 			error: (error as Error).message,
+			values: Object.fromEntries(formData),
 		};
 	}
 }
