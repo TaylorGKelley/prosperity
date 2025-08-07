@@ -14,6 +14,10 @@ type LoginFormState =
 				password?: string[];
 			};
 			error?: string;
+			values: {
+				email?: string;
+				password?: string;
+			};
 	  }
 	| undefined;
 

@@ -6,6 +6,7 @@ const protectedPaths: Record<string, string[]> = {
 	'/': ['default'],
 	'/budget': ['default'],
 	'/transactions': ['default'],
+	'/transactions/create': ['default'],
 };
 
 export default withAuth(

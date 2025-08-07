@@ -28,6 +28,13 @@ type RegisterFormState =
 				passwordConfirm?: string[];
 			};
 			error?: string;
+			values: {
+				firstName?: string;
+				lastName?: string;
+				email?: string;
+				password?: string;
+				passwordConfirm?: string;
+			};
 	  }
 	| undefined;
 

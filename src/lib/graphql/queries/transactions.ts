@@ -12,3 +12,32 @@ export const GET_TRANSACTION = gql`
 		}
 	}
 `;
+
+export const CREATE_TRANSACTION = gql`
+	mutation CreateTransaction(
+		$categoryId: ID!
+		$title: String!
+		$amount: Float!
+		$transactionType: TransactionType!
+		$date: DateTime!
+		$description: String
+	) {
+		createTransaction(
+			input: {
+				title: $title
+				amount: $amount
+				categoryId: $categoryId
+				transactionType: $transactionType
+				date: $date
+				description: $description
+			}
+		) {
+			id
+			title
+			amount
+			transactionType
+			date
+			description
+		}
+	}
+`;

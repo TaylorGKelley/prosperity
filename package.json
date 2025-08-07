@@ -12,12 +12,14 @@
 		"@apollo/client": "^3.13.9",
 		"authentication-service-nextjs-sdk": "github:TaylorGKelley/authentication-service-nextjs-sdk",
 		"axios": "^1.10.0",
+		"clsx": "^2.1.1",
 		"graphql": "^16.11.0",
 		"graphql-request": "^7.2.0",
 		"next": "15.3.3",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"server-only": "^0.0.1",
+		"tailwind-merge": "^3.3.1",
 		"zod": "^4.0.5"
 	},
 	"devDependencies": {
