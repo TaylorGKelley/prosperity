@@ -1,33 +1,31 @@
-import { fetchWithAuth, type User } from 'authentication-service-nextjs-sdk/server';
+import TransactionCard from '@/components/TransactionCard';
+import { createGraphClient } from '@/lib/graphql';
+import { GET_TRANSACTIONS } from '@/lib/graphql/queries/transactions';
+import {
+	type TransactionsQuery,
+	type TransactionsQueryVariables,
+} from '@/lib/graphql/schema/operations';
 import Link from 'next/link';
 
 export default async function Home() {
-	const response = await fetchWithAuth<{ user: User }>(
-		`${process.env.AUTH_SERVICE_HOST_URL}/api/v1/users/me`,
-		{
-			method: 'GET',
-		},
-	);
-
-	if (!response.success) {
-		return (
-			<main className='p-4'>
-				<p>An error occured fetching user data</p>
-			</main>
-		);
-	}
+	const graphClient = await createGraphClient();
+	const { data } = await graphClient.query<TransactionsQuery, TransactionsQueryVariables>({
+		query: GET_TRANSACTIONS,
+	});
 
 	return (
 		<main className='p-4'>
-			<h4 className='text-2xl font-semibold'>
-				Welcome back, {response.data.user?.email?.split('@')[0]}
-			</h4>
-			<section className='mt-6'>
-				<div className='flex justify-between items-center max-w-sm'>
-					<h5 className='text-xl font-semibold'>Transactions</h5>
-					<Link href='/transactions' className='underline'>
-						View All
+			<section className=''>
+				<div className='flex items-center justify-between gap-2'>
+					<h5 className='font-semibold'>Transactions</h5>
+					<Link href='/transactions' className='font-normal text-xs underline cursor-pointer'>
+						See All
 					</Link>
+				</div>
+				<div className='flex justify-between items-center max-w-sm'>
+					{data.transactions.map((transaction) => (
+						<TransactionCard key={transaction.id} transaction={transaction} />
+					))}
 				</div>
 			</section>
 		</main>

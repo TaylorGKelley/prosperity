@@ -1,62 +1,57 @@
 'use client';
 
-import { useAuthContext } from 'authentication-service-nextjs-sdk/client';
+import { cn } from '@/utils';
+import { CalendarIcon, HouseIcon, UserIcon, WalletIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import LogoutForm from './forms/LogoutForm';
 
 const links = [
 	{
 		id: 0,
 		title: 'Home',
+		Icon: HouseIcon,
 		url: '/',
 	},
 	{
 		id: 1,
 		title: 'Budget',
+		Icon: CalendarIcon,
 		url: '/budget',
 	},
-	// {
-	// 	id: 2,
-	// 	title: 'wallet',
-	// 	url: '/wallet',
-	// },
-	// {
-	//   id: 3,
-	//   title: 'account',
-	//   url: '/account',
-	// },
+	{
+		id: 2,
+		title: 'wallet',
+		Icon: WalletIcon,
+		url: '/wallet',
+	},
+	{
+		id: 3,
+		title: 'account',
+		Icon: UserIcon,
+		url: '/account',
+	},
 ] as const;
 
 function NavBar() {
-	const { user } = useAuthContext();
 	const pathname = usePathname();
 
 	return (
-		<nav className='p-6 flex justify-between items-center'>
+		<nav className='absolute bottom-0 inset-x-0  p-6 flex justify-between items-center'>
 			<ul className='flex gap-6'>
 				{links.map((link) => (
 					<li key={link.id}>
-						<Link className={`${pathname === link.url ? 'underline' : ''}`} href={link.url}>
-							{link.title}
+						<Link
+							className={cn('text-2xl', {
+								'underline text-black': pathname !== link.url,
+								'text-gray-400': pathname !== link.url,
+							})}
+							href={link.url}>
+							<link.Icon />
 						</Link>
 					</li>
 				))}
 			</ul>
-
-			{user ? (
-				<div className='flex gap-4 items-center'>
-					<span>Welcome, {user.email.split('@')[0]}!</span>
-					<LogoutForm />
-				</div>
-			) : (
-				<div className='flex gap-4'>
-					<Link href={'/auth/login'}>Log in</Link>
-					{'/'}
-					<Link href={'/auth/register'}>Sign Up</Link>
-				</div>
-			)}
 		</nav>
 	);
 }
