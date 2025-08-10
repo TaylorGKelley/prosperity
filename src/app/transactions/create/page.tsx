@@ -16,7 +16,7 @@ export default async function Create() {
 		.then(({ data }) => data.categories);
 
 	return (
-		<div className='container w-md p-6'>
+		<div className='container p-6'>
 			<CreateTransactionForm categoriesQuery={categoriesQuery} />
 		</div>
 	);

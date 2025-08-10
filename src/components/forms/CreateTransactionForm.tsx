@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation';
 import React, { use, useActionState } from 'react';
 import Input from '../inputs/Input';
 import SubmitButton from '../inputs/SubmitButton';
+import TextArea from '../inputs/TextArea';
+import Select from '../inputs/Select';
 
 type CreateTransactionFormProps = {
 	categoriesQuery: Promise<Pick<Category, 'id' | 'name'>[]>;
@@ -39,12 +41,12 @@ export default function CreateTransactionForm({ categoriesQuery }: CreateTransac
 	}
 
 	return (
-		<form action={action} className='flex gap-2 flex-col w-sm'>
+		<form action={action} className='flex gap-2 flex-col'>
 			<Input
 				label='Amount'
 				id='amount'
 				name='amount'
-				placeholder='amount'
+				placeholder='10.00'
 				type='number'
 				required
 				min='0.00'
@@ -55,63 +57,55 @@ export default function CreateTransactionForm({ categoriesQuery }: CreateTransac
 			/>
 
 			<Input
-				label='Title'
+				label='Name'
 				id='title'
 				name='title'
-				placeholder='title'
+				placeholder='i.e. Walmart, Amazon, etc.'
 				type='text'
 				required
 				defaultValue={state?.values.title}
 				errors={state?.errors?.title}
 			/>
 
-			<label htmlFor='categoryId'>Category</label>
-			<select id='categoryId' name='categoryId' required defaultValue={state?.values.categoryId}>
-				<option value={undefined}>Select a category</option>
-				{categories.map(({ id, name }) => (
-					<option key={id} value={id} className='bg-gray-900'>
-						{name}
-					</option>
-				))}
-			</select>
-			<p>{state?.errors?.categoryId || ''}</p>
+			<Select
+				label='Category'
+				id='categoryId'
+				name='categoryId'
+				placeholder='Select a category'
+				options={categories}
+				required
+				defaultValue={state?.values.categoryId}
+				errors={state?.errors?.categoryId}
+			/>
 
-			<label htmlFor='transactionType'>Transaction Type</label>
-			<select
+			<Select
+				label='Transaction Type'
 				id='transactionType'
 				name='transactionType'
+				placeholder='Select a transaction type'
+				options={Object.values(TransactionType).map((key) => ({ id: key, name: key }))}
 				required
-				defaultValue={state?.values.transactionType}>
-				<option value={undefined}>Select a transfer type</option>
-				{Object.values(TransactionType).map((key) => (
-					<option key={key} value={key} className='bg-gray-900'>
-						{key}
-					</option>
-				))}
-			</select>
-			<p>{state?.errors?.transactionType || ''}</p>
+				defaultValue={state?.values.transactionType}
+				errors={state?.errors?.transactionType}
+			/>
 
 			<Input
 				label='Date'
 				id='date'
 				name='date'
-				placeholder='date'
 				type='date'
 				required
 				defaultValue={state?.values.date}
 				errors={state?.errors?.date}
 			/>
 
-			<label htmlFor='description'>Description (optional)</label>
-			<textarea
+			<TextArea
 				id='description'
 				name='description'
-				placeholder='Description...'
+				label='Notes'
 				defaultValue={state?.values.description}
-				aria-invalid={state?.errors?.description && state?.errors?.description.length > 0}
-				aria-describedby='description-error'
+				errors={state?.errors?.description}
 			/>
-			<p id='description-error'>{state?.errors?.description}</p>
 
 			<SubmitButton>Log In</SubmitButton>
 

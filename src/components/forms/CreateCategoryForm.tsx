@@ -24,7 +24,7 @@ export default function CreateCategoryForm() {
 	const [state, action] = useActionState(handleSubmit, null);
 
 	return (
-		<form action={action} className='flex gap-2 flex-col w-sm'>
+		<form action={action} className='flex gap-2 flex-col'>
 			<Input
 				label='Name'
 				id='name'

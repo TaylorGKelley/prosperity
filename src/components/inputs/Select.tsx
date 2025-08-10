@@ -1,30 +1,35 @@
 import { cn } from '@/utils';
-import React, { type InputHTMLAttributes } from 'react';
+import React, { type SelectHTMLAttributes } from 'react';
 
-type InputProps = {
+type SelectProps = {
 	id: string;
 	name: string;
-	type: string;
 	label: string;
 	required?: boolean;
 	errors?: string[];
 	placeholder?: string;
+	options: SelectOption[];
 	className?: string;
 };
 
-export default function Input({
+export type SelectOption = {
+	id: number | string;
+	name: string;
+};
+
+export default function Select({
 	id,
 	name,
-	type,
 	label,
 	required,
 	errors,
 	placeholder,
+	options,
 	className,
 	...attributes
-}: InputProps &
+}: SelectProps &
 	Omit<
-		InputHTMLAttributes<HTMLInputElement>,
+		SelectHTMLAttributes<HTMLSelectElement>,
 		'aria-invalid' | 'aria-describedby' | 'autoComplete'
 	>) {
 	const hasError = errors && errors.length > 0;
@@ -36,12 +41,10 @@ export default function Input({
 				{label}
 				{!required && <span aria-label='optional'>(optional)</span>}
 			</label>
-			<input
+			<select
 				id={id}
 				name={name}
-				type={type}
 				required={required}
-				placeholder={placeholder}
 				aria-invalid={hasError}
 				aria-describedby={hasError ? errorId : undefined}
 				autoComplete={name}
@@ -49,8 +52,14 @@ export default function Input({
 					'border-red-500': hasError,
 					'border-gray-300': !hasError,
 				})}
-				{...attributes}
-			/>
+				{...attributes}>
+				{placeholder && <option value={undefined}>{placeholder}</option>}
+				{options.map((option) => (
+					<option key={option.id} value={option.id}>
+						{option.name}
+					</option>
+				))}
+			</select>
 			{hasError && (
 				<p id={errorId} role='alert' className='mt-1 text-sm text-red-600'>
 					{errors.join(', ')}

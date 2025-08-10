@@ -1,10 +1,9 @@
 import { cn } from '@/utils';
-import React, { type InputHTMLAttributes } from 'react';
+import React, { type TextareaHTMLAttributes } from 'react';
 
-type InputProps = {
+type TextAreaProps = {
 	id: string;
 	name: string;
-	type: string;
 	label: string;
 	required?: boolean;
 	errors?: string[];
@@ -12,19 +11,18 @@ type InputProps = {
 	className?: string;
 };
 
-export default function Input({
+export default function TextArea({
 	id,
 	name,
-	type,
 	label,
 	required,
 	errors,
 	placeholder,
 	className,
 	...attributes
-}: InputProps &
+}: TextAreaProps &
 	Omit<
-		InputHTMLAttributes<HTMLInputElement>,
+		TextareaHTMLAttributes<HTMLTextAreaElement>,
 		'aria-invalid' | 'aria-describedby' | 'autoComplete'
 	>) {
 	const hasError = errors && errors.length > 0;
@@ -36,10 +34,9 @@ export default function Input({
 				{label}
 				{!required && <span aria-label='optional'>(optional)</span>}
 			</label>
-			<input
+			<textarea
 				id={id}
 				name={name}
-				type={type}
 				required={required}
 				placeholder={placeholder}
 				aria-invalid={hasError}
