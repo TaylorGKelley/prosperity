@@ -9,6 +9,7 @@ const config: CodegenConfig = {
 			plugins: ['typescript', 'typescript-operations'],
 			config: {
 				scalars: {
+					ID: "import('node:crypto').UUID",
 					Date: 'Date',
 					DateTime: 'Date',
 				},

@@ -11,6 +11,9 @@ export default async function Transactions() {
 	const graphClient = await createGraphClient();
 	const { data } = await graphClient.query<TransactionsQuery, TransactionsQueryVariables>({
 		query: GET_TRANSACTIONS,
+		variables: {
+			monthDate: new Date(),
+		},
 	});
 
 	return (

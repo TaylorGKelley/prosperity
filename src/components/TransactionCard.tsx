@@ -1,4 +1,5 @@
 import { type Transaction } from '@/lib/graphql/schema/operations';
+import Format from '@/utils/Format';
 import { StoreIcon } from 'lucide-react';
 import React from 'react';
 
@@ -8,18 +9,21 @@ type TransactionCardProps = {
 
 export default function TransactionCard({ transaction }: TransactionCardProps) {
 	return (
-		<div>
+		<div className='flex items-center gap-2 p-2 bg-white rounded-3xl shadow-md'>
 			<div className='bg-[#EDF4F7] p-4 rounded-2xl'>
-				<StoreIcon height={32} width={32} />
+				<StoreIcon height={32} width={32} color={'#81B2CA'} />
 			</div>
-			<div>
-				<h5>{transaction.title}</h5>
-				<p className='text-xs'>
-					{transaction.date.toLocaleString('en-US', {
-						year: 'numeric',
-						month: 'short',
-						day: 'numeric',
-					})}
+			<div className='flex-auto'>
+				<h5 className='font-semibold'>{transaction.title}</h5>
+				<p className='text-xs'>{Format.date(transaction.date)}</p>
+			</div>
+			<div className='text-right pr-2'>
+				<p className='font-semibold'>${transaction.amount}</p>
+				<p className='text-xs text-gray-800'>
+					{transaction.transactionType
+						.split('_')
+						.map((word) => word[0].toUpperCase() + word.substring(1))
+						.join(' ')}
 				</p>
 			</div>
 		</div>

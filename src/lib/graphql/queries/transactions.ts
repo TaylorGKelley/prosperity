@@ -1,8 +1,21 @@
 import { gql } from '@apollo/client';
 
 export const GET_TRANSACTIONS = gql`
-	query Transactions {
-		transactions {
+	query Transactions($monthDate: DateTime!) {
+		transactions(monthDate: $monthDate) {
+			id
+			title
+			amount
+			transactionType
+			date
+			description
+		}
+	}
+`;
+
+export const GET_TRANSACTIONS_WITH_LIMIT_OFFSET = gql`
+	query TransactionsWithLimitOffset($monthDate: DateTime!, $limit: Int!, $offset: Int!) {
+		transactions(monthDate: $monthDate, pagination: { limit: $limit, offset: $offset }) {
 			id
 			title
 			amount
