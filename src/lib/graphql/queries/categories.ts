@@ -1,18 +1,16 @@
 import { gql } from '@apollo/client';
 
-export const GET_CATEGORIES = gql`
-	query Categories {
-		categories {
+export const GET_ALL_CATEGORIES_BY_MONTH = gql`
+	query CategoriesByMonth($monthDate: DateTime!) {
+		categories(monthDate: $monthDate) {
 			id
 			name
 			amount
-			startDate
-			endDate
 		}
 	}
 `;
 
-export const GET_CATEGORIES_ID_NAME = gql`
+export const GET_ALL_CATEGORIES_ID_NAME = gql`
 	query CategoriesIdName {
 		categories {
 			id
@@ -22,13 +20,11 @@ export const GET_CATEGORIES_ID_NAME = gql`
 `;
 
 export const CREATE_CATEGORY = gql`
-	mutation CreateCategory($name: String!, $amount: Float!, $startDate: DateTime!) {
-		createCategory(input: { name: $name, amount: $amount, startDate: $startDate }) {
+	mutation CreateCategory($name: String!, $amount: Float!) {
+		createCategory(input: { name: $name, amount: $amount }) {
 			id
 			name
 			amount
-			startDate
-			endDate
 		}
 	}
 `;

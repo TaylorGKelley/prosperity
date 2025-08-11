@@ -1,6 +1,6 @@
 import CreateTransactionForm from '@/components/forms/CreateTransactionForm';
 import { createGraphClient } from '@/lib/graphql';
-import { GET_CATEGORIES_ID_NAME } from '@/lib/graphql/queries/categories';
+import { GET_ALL_CATEGORIES_ID_NAME } from '@/lib/graphql/queries/categories';
 import {
 	type CategoriesIdNameQuery,
 	type CategoriesIdNameQueryVariables,
@@ -11,7 +11,7 @@ export default async function Create() {
 	const graphClient = await createGraphClient();
 	const categoriesQuery = graphClient
 		.query<CategoriesIdNameQuery, CategoriesIdNameQueryVariables>({
-			query: GET_CATEGORIES_ID_NAME,
+			query: GET_ALL_CATEGORIES_ID_NAME,
 		})
 		.then(({ data }) => data.categories);
 

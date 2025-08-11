@@ -1,16 +1,17 @@
 import { createGraphClient } from '@/lib/graphql';
-import { GET_CATEGORIES } from '@/lib/graphql/queries/categories';
+import { GET_ALL_CATEGORIES_BY_MONTH } from '@/lib/graphql/queries/categories';
 import {
-	type CategoriesQuery,
-	type CategoriesQueryVariables,
+	type CategoriesByMonthQuery,
+	type CategoriesByMonthQueryVariables,
 } from '@/lib/graphql/schema/operations';
 import Link from 'next/link';
 import React from 'react';
 
 export default async function Budget() {
 	const client = await createGraphClient();
-	const { data } = await client.query<CategoriesQuery, CategoriesQueryVariables>({
-		query: GET_CATEGORIES,
+	const { data } = await client.query<CategoriesByMonthQuery, CategoriesByMonthQueryVariables>({
+		query: GET_ALL_CATEGORIES_BY_MONTH,
+		variables: { monthDate: new Date() },
 	});
 
 	return (

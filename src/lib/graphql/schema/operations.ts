@@ -27,9 +27,7 @@ export type Category = {
 
 export type CreateCategoryInput = {
   amount: Scalars['Float']['input'];
-  endDate?: InputMaybe<Scalars['DateTime']['input']>;
   name: Scalars['String']['input'];
-  startDate: Scalars['DateTime']['input'];
 };
 
 export type CreateTransactionInput = {
@@ -90,6 +88,11 @@ export type Query = {
 };
 
 
+export type QueryCategoriesArgs = {
+  monthDate?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+
 export type QueryCategoryByIdArgs = {
   id: Scalars['ID']['input'];
 };
@@ -120,10 +123,8 @@ export enum TransactionType {
 
 export type UpdateCategoryInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
-  endDate?: InputMaybe<Scalars['DateTime']['input']>;
   id: Scalars['ID']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
-  startDate?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type UpdateTransactionInput = {
@@ -136,10 +137,12 @@ export type UpdateTransactionInput = {
   transactionType?: InputMaybe<TransactionType>;
 };
 
-export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type CategoriesByMonthQueryVariables = Exact<{
+  monthDate: Scalars['DateTime']['input'];
+}>;
 
 
-export type CategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', id: string, name: string, amount: number, startDate: Date, endDate?: Date | null }> };
+export type CategoriesByMonthQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', id: string, name: string, amount: number }> };
 
 export type CategoriesIdNameQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -149,11 +152,10 @@ export type CategoriesIdNameQuery = { __typename?: 'Query', categories: Array<{ 
 export type CreateCategoryMutationVariables = Exact<{
   name: Scalars['String']['input'];
   amount: Scalars['Float']['input'];
-  startDate: Scalars['DateTime']['input'];
 }>;
 
 
-export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id: string, name: string, amount: number, startDate: Date, endDate?: Date | null } };
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id: string, name: string, amount: number } };
 
 export type TransactionsQueryVariables = Exact<{ [key: string]: never; }>;
 
