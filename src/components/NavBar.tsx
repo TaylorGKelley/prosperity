@@ -27,9 +27,9 @@ const links = [
 	},
 	{
 		id: 3,
-		title: 'account',
+		title: 'profile',
 		Icon: UserIcon,
-		url: '/account',
+		url: '/profile',
 	},
 ] as const;
 
