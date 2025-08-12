@@ -7,7 +7,6 @@ import { login } from '@/actions/forms/login';
 import { type LoginFormState } from '@/lib/zod/loginFormSchema';
 import Input from '../inputs/Input';
 import SubmitButton from '../inputs/SubmitButton';
-import Link from 'next/link';
 
 export default function LoginForm() {
 	const router = useRouter();
@@ -49,12 +48,6 @@ export default function LoginForm() {
 
 				<SubmitButton>Submit</SubmitButton>
 				<p>{state?.error}</p>
-
-				<Link
-					className='inline-block px-4 py-2 border-2 border-gray-800 text-black text-center rounded-md disabled:opacity-50'
-					href={`${process.env.AUTH_SERVICE_GOOGLE_OAUTH_URL}`}>
-					Google Login
-				</Link>
 			</form>
 		</div>
 	);

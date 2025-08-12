@@ -5,7 +5,6 @@ import { useActionState } from 'react';
 
 import { register } from '@/actions/forms/register';
 import { type RegisterFormState } from '@/lib/zod/registerFormSchema';
-import Link from 'next/link';
 import Input from '../inputs/Input';
 import SubmitButton from '../inputs/SubmitButton';
 
@@ -78,12 +77,6 @@ export default function RegisterForm() {
 
 			<SubmitButton>Submit</SubmitButton>
 			<p>{state?.error}</p>
-
-			<Link
-				className='inline-block px-4 py-2 border-2 border-gray-800 text-black text-center rounded-md disabled:opacity-50'
-				href={`${process.env.AUTH_SERVICE_GOOGLE_OAUTH_URL}`}>
-				Google Sign Up
-			</Link>
 		</form>
 	);
 }
