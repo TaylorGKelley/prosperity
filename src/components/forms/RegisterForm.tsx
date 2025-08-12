@@ -5,6 +5,9 @@ import { useActionState } from 'react';
 
 import { register } from '@/actions/forms/register';
 import { type RegisterFormState } from '@/lib/zod/registerFormSchema';
+import Link from 'next/link';
+import Input from '../inputs/Input';
+import SubmitButton from '../inputs/SubmitButton';
 
 export default function RegisterForm() {
 	const router = useRouter();
@@ -19,35 +22,68 @@ export default function RegisterForm() {
 		return result;
 	};
 
-	const [state, action, isPending] = useActionState(handleSubmit, null);
+	const [state, action] = useActionState(handleSubmit, null);
 
 	return (
-		<form action={action} className='flex gap-2 flex-col w-sm'>
-			<input className='p-2 rounded-md bg-white' id='firstName' name='firstName' type='text' />
-			<p>{state?.errors?.email || ''}</p>
+		<form action={action} className='flex gap-2 flex-col'>
+			<Input
+				label='First Name'
+				id='firstName'
+				name='firstName'
+				type='text'
+				required
+				defaultValue={state?.values.firstName}
+				errors={state?.errors?.firstName}
+			/>
 
-			<input className='p-2 rounded-md bg-white' id='lastName' name='lastName' type='text' />
-			<p>{state?.errors?.email || ''}</p>
+			<Input
+				label='Last Name'
+				id='lastName'
+				name='lastName'
+				type='text'
+				required
+				defaultValue={state?.values.lastName}
+				errors={state?.errors?.lastName}
+			/>
 
-			<input className='p-2 rounded-md bg-white' id='email' name='email' type='email' />
-			<p>{state?.errors?.email || ''}</p>
+			<Input
+				label='Email'
+				id='email'
+				name='email'
+				type='email'
+				required
+				defaultValue={state?.values.email}
+				errors={state?.errors?.email}
+			/>
 
-			<input className='p-2 rounded-md bg-white' id='password' name='password' type='password' />
-			<p>{state?.errors?.password || ''}</p>
+			<Input
+				label='Password'
+				id='password'
+				name='password'
+				type='password'
+				required
+				defaultValue={state?.values.password}
+				errors={state?.errors?.password}
+			/>
 
-			<input
-				className='p-2 rounded-md bg-white'
+			<Input
+				label='Password Confirm'
 				id='passwordConfirm'
 				name='passwordConfirm'
-				type='password'
+				type='password`'
+				required
+				defaultValue={state?.values.passwordConfirm}
+				errors={state?.errors?.passwordConfirm}
 			/>
-			<p>{state?.errors?.password || ''}</p>
 
-			<button disabled={isPending} type='submit'>
-				{isPending ? 'Logging in...' : 'Submit'}
-			</button>
-
+			<SubmitButton>Submit</SubmitButton>
 			<p>{state?.error}</p>
+
+			<Link
+				className='inline-block px-4 py-2 border-2 border-gray-800 text-black text-center rounded-md disabled:opacity-50'
+				href={`${process.env.AUTH_SERVICE_GOOGLE_OAUTH_URL}`}>
+				Google Sign Up
+			</Link>
 		</form>
 	);
 }

@@ -83,7 +83,13 @@ export default function CreateTransactionForm({ categoriesQuery }: CreateTransac
 				id='transactionType'
 				name='transactionType'
 				placeholder='Select a transaction type'
-				options={Object.values(TransactionType).map((key) => ({ id: key, name: key }))}
+				options={Object.values(TransactionType).map((key) => ({
+					id: key,
+					name: key
+						.split('_')
+						.map((word) => word[0].toUpperCase() + word.substring(1))
+						.join(' '),
+				}))}
 				required
 				defaultValue={state?.values.transactionType}
 				errors={state?.errors?.transactionType}

@@ -14,7 +14,7 @@ export default function SubmitButton({ disabled, children }: SubmitButtonProps) 
 		<button
 			type='submit'
 			disabled={disabled || pending}
-			className='px-4 py-2 bg-gray-800 text-white rounded-md disabled:opacity-50'>
+			className='inline-block px-4 py-2 bg-gray-800 text-white rounded-md disabled:opacity-50'>
 			{/* replace this with a loading component : children */}
 			{pending ? 'Creating...' : children}
 		</button>

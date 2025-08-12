@@ -5,14 +5,14 @@ import { useActionState } from 'react';
 
 import { login } from '@/actions/forms/login';
 import { type LoginFormState } from '@/lib/zod/loginFormSchema';
+import Input from '../inputs/Input';
+import SubmitButton from '../inputs/SubmitButton';
+import Link from 'next/link';
 
 export default function LoginForm() {
 	const router = useRouter();
 
-	const handleSubmit = async (
-		prevState: LoginFormState | null,
-		formData: FormData
-	) => {
+	const handleSubmit = async (prevState: LoginFormState | null, formData: FormData) => {
 		const result = await login(prevState, formData);
 
 		if (result?.user) {
@@ -22,31 +22,40 @@ export default function LoginForm() {
 		return result;
 	};
 
-	const [state, action, isPending] = useActionState(handleSubmit, null);
+	const [state, action] = useActionState(handleSubmit, null);
 
 	return (
-		<form action={action} className='flex gap-2 flex-col w-sm'>
-			<input
-				className='p-2 rounded-md bg-white'
-				id='email'
-				name='email'
-				type='email'
-			/>
-			<p>{state?.errors?.email || ''}</p>
+		<div>
+			<form action={action} className='flex gap-2 flex-col'>
+				<Input
+					label='Email'
+					id='email'
+					name='email'
+					type='email'
+					required
+					defaultValue={state?.values.email}
+					errors={state?.errors?.email}
+				/>
 
-			<input
-				className='p-2 rounded-md bg-white'
-				id='password'
-				name='password'
-				type='password'
-			/>
-			<p>{state?.errors?.password || ''}</p>
+				<Input
+					label='Password'
+					id='password'
+					name='password'
+					type='password'
+					required
+					defaultValue={state?.values.password}
+					errors={state?.errors?.password}
+				/>
 
-			<button disabled={isPending} type='submit'>
-				{isPending ? 'Logging in...' : 'Submit'}
-			</button>
+				<SubmitButton>Submit</SubmitButton>
+				<p>{state?.error}</p>
 
-			<p>{state?.error}</p>
-		</form>
+				<Link
+					className='inline-block px-4 py-2 border-2 border-gray-800 text-black text-center rounded-md disabled:opacity-50'
+					href={`${process.env.AUTH_SERVICE_GOOGLE_OAUTH_URL}`}>
+					Google Login
+				</Link>
+			</form>
+		</div>
 	);
 }
