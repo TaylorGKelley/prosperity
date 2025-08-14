@@ -19,10 +19,8 @@ export type Scalars = {
 export type Category = {
   __typename?: 'Category';
   amount: Scalars['Float']['output'];
-  endDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
-  startDate: Scalars['DateTime']['output'];
 };
 
 export type CreateCategoryInput = {
@@ -87,7 +85,7 @@ export type PaginationInput = {
 export type Query = {
   __typename?: 'Query';
   categories: Array<Category>;
-  categoryById: Category;
+  category: Category;
   transactionById: Transaction;
   transactions: Array<Transaction>;
 };
@@ -99,7 +97,7 @@ export type QueryCategoriesArgs = {
 };
 
 
-export type QueryCategoryByIdArgs = {
+export type QueryCategoryArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -168,6 +166,13 @@ export type CreateCategoryMutationVariables = Exact<{
 
 
 export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number } };
+
+export type DeleteCategoryMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: import('node:crypto').UUID };
 
 export type TransactionsQueryVariables = Exact<{
   monthDate: Scalars['DateTime']['input'];
