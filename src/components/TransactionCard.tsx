@@ -9,8 +9,8 @@ type TransactionCardProps = {
 
 export default function TransactionCard({ transaction }: TransactionCardProps) {
 	return (
-		<div className='flex items-center gap-2 p-2 bg-white rounded-3xl shadow-md'>
-			<div className='bg-[#EDF4F7] p-4 rounded-2xl'>
+		<div className='flex items-center gap-2 p-2 bg-white text-black dark:bg-gray-950 dark:text-white rounded-3xl shadow-md'>
+			<div className='bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl'>
 				<StoreIcon height={32} width={32} color={'#81B2CA'} />
 			</div>
 			<div className='flex-auto'>
@@ -19,7 +19,7 @@ export default function TransactionCard({ transaction }: TransactionCardProps) {
 			</div>
 			<div className='text-right pr-2'>
 				<p className='font-semibold'>${transaction.amount}</p>
-				<p className='text-xs text-gray-800'>
+				<p className='text-xs opacity-50'>
 					{transaction.transactionType
 						.split('_')
 						.map((word) => word[0].toUpperCase() + word.substring(1))

@@ -6,7 +6,6 @@ import { fetchWithAuth, type User } from 'authentication-service-nextjs-sdk/serv
 import './globals.css';
 import NavBar from '@/components/NavBar';
 import { AuthProvider } from '@/context/AuthProvider';
-import TitleBar from '@/components/TitleBar';
 
 const inter = Inter({
 	variable: '--font-inter-sans',
@@ -45,14 +44,9 @@ export default async function RootLayout({
 			user={response.success ? response.data.user : null}>
 			<html lang='en'>
 				<body
-					className={`${inter.className} antialiased relative min-h-screen min-w-screen overflow-y-auto`}>
-					<div className='bg-[#1E1E1E] h-screen flex justify-center align-center'>
-						<div className='w-[375px] h-[812px] relative bg-gray-50 text-black '>
-							<TitleBar />
-							<NavBar />
-							<div>{children}</div>
-						</div>
-					</div>
+					className={`${inter.className} antialiased text-black dark:text-white bg-gray-50 dark:bg-gray-900`}>
+					<NavBar />
+					{children}
 				</body>
 			</html>
 		</AuthProvider>

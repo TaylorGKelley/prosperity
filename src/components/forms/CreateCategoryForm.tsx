@@ -3,11 +3,16 @@
 import { createCategory } from '@/actions/forms/category/create';
 import { type CreateCategoryFormState } from '@/lib/zod/createCategoryFormSchema';
 import { useRouter } from 'next/navigation';
-import { useActionState } from 'react';
+import { use, useActionState } from 'react';
 import Input from '../inputs/Input';
 import SubmitButton from '../inputs/SubmitButton';
 
-export default function CreateCategoryForm() {
+type CreateCategoryFormProps = {
+	defaultStateQuery?: Promise<NonNullable<CreateCategoryFormState>['values']>;
+};
+
+export default function CreateCategoryForm({ defaultStateQuery }: CreateCategoryFormProps) {
+	const defaultState = use(defaultStateQuery || Promise.resolve(null));
 	const router = useRouter();
 
 	const handleSubmit = async (prevState: CreateCategoryFormState | null, formData: FormData) => {
@@ -21,7 +26,7 @@ export default function CreateCategoryForm() {
 		return result;
 	};
 
-	const [state, action] = useActionState(handleSubmit, null);
+	const [state, action] = useActionState(handleSubmit, defaultState && { values: defaultState });
 
 	return (
 		<form action={action} className='flex gap-2 flex-col'>

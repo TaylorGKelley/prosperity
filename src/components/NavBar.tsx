@@ -21,13 +21,13 @@ const links = [
 	},
 	{
 		id: 2,
-		title: 'wallet',
+		title: 'Wallet',
 		Icon: WalletIcon,
 		url: '/wallet',
 	},
 	{
 		id: 3,
-		title: 'profile',
+		title: 'Profile',
 		Icon: UserIcon,
 		url: '/profile',
 	},
@@ -37,22 +37,32 @@ function NavBar() {
 	const pathname = usePathname();
 
 	return (
-		<nav className='absolute bottom-0 inset-x-0  p-6 flex justify-between items-center'>
-			<ul className='flex gap-6'>
-				{links.map((link) => (
-					<li key={link.id}>
-						<Link
-							className={cn('text-2xl', {
-								'underline text-black': pathname !== link.url,
-								'text-gray-400': pathname !== link.url,
-							})}
-							href={link.url}>
-							<link.Icon />
-						</Link>
-					</li>
-				))}
-			</ul>
-		</nav>
+		<header className='flex justify-between items-center bg-white text-black border-b-gray-100 dark:bg-gray-950 dark:text-white dark:border-b-gray-700 py-2 px-3 sm:px-6 md:px-8'>
+			<Link href='/'>
+				<h1>Prosperity</h1>
+			</Link>
+			<nav className='max-sm:fixed max-sm:bottom-0 max-sm:inset-x-0 max-sm:bg-white max-sm:shadow-lg max-sm:p-6 '>
+				<ul className='flex max-sm:justify-evenly sm:gap-8'>
+					{links.map((link) => (
+						<li key={link.id}>
+							<Link
+								className={cn('text-sm flex items-center gap-2', {
+									underline: pathname == link.url,
+									'opacity-50': pathname !== link.url,
+								})}
+								href={link.url}
+								aria-label={link.title}
+								title={`${link.title} Page`}>
+								<span className='max-sm:inline hidden'>
+									<link.Icon className='w-5 h-5' />
+								</span>
+								<span className='max-sm:hidden inline'>{link.title}</span>
+							</Link>
+						</li>
+					))}
+				</ul>
+			</nav>
+		</header>
 	);
 }
 

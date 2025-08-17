@@ -87,8 +87,8 @@ export type PaginationInput = {
 export type Query = {
   __typename?: 'Query';
   categories: Array<Category>;
-  categoryById: Category;
-  transactionById: Transaction;
+  category: Category;
+  transaction: Transaction;
   transactions: Array<Transaction>;
 };
 
@@ -99,12 +99,12 @@ export type QueryCategoriesArgs = {
 };
 
 
-export type QueryCategoryByIdArgs = {
+export type QueryCategoryArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type QueryTransactionByIdArgs = {
+export type QueryTransactionArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -117,6 +117,7 @@ export type QueryTransactionsArgs = {
 export type Transaction = {
   __typename?: 'Transaction';
   amount: Scalars['Float']['output'];
+  categoryId?: Maybe<Scalars['ID']['output']>;
   date: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -161,6 +162,13 @@ export type CategoriesIdNameQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CategoriesIdNameQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', id: import('node:crypto').UUID, name: string }> };
 
+export type CategoryQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type CategoryQuery = { __typename?: 'Query', category: { __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number } };
+
 export type CreateCategoryMutationVariables = Exact<{
   name: Scalars['String']['input'];
   amount: Scalars['Float']['input'];
@@ -184,6 +192,13 @@ export type TransactionsWithLimitOffsetQueryVariables = Exact<{
 
 
 export type TransactionsWithLimitOffsetQuery = { __typename?: 'Query', transactions: Array<{ __typename?: 'Transaction', id: import('node:crypto').UUID, title: string, amount: number, transactionType: TransactionType, date: Date, description?: string | null }> };
+
+export type TransactionQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type TransactionQuery = { __typename?: 'Query', transaction: { __typename?: 'Transaction', id: import('node:crypto').UUID, title: string, amount: number, categoryId?: import('node:crypto').UUID | null, transactionType: TransactionType, date: Date, description?: string | null } };
 
 export type CreateTransactionMutationVariables = Exact<{
   categoryId: Scalars['ID']['input'];

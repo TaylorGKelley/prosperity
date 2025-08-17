@@ -13,10 +13,15 @@ import Select from '../inputs/Select';
 
 type CreateTransactionFormProps = {
 	categoriesQuery: Promise<Pick<Category, 'id' | 'name'>[]>;
+	defaultValueQuery?: Promise<NonNullable<CreateTransactionFormState>['values'] | null>;
 };
 
-export default function CreateTransactionForm({ categoriesQuery }: CreateTransactionFormProps) {
+export default function CreateTransactionForm({
+	categoriesQuery,
+	defaultValueQuery,
+}: CreateTransactionFormProps) {
 	const categories = use(categoriesQuery);
+	const defaultValues = use(defaultValueQuery || Promise.resolve(null));
 
 	const router = useRouter();
 
@@ -30,7 +35,7 @@ export default function CreateTransactionForm({ categoriesQuery }: CreateTransac
 		return result;
 	};
 
-	const [state, action] = useActionState(handleSubmit, null);
+	const [state, action] = useActionState(handleSubmit, defaultValues && { values: defaultValues });
 
 	if (categories && categories.length < 1) {
 		return (
@@ -74,7 +79,7 @@ export default function CreateTransactionForm({ categoriesQuery }: CreateTransac
 				placeholder='Select a category'
 				options={categories}
 				required
-				defaultValue={state?.values.categoryId}
+				defaultValue={state?.values.categoryId || undefined}
 				errors={state?.errors?.categoryId}
 			/>
 
@@ -101,7 +106,7 @@ export default function CreateTransactionForm({ categoriesQuery }: CreateTransac
 				name='date'
 				type='date'
 				required
-				defaultValue={state?.values.date}
+				defaultValue={state?.values.date?.toDateString()}
 				errors={state?.errors?.date}
 			/>
 
@@ -109,7 +114,7 @@ export default function CreateTransactionForm({ categoriesQuery }: CreateTransac
 				id='description'
 				name='description'
 				label='Notes'
-				defaultValue={state?.values.description}
+				defaultValue={state?.values.description || undefined}
 				errors={state?.errors?.description}
 			/>
 

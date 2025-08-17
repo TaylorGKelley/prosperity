@@ -26,6 +26,20 @@ export const GET_TRANSACTIONS_WITH_LIMIT_OFFSET = gql`
 	}
 `;
 
+export const GET_TRANSACTION_BY_ID = gql`
+	query Transaction($id: ID!) {
+		transaction(id: $id) {
+			id
+			title
+			amount
+			categoryId
+			transactionType
+			date
+			description
+		}
+	}
+`;
+
 export const CREATE_TRANSACTION = gql`
 	mutation CreateTransaction(
 		$categoryId: ID!
