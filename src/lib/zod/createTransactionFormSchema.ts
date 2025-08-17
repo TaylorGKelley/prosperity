@@ -1,5 +1,6 @@
 import z from 'zod';
 import { type Transaction, TransactionType } from '../graphql/schema/operations';
+import { type UUID } from 'node:crypto';
 
 const createTransactionFormSchema = z.object({
 	title: z.string().nonempty('Invalid Title'),
@@ -24,11 +25,11 @@ type CreateTransactionFormState =
 			error?: string;
 			values: {
 				title?: string;
-				amount?: string;
-				categoryId?: string;
+				amount?: number;
+				categoryId?: UUID | null;
 				transactionType?: string;
-				date?: string;
-				description?: string;
+				date?: Date;
+				description?: string | null;
 			};
 	  }
 	| undefined;

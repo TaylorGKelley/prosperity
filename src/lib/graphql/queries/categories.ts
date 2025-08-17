@@ -19,6 +19,16 @@ export const GET_ALL_CATEGORIES_ID_NAME = gql`
 	}
 `;
 
+export const GET_CATEGORY_BY_ID = gql`
+	query Category($id: ID!) {
+		category(id: $id) {
+			id
+			name
+			amount
+		}
+	}
+`;
+
 export const CREATE_CATEGORY = gql`
 	mutation CreateCategory($name: String!, $amount: Float!) {
 		createCategory(input: { name: $name, amount: $amount }) {
