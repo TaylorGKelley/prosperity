@@ -1,3 +1,4 @@
+import CategoryCard from '@/components/CategoryCard';
 import { createGraphClient } from '@/lib/graphql';
 import { GET_ALL_CATEGORIES_BY_MONTH } from '@/lib/graphql/queries/categories';
 import {
@@ -20,11 +21,9 @@ export default async function Budget() {
 				Add a category
 			</Link>
 			<h3 className='text-2xl'>Categories</h3>
-			<ul>
-				{data.categories.map((category) => (
-					<li key={category.id}>{category.name}</li>
-				))}
-			</ul>
+			{data.categories.map((category) => (
+				<CategoryCard key={category.id} category={category} />
+			))}
 		</section>
 	);
 }

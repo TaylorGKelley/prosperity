@@ -1,4 +1,4 @@
-import { cn } from '@/utils';
+import { cn } from '@/utils/tw';
 import React, { type InputHTMLAttributes } from 'react';
 
 type InputProps = {

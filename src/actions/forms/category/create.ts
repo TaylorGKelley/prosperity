@@ -35,11 +35,8 @@ export async function createCategory(
 			variables: {
 				name,
 				amount,
-				startDate: new Date(Date.now()), // ! Possibly move this to the backend
 			},
 		});
-
-		console.log('Category created: ', data);
 
 		return {
 			category: data?.createCategory,
