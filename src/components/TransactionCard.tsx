@@ -15,7 +15,7 @@ export default function TransactionCard({ transaction }: TransactionCardProps) {
 			</div>
 			<div className='flex-auto'>
 				<h5 className='font-semibold'>{transaction.title}</h5>
-				<p className='text-xs'>{Format.date(transaction.date)}</p>
+				<p className='text-xs'>{Format.date(transaction.date).dateOnly}</p>
 			</div>
 			<div className='text-right pr-2'>
 				<p className='font-semibold'>${transaction.amount}</p>
