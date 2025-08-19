@@ -23,7 +23,7 @@ export default async function Home() {
 	});
 
 	return (
-		<main className='p-4 grid grid-cols-2 max-sm:grid-cols-1 gap-8'>
+		<main className='p-4 grid grid-cols-2 max-sm:grid-cols-1 gap-8 container mx-auto'>
 			<section className='bg-white rounded-2xl px-6 py-4'>
 				<div className='flex justify-between items-center mb-6'>
 					<h3 className='text-xl font-semibold'>Accounts</h3>
