@@ -31,7 +31,7 @@ export default function RegisterForm() {
 				name='firstName'
 				type='text'
 				required
-				defaultValue={state?.values.firstName}
+				defaultValue={state?.values?.firstName}
 				errors={state?.errors?.firstName}
 			/>
 
@@ -41,7 +41,7 @@ export default function RegisterForm() {
 				name='lastName'
 				type='text'
 				required
-				defaultValue={state?.values.lastName}
+				defaultValue={state?.values?.lastName}
 				errors={state?.errors?.lastName}
 			/>
 
@@ -51,7 +51,7 @@ export default function RegisterForm() {
 				name='email'
 				type='email'
 				required
-				defaultValue={state?.values.email}
+				defaultValue={state?.values?.email}
 				errors={state?.errors?.email}
 			/>
 
@@ -61,7 +61,7 @@ export default function RegisterForm() {
 				name='password'
 				type='password'
 				required
-				defaultValue={state?.values.password}
+				defaultValue={state?.values?.password}
 				errors={state?.errors?.password}
 			/>
 
@@ -71,7 +71,7 @@ export default function RegisterForm() {
 				name='passwordConfirm'
 				type='password`'
 				required
-				defaultValue={state?.values.passwordConfirm}
+				defaultValue={state?.values?.passwordConfirm}
 				errors={state?.errors?.passwordConfirm}
 			/>
 

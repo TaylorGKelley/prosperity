@@ -1,18 +1,22 @@
 'use client';
 
 import { TellerConnect, type TellerConnectOnSuccess } from 'teller-connect-react';
-import { linkAccount } from '@/actions/forms/account/linkAccount';
-import { useActionState } from 'react';
 
 type LinkAccountForm = {
 	applicationId: string;
 };
 
 export default function LinkAccountForm({ applicationId }: LinkAccountForm) {
-	const [state, action] = useActionState(linkAccount, null);
-
 	const handleSuccess: TellerConnectOnSuccess = async (authorization) => {
-		await action(authorization);
+		try {
+			await fetch('/api/teller-success', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(authorization),
+			});
+		} catch {
+			console.error('Failed to send Teller success');
+		}
 	};
 
 	return (
@@ -21,10 +25,12 @@ export default function LinkAccountForm({ applicationId }: LinkAccountForm) {
 				applicationId={applicationId}
 				environment='sandbox'
 				products={['transactions', 'balance']}
-				onSuccess={handleSuccess}>
+				onSuccess={handleSuccess}
+				style={{
+					color: 'black',
+				}}>
 				Connect to bank
 			</TellerConnect>
-			{state?.error && <p>{state?.error}</p>}
 		</div>
 	);
 }
