@@ -1,3 +1,5 @@
+'use server';
+
 import CreateTransactionForm from '@/components/forms/CreateTransactionForm';
 import { createGraphClient } from '@/lib/graphql';
 import { GET_ALL_CATEGORIES_ID_NAME } from '@/lib/graphql/queries/categories';

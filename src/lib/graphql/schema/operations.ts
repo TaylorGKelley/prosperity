@@ -16,11 +16,28 @@ export type Scalars = {
   DateTime: { input: Date; output: Date; }
 };
 
+export type Account = {
+  __typename?: 'Account';
+  id: Scalars['ID']['output'];
+};
+
+export type Budget = {
+  __typename?: 'Budget';
+  id: Scalars['ID']['output'];
+};
+
 export type Category = {
   __typename?: 'Category';
   amount: Scalars['Float']['output'];
+  budgetId: Scalars['ID']['output'];
+  endDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+  startDate: Scalars['DateTime']['output'];
+};
+
+export type CreateAccountInput = {
+  accessToken: Scalars['String']['input'];
 };
 
 export type CreateCategoryInput = {
@@ -39,12 +56,19 @@ export type CreateTransactionInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAccount: Array<Account>;
   createCategory: Category;
   createTransaction: Transaction;
+  deleteAccount?: Maybe<Scalars['ID']['output']>;
   deleteCategory: Scalars['ID']['output'];
   deleteTransaction: Scalars['ID']['output'];
   updateCategory: Category;
   updateTransaction: Transaction;
+};
+
+
+export type MutationCreateAccountArgs = {
+  input: CreateAccountInput;
 };
 
 
@@ -55,6 +79,11 @@ export type MutationCreateCategoryArgs = {
 
 export type MutationCreateTransactionArgs = {
   input: CreateTransactionInput;
+};
+
+
+export type MutationDeleteAccountArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -84,10 +113,18 @@ export type PaginationInput = {
 
 export type Query = {
   __typename?: 'Query';
+  account: Account;
+  accounts: Array<Account>;
+  budget: Budget;
   categories: Array<Category>;
   category: Category;
   transaction: Transaction;
   transactions: Array<Transaction>;
+};
+
+
+export type QueryAccountArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -147,6 +184,13 @@ export type UpdateTransactionInput = {
   title?: InputMaybe<Scalars['String']['input']>;
   transactionType?: InputMaybe<TransactionType>;
 };
+
+export type CreateAccountMutationVariables = Exact<{
+  accessToken: Scalars['String']['input'];
+}>;
+
+
+export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: Array<{ __typename?: 'Account', id: import('node:crypto').UUID }> };
 
 export type CategoriesByMonthQueryVariables = Exact<{
   monthDate: Scalars['DateTime']['input'];

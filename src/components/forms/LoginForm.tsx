@@ -32,7 +32,7 @@ export default function LoginForm() {
 					name='email'
 					type='email'
 					required
-					defaultValue={state?.values.email}
+					defaultValue={state?.values?.email}
 					errors={state?.errors?.email}
 				/>
 
@@ -42,7 +42,7 @@ export default function LoginForm() {
 					name='password'
 					type='password'
 					required
-					defaultValue={state?.values.password}
+					defaultValue={state?.values?.password}
 					errors={state?.errors?.password}
 				/>
 

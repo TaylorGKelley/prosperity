@@ -1,5 +1,6 @@
 'use server';
 
+import { type UUID } from 'node:crypto';
 import { createGraphClient } from '@/lib/graphql';
 import { CREATE_TRANSACTION } from '@/lib/graphql/queries/transactions';
 import {
@@ -38,7 +39,7 @@ export async function createTransaction(
 			variables: {
 				title,
 				amount,
-				categoryId,
+				categoryId: categoryId as UUID,
 				transactionType,
 				date,
 				description,

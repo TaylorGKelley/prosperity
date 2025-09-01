@@ -37,16 +37,17 @@ function NavBar() {
 	const pathname = usePathname();
 
 	return (
-		<header className='flex justify-between items-center bg-white text-black border-b-gray-100 dark:bg-gray-950 dark:text-white dark:border-b-gray-700 py-2 px-3 sm:px-6 md:px-8'>
+		<header className='flex justify-between items-center bg-white text-black border-b-gray-100 dark:bg-gray-950 dark:text-white dark:border-b-gray-700 py-4 px-6 sm:px-6 md:px-8'>
 			<Link href='/'>
-				<h1>Prosperity</h1>
+				<h1 className='text-2xl font-semibold'>Prosperity</h1>
 			</Link>
-			<nav className='max-sm:fixed max-sm:bottom-0 max-sm:inset-x-0 max-sm:bg-white max-sm:shadow-lg max-sm:p-6 '>
+			<nav className='max-sm:fixed max-sm:bottom-0 max-sm:inset-x-0 max-sm:bg-white max-sm:shadow-lg max-sm:p-6 relative'>
+				<div className='absolute h-full w-'>{/* Animated link background */}</div>
 				<ul className='flex max-sm:justify-evenly sm:gap-8'>
 					{links.map((link) => (
 						<li key={link.id}>
 							<Link
-								className={cn('text-sm flex items-center gap-2', {
+								className={cn('flex items-center gap-2', {
 									underline: pathname == link.url,
 									'opacity-50': pathname !== link.url,
 								})}

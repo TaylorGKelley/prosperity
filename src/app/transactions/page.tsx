@@ -1,3 +1,5 @@
+'use server';
+
 import { createGraphClient } from '@/lib/graphql';
 import { GET_TRANSACTIONS } from '@/lib/graphql/queries/transactions';
 import {
