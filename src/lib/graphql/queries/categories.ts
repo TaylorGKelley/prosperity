@@ -1,20 +1,11 @@
 import { gql } from '@apollo/client';
 
-export const GET_ALL_CATEGORIES_BY_MONTH = gql`
-	query CategoriesByMonth($monthDate: DateTime!) {
+export const GET_ALL_CATEGORIES = gql`
+	query GetAllCategories($monthDate: Date!) {
 		categories(monthDate: $monthDate) {
 			id
 			name
 			amount
-		}
-	}
-`;
-
-export const GET_ALL_CATEGORIES_ID_NAME = gql`
-	query CategoriesIdName {
-		categories {
-			id
-			name
 		}
 	}
 `;

@@ -1,24 +1,27 @@
 import TransactionCard from '@/components/TransactionCard';
 import { createGraphClient } from '@/lib/graphql';
-import { GET_TRANSACTIONS_WITH_LIMIT_OFFSET } from '@/lib/graphql/queries/transactions';
+import { GET_TRANSACTIONS_WITH_PAGINATION } from '@/lib/graphql/queries/transactions';
 import {
-	type TransactionsWithLimitOffsetQuery,
-	type TransactionsWithLimitOffsetQueryVariables,
+	type GetTransactionsWithPaginationQuery,
+	type GetTransactionsWithPaginationQueryVariables,
 } from '@/lib/graphql/schema/operations';
+import Cursor from '@/lib/graphql/utils/Cursor';
 import { PlusIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function Home() {
 	const graphClient = await createGraphClient();
 	const { data } = await graphClient.query<
-		TransactionsWithLimitOffsetQuery,
-		TransactionsWithLimitOffsetQueryVariables
+		GetTransactionsWithPaginationQuery,
+		GetTransactionsWithPaginationQueryVariables
 	>({
-		query: GET_TRANSACTIONS_WITH_LIMIT_OFFSET,
+		query: GET_TRANSACTIONS_WITH_PAGINATION,
 		variables: {
 			monthDate: new Date(),
-			limit: 5,
-			offset: 0,
+			pagination: {
+				count: 10,
+				cursor: Cursor.encode(null),
+			},
 		},
 	});
 
@@ -55,7 +58,7 @@ export default async function Home() {
 					</Link>
 				</div>
 				<div className='flex flex-col gap-4'>
-					{data.transactions.map((transaction) => (
+					{data.transactions.items.map((transaction) => (
 						<TransactionCard key={transaction.id} transaction={transaction} />
 					))}
 				</div>

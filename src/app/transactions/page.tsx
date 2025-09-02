@@ -3,15 +3,15 @@
 import { createGraphClient } from '@/lib/graphql';
 import { GET_TRANSACTIONS } from '@/lib/graphql/queries/transactions';
 import {
-	type TransactionsQuery,
-	type TransactionsQueryVariables,
+	type GetTransactionsQuery,
+	type GetTransactionsQueryVariables,
 } from '@/lib/graphql/schema/operations';
 import Link from 'next/link';
 import React from 'react';
 
 export default async function Transactions() {
 	const graphClient = await createGraphClient();
-	const { data } = await graphClient.query<TransactionsQuery, TransactionsQueryVariables>({
+	const { data } = await graphClient.query<GetTransactionsQuery, GetTransactionsQueryVariables>({
 		query: GET_TRANSACTIONS,
 		variables: {
 			monthDate: new Date(),
@@ -26,9 +26,9 @@ export default async function Transactions() {
 					Add new
 				</Link>
 			</div>
-			{data.transactions.map((transaction) => (
+			{data.transactions.items.map((transaction) => (
 				<li key={transaction.id}>
-					{transaction.title} -- {transaction.amount}
+					{transaction.description} -- {transaction.amount}
 				</li>
 			))}
 		</div>

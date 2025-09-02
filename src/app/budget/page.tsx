@@ -1,17 +1,17 @@
 import CategoryCard from '@/components/CategoryCard';
 import { createGraphClient } from '@/lib/graphql';
-import { GET_ALL_CATEGORIES_BY_MONTH } from '@/lib/graphql/queries/categories';
+import { GET_ALL_CATEGORIES } from '@/lib/graphql/queries/categories';
 import {
-	type CategoriesByMonthQuery,
-	type CategoriesByMonthQueryVariables,
+	type GetAllCategoriesQuery,
+	type GetAllCategoriesQueryVariables,
 } from '@/lib/graphql/schema/operations';
 import Link from 'next/link';
 import React from 'react';
 
 export default async function Budget() {
 	const client = await createGraphClient();
-	const { data } = await client.query<CategoriesByMonthQuery, CategoriesByMonthQueryVariables>({
-		query: GET_ALL_CATEGORIES_BY_MONTH,
+	const { data } = await client.query<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>({
+		query: GET_ALL_CATEGORIES,
 		variables: { monthDate: new Date() },
 	});
 
