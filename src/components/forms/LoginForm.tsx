@@ -9,6 +9,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { cn } from '@/utils/tw';
 import { Button } from '../ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 
 type LoginFormProps = React.HTMLProps<HTMLFormElement>;
 
@@ -28,7 +29,7 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 	const [state, action] = useActionState(handleSubmit, null);
 
 	return (
-		<form className={cn('flex flex-col gap-6', className)} {...props} action={action}>
+		<Form className={cn('flex flex-col gap-6', className)} {...props} action={action}>
 			<div className='flex flex-col items-center gap-2 text-center'>
 				<h1 className='text-2xl font-bold'>Login to your account</h1>
 				<p className='text-muted-foreground text-sm text-balance'>
@@ -36,21 +37,19 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 				</p>
 			</div>
 			<div className='grid gap-6'>
-				<div className='grid gap-3'>
-					<Label htmlFor='email'>Email</Label>
-					<Input
-						id='email'
-						name='password'
-						type='email'
-						placeholder='john.doe@example.com'
-						required
-					/>
-					{state?.errors?.email && (
-						<p id='email-error' className='text-sm text-red-500'>
-							{state.errors.email}
-						</p>
+				<FormField
+					name='email'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input {...field} />
+							</FormControl>
+							<FormMessage>{state?.errors?.email}</FormMessage>
+						</FormItem>
 					)}
-				</div>
+				/>
+
 				<div className='grid gap-3'>
 					<Label htmlFor='password'>Password</Label>
 					<Input id='password' name='password' type='password' required />
@@ -104,6 +103,6 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 					Sign up
 				</a>
 			</div>
-		</form>
+		</Form>
 	);
 }
