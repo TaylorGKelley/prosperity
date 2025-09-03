@@ -41,10 +41,7 @@ export default async function RootLayout({
 			permissions={response.success ? response.data.permissions : []}
 			user={response.success ? response.data.user : null}>
 			<html lang='en'>
-				<body
-					className={`${inter.className} antialiased text-black dark:text-white bg-gray-50 dark:bg-gray-900`}>
-					{children}
-				</body>
+				<body className={`${inter.className} antialiased`}>{children}</body>
 			</html>
 		</AuthProvider>
 	);
