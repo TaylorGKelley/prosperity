@@ -17,7 +17,7 @@ export const GET = async (request: NextRequest) => {
 		return NextResponse.redirect(new URL(`${process.env.AUTH_POST_LOGOUT_REDIRECT}`));
 	} catch (error) {
 		return NextResponse.redirect(
-			`${process.env.SITE_URL}/auth/login?error=${
+			`${process.env.SITE_URL}/login?error=${
 				error instanceof Error
 					? error.message
 					: 'An error occurred during authentication, please try again.'
