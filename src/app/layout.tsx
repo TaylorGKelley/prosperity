@@ -4,8 +4,10 @@ import { Inter } from 'next/font/google';
 import { fetchWithAuth, type User } from 'authentication-service-nextjs-sdk/server';
 
 import './globals.css';
-import NavBar from '@/components/NavBar';
 import { AuthProvider } from '@/context/AuthProvider';
+
+import { AppSidebar } from '@/components/AppSidebar';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 const inter = Inter({
 	variable: '--font-inter-sans',
@@ -45,8 +47,12 @@ export default async function RootLayout({
 			<html lang='en'>
 				<body
 					className={`${inter.className} antialiased text-black dark:text-white bg-gray-50 dark:bg-gray-900`}>
-					<NavBar />
-					{children}
+					{/* --   Main Layout   -- */}
+					<SidebarProvider>
+						<AppSidebar />
+						<SidebarInset>{children}</SidebarInset>
+					</SidebarProvider>
+					{/* -- End Main Layout -- */}
 				</body>
 			</html>
 		</AuthProvider>

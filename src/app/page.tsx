@@ -1,68 +1,139 @@
-import TransactionCard from '@/components/TransactionCard';
-import { createGraphClient } from '@/lib/graphql';
-import { GET_TRANSACTIONS_WITH_PAGINATION } from '@/lib/graphql/queries/transactions';
+// import TransactionCard from '@/components/TransactionCard';
+// import { createGraphClient } from '@/lib/graphql';
+// import { GET_TRANSACTIONS_WITH_PAGINATION } from '@/lib/graphql/queries/transactions';
+// import {
+// 	type GetTransactionsWithPaginationQuery,
+// 	type GetTransactionsWithPaginationQueryVariables,
+// } from '@/lib/graphql/schema/operations';
+// import Cursor from '@/lib/graphql/utils/Cursor';
+// import { PlusIcon } from 'lucide-react';
+// import Link from 'next/link';
+
+import BarChart from '@/components/BarChart';
+import LineChart from '@/components/LineChart';
 import {
-	type GetTransactionsWithPaginationQuery,
-	type GetTransactionsWithPaginationQueryVariables,
-} from '@/lib/graphql/schema/operations';
-import Cursor from '@/lib/graphql/utils/Cursor';
-import { PlusIcon } from 'lucide-react';
-import Link from 'next/link';
+	Breadcrumb,
+	BreadcrumbItem,
+	// BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	// BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+import { Separator } from '@/components/ui/separator';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export default async function Home() {
-	const graphClient = await createGraphClient();
-	const { data } = await graphClient.query<
-		GetTransactionsWithPaginationQuery,
-		GetTransactionsWithPaginationQueryVariables
-	>({
-		query: GET_TRANSACTIONS_WITH_PAGINATION,
-		variables: {
-			monthDate: new Date(),
-			pagination: {
-				count: 10,
-				cursor: Cursor.encode(null),
-			},
-		},
-	});
+	// const graphClient = await createGraphClient();
+	// const { data } = await graphClient.query<
+	// 	GetTransactionsWithPaginationQuery,
+	// 	GetTransactionsWithPaginationQueryVariables
+	// >({
+	// 	query: GET_TRANSACTIONS_WITH_PAGINATION,
+	// 	variables: {
+	// 		monthDate: new Date(),
+	// 		pagination: {
+	// 			count: 10,
+	// 			cursor: Cursor.encode(null),
+	// 		},
+	// 	},
+	// });
+
+	const chartData = [
+		{ month: 'Jun', balance: 120 },
+		{ month: 'Jul', balance: 80 },
+		{ month: 'Aug', balance: 200 },
+	];
 
 	return (
-		<main className='p-4 grid grid-cols-2 max-sm:grid-cols-1 gap-8 container mx-auto'>
-			<section className='bg-white rounded-2xl px-6 py-4'>
-				<div className='flex justify-between items-center mb-6'>
-					<h3 className='text-xl font-semibold'>Accounts</h3>
-					<Link
-						href='/wallet/link-account'
-						className='text-sm underline font-normal flex items-center gap-2'>
-						<div className='border border-black rounded-full aspect-square'>
-							<PlusIcon className='w-4 h-4' />
+		<>
+			<header className='flex h-16 shrink-0 items-center gap-2 border-b px-4'>
+				<SidebarTrigger className='-ml-1' />
+				<Separator orientation='vertical' className='mr-2 data-[orientation=vertical]:h-4' />
+				<Breadcrumb>
+					<BreadcrumbList>
+						{/* <BreadcrumbItem className='hidden md:block'>
+							<BreadcrumbLink href='/'>Home</BreadcrumbLink>
+						</BreadcrumbItem>
+						<BreadcrumbSeparator className='hidden md:block' /> */}
+						<BreadcrumbItem>
+							<BreadcrumbPage>Home</BreadcrumbPage>
+						</BreadcrumbItem>
+					</BreadcrumbList>
+				</Breadcrumb>
+			</header>
+			<div className='flex flex-1 flex-col gap-4 p-4'>
+				<div className='grid auto-rows-min gap-4 lg:grid-cols-3'>
+					<Card className='hover:scale-[101%] transition-transform duration-150 ease-in-out'>
+						<CardHeader>
+							<CardTitle>Remaining funds</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<h3 className=''>$500.00</h3>
+							<LineChart
+								data={chartData}
+								config={{
+									desktop: {
+										label: 'Balance',
+										color: 'var(--chart-1)',
+									},
+								}}
+								YDataKey={'balance'}
+								XDataKey={'month'}
+							/>
+						</CardContent>
+					</Card>
+					<Card className='hover:scale-[101%] transition-transform duration-150 ease-in-out'>
+						<CardHeader>
+							<CardTitle>Spending</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<h3 className=''>$500.00</h3>
+							<BarChart
+								data={chartData}
+								config={{
+									desktop: {
+										label: 'Balance',
+										color: 'var(--chart-1)',
+									},
+								}}
+								YDataKey={'balance'}
+								XDataKey={'month'}
+							/>
+						</CardContent>
+					</Card>
+					<Card className='hover:scale-[101%] transition-transform duration-150 ease-in-out'>
+						<CardHeader>
+							<CardTitle>Savings</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<h3 className=''>$500.00</h3>
+							<LineChart
+								data={chartData}
+								config={{
+									desktop: {
+										label: 'Balance',
+										color: 'var(--chart-1)',
+									},
+								}}
+								YDataKey={'balance'}
+								XDataKey={'month'}
+							/>
+						</CardContent>
+					</Card>
+				</div>
+				<Card>
+					<CardHeader>
+						<CardTitle>Transactions</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div className='border-b p-4'>
+							<p>transaction</p>
 						</div>
-						<span>Add Account</span>
-					</Link>
-				</div>
-				<div></div>
-			</section>
-			<section>
-				<div>
-					<h4>Monthly Spending</h4>
-					<p>1 Mar - 15 Mar, 2025</p>
-				</div>
-				<div>{/* Chart */}</div>
-			</section>
-			<section className=''>
-				<div className='flex items-center justify-between gap-2 mb-4'>
-					<h5 className='font-semibold'>Transactions</h5>
-					<Link
-						href='/transactions'
-						className='font-normal text-xs underline cursor-pointer opacity-75'>
-						See All
-					</Link>
-				</div>
-				<div className='flex flex-col gap-4'>
-					{data.transactions.items.map((transaction) => (
-						<TransactionCard key={transaction.id} transaction={transaction} />
-					))}
-				</div>
-			</section>
-		</main>
+					</CardContent>
+				</Card>
+			</div>
+		</>
 	);
 }
