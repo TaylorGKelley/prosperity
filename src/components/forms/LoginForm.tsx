@@ -11,6 +11,7 @@ import { Button } from '../ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 
 type LoginFormProps = React.HTMLProps<HTMLFormElement>;
 
@@ -50,13 +51,14 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 					<FormField
 						control={form.control}
 						name='email'
+						defaultValue={state?.values.email}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Email</FormLabel>
 								<FormControl>
 									<Input {...field} />
 								</FormControl>
-								<FormMessage>{state?.errors?.email}</FormMessage>
+								<FormMessage>{state?.errors?.[field.name]}</FormMessage>
 							</FormItem>
 						)}
 					/>
@@ -64,13 +66,14 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 					<FormField
 						control={form.control}
 						name='password'
+						defaultValue={state?.values.password}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Password</FormLabel>
 								<FormControl>
-									<Input {...field} />
+									<Input {...field} type='password' />
 								</FormControl>
-								<FormMessage>{state?.errors?.password}</FormMessage>
+								<FormMessage>{state?.errors?.[field.name]}</FormMessage>
 							</FormItem>
 						)}
 					/>
@@ -108,9 +111,9 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 				</div>
 				<div className='text-center text-sm'>
 					Don&apos;t have an account?{' '}
-					<a href='#' className='underline underline-offset-4'>
+					<Link href='/register' className='underline underline-offset-4'>
 						Sign up
-					</a>
+					</Link>
 				</div>
 			</form>
 		</Form>
