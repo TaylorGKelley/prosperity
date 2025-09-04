@@ -1,3 +1,4 @@
+import LinkAccountForm from '@/components/forms/LinkAccountForm';
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -22,7 +23,13 @@ export default function Wallet() {
 					</BreadcrumbList>
 				</Breadcrumb>
 			</header>
-			<div className='flex flex-1 flex-col gap-4 p-4'>Wallet</div>;
+			<div className='flex flex-1 flex-col gap-4 p-4'>
+				<div className='flex gap-6 items-center'>
+					<h2>Wallet</h2>
+					<p>Link New Account</p>
+					<LinkAccountForm />
+				</div>
+			</div>
 		</>
 	);
 }

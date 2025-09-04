@@ -75,6 +75,7 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 							</FormItem>
 						)}
 					/>
+					{state?.error && <p>{state.error}</p>}
 					<Button type='submit' className='w-full'>
 						Login
 					</Button>

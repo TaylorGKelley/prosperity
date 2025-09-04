@@ -38,6 +38,7 @@ export default function RegisterForm({ className, ...props }: RegisterFormProps)
 			lastName: '',
 			email: '',
 			password: '',
+			passwordConfirm: '',
 		},
 	});
 

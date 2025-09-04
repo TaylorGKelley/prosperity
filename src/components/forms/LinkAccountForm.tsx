@@ -1,29 +1,36 @@
 'use client';
 
+import { useState } from 'react';
 import { TellerConnect, type TellerConnectOnSuccess } from 'teller-connect-react';
 
-type LinkAccountForm = {
-	applicationId: string;
-};
+export default function LinkAccountForm() {
+	const [error, setError] = useState<string>();
 
-export default function LinkAccountForm({ applicationId }: LinkAccountForm) {
 	const handleSuccess: TellerConnectOnSuccess = async (authorization) => {
 		try {
-			await fetch('/api/teller-success', {
+			const res = await fetch('/api/teller-success', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(authorization),
 			});
-		} catch {
-			console.error('Failed to send Teller success');
+
+			if (res.status === 500) {
+				throw new Error((await res.json()).error);
+			}
+		} catch (error) {
+			if (typeof error === 'string') setError(error);
+			else if (error instanceof Error) setError(error.message);
+			else setError(JSON.stringify(error));
 		}
 	};
 
 	return (
 		<div>
 			<TellerConnect
-				applicationId={applicationId}
-				environment='sandbox'
+				applicationId={process.env.NEXT_PUBLIC_TELLER_APPLICATION_ID!}
+				environment={
+					process.env.NEXT_PUBLIC_TELLER_ENVIRONMENT! as 'sandbox' | 'development' | 'production'
+				}
 				products={['transactions', 'balance']}
 				onSuccess={handleSuccess}
 				style={{
@@ -31,6 +38,7 @@ export default function LinkAccountForm({ applicationId }: LinkAccountForm) {
 				}}>
 				Connect to bank
 			</TellerConnect>
+			{error && <p>{error}</p>}
 		</div>
 	);
 }
