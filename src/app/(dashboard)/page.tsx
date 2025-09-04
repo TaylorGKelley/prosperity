@@ -64,6 +64,16 @@ export default async function Home() {
 				</Breadcrumb>
 			</header>
 			<div className='flex flex-1 flex-col gap-4 p-4'>
+				<Card>
+					<CardHeader>
+						<CardTitle>Transactions</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div className='border-b p-4'>
+							<p>transaction</p>
+						</div>
+					</CardContent>
+				</Card>
 				<div className='grid auto-rows-min gap-4 lg:grid-cols-3'>
 					<Card className='hover:scale-[101%] transition-transform duration-150 ease-in-out'>
 						<CardHeader>
@@ -123,16 +133,6 @@ export default async function Home() {
 						</CardContent>
 					</Card>
 				</div>
-				<Card>
-					<CardHeader>
-						<CardTitle>Transactions</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<div className='border-b p-4'>
-							<p>transaction</p>
-						</div>
-					</CardContent>
-				</Card>
 			</div>
 		</>
 	);

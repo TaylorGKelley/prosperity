@@ -51,7 +51,6 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 					<FormField
 						control={form.control}
 						name='email'
-						defaultValue={state?.values.email}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Email</FormLabel>
@@ -66,7 +65,6 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 					<FormField
 						control={form.control}
 						name='password'
-						defaultValue={state?.values.password}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Password</FormLabel>

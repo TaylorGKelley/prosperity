@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
 
+import type z from 'zod';
 import { register } from '@/actions/forms/register';
 import registerFormSchema, { type RegisterFormState } from '@/lib/zod/registerFormSchema';
 import { Input } from '../ui/input';
@@ -30,9 +31,11 @@ export default function RegisterForm({ className, ...props }: RegisterFormProps)
 
 	const [state, action] = useActionState(handleSubmit, null);
 
-	const form = useForm({
+	const form = useForm<z.infer<typeof registerFormSchema>>({
 		resolver: zodResolver(registerFormSchema),
 		defaultValues: {
+			firstName: '',
+			lastName: '',
 			email: '',
 			password: '',
 		},
@@ -52,7 +55,6 @@ export default function RegisterForm({ className, ...props }: RegisterFormProps)
 						<FormField
 							control={form.control}
 							name='firstName'
-							defaultValue={state?.values.firstName}
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>First Name</FormLabel>
@@ -66,7 +68,6 @@ export default function RegisterForm({ className, ...props }: RegisterFormProps)
 						<FormField
 							control={form.control}
 							name='lastName'
-							defaultValue={state?.values.lastName}
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Last Name</FormLabel>
@@ -81,7 +82,6 @@ export default function RegisterForm({ className, ...props }: RegisterFormProps)
 					<FormField
 						control={form.control}
 						name='email'
-						defaultValue={state?.values.email}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Email</FormLabel>
@@ -96,7 +96,6 @@ export default function RegisterForm({ className, ...props }: RegisterFormProps)
 					<FormField
 						control={form.control}
 						name='password'
-						defaultValue={state?.values.password}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Password</FormLabel>
@@ -111,7 +110,6 @@ export default function RegisterForm({ className, ...props }: RegisterFormProps)
 					<FormField
 						control={form.control}
 						name='passwordConfirm'
-						defaultValue={state?.values.passwordConfirm}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Confirm Password</FormLabel>
