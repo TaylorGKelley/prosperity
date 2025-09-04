@@ -15,7 +15,7 @@ import {
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { usePathname } from 'next/navigation';
-import { Home, type LucideProps, Wallet } from 'lucide-react';
+import { Home, type LucideProps, PieChart, Wallet } from 'lucide-react';
 
 type NavGroup = {
 	groupName: string;
@@ -38,6 +38,11 @@ const data = {
 					Icon: Home,
 					title: 'Home',
 					url: '/',
+				},
+				{
+					Icon: PieChart,
+					title: 'Budget',
+					url: '/budget',
 				},
 				{
 					Icon: Wallet,
