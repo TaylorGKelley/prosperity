@@ -1,7 +1,10 @@
 import { gql } from '@apollo/client';
 
 export const GET_ALL_CATEGORIES = gql`
-	query GetAllCategories($monthDate: Date!) {
+	query GetAllCategories($monthDate: DateTime!) {
+		budget {
+			id
+		}
 		categories(monthDate: $monthDate) {
 			id
 			name

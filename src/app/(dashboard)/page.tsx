@@ -1,13 +1,10 @@
-// import TransactionCard from '@/components/TransactionCard';
-// import { createGraphClient } from '@/lib/graphql';
-// import { GET_TRANSACTIONS_WITH_PAGINATION } from '@/lib/graphql/queries/transactions';
-// import {
-// 	type GetTransactionsWithPaginationQuery,
-// 	type GetTransactionsWithPaginationQueryVariables,
-// } from '@/lib/graphql/schema/operations';
-// import Cursor from '@/lib/graphql/utils/Cursor';
-// import { PlusIcon } from 'lucide-react';
-// import Link from 'next/link';
+import { createGraphClient } from '@/lib/graphql';
+import { GET_TRANSACTIONS_WITH_PAGINATION } from '@/lib/graphql/queries/transactions';
+import {
+	TransactionStatusEnum,
+	type GetTransactionsWithPaginationQuery,
+	type GetTransactionsWithPaginationQueryVariables,
+} from '@/lib/graphql/schema/operations';
 
 import BarChart from '@/components/BarChart';
 import LineChart from '@/components/LineChart';
@@ -23,22 +20,23 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import RefreshTransactionsButton from '@/components/forms/RefreshTransactionsButton';
+import { cn } from '@/utils/tw';
 
 export default async function Home() {
-	// const graphClient = await createGraphClient();
-	// const { data } = await graphClient.query<
-	// 	GetTransactionsWithPaginationQuery,
-	// 	GetTransactionsWithPaginationQueryVariables
-	// >({
-	// 	query: GET_TRANSACTIONS_WITH_PAGINATION,
-	// 	variables: {
-	// 		monthDate: new Date(),
-	// 		pagination: {
-	// 			count: 10,
-	// 			cursor: Cursor.encode(null),
-	// 		},
-	// 	},
-	// });
+	const graphClient = await createGraphClient();
+	const { data } = await graphClient.query<
+		GetTransactionsWithPaginationQuery,
+		GetTransactionsWithPaginationQueryVariables
+	>({
+		query: GET_TRANSACTIONS_WITH_PAGINATION,
+		variables: {
+			monthDate: new Date(),
+			pagination: {
+				count: 5,
+			},
+		},
+	});
 
 	const chartData = [
 		{ month: 'Jun', balance: 120 },
@@ -64,13 +62,34 @@ export default async function Home() {
 				</Breadcrumb>
 			</header>
 			<div className='flex flex-1 flex-col gap-4 p-4'>
-				<Card>
+				<Card className='hover:scale-[100.5%] hover:scale-y-[101%] transition-transform duration-150 ease-in-out'>
 					<CardHeader>
 						<CardTitle>Transactions</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<div className='border-b p-4'>
-							<p>transaction</p>
+						<div>
+							<RefreshTransactionsButton />
+						</div>
+						<div className='grid'>
+							{data.transactions.items.map((transaction, i) => (
+								<div
+									key={transaction.id}
+									className={cn({
+										'border-t': i > 0,
+									})}>
+									<div className='flex gap-4 items-center p-4 hover:bg-gray-50/50 transition-colors duration-150 ease-in-out rounded-md relative'>
+										<p>{transaction.description}</p>
+										<p
+											className={cn('text-sm py-0.5 px-4', {
+												'bg-green-100': transaction.status === TransactionStatusEnum.Posted,
+												'bg-yellow-100': transaction.status === TransactionStatusEnum.Pending,
+											})}>
+											{transaction.status[0] + transaction.status.toLowerCase().substring(1)}
+										</p>
+										<p className='font-semibold font-mono'>{transaction.amount}</p>
+									</div>
+								</div>
+							))}
 						</div>
 					</CardContent>
 				</Card>

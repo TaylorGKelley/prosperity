@@ -39,10 +39,10 @@ export type Category = {
   __typename?: 'Category';
   amount: Scalars['Float']['output'];
   budgetId: Scalars['ID']['output'];
-  endDate?: Maybe<Scalars['Date']['output']>;
+  endDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
-  startDate: Scalars['Date']['output'];
+  startDate: Scalars['DateTime']['output'];
 };
 
 export type CreateAccountInput = {
@@ -56,7 +56,7 @@ export type CreateCategoryInput = {
 
 export type CursorPaginationInput = {
   count: Scalars['Int']['input'];
-  cursor: Scalars['String']['input'];
+  cursor?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Institution = {
@@ -103,8 +103,8 @@ export type MutationUpdateCategoryArgs = {
 
 export type PageInformation = {
   __typename?: 'PageInformation';
-  endCursor: Scalars['String']['output'];
-  hasNextPage: Scalars['Boolean']['output'];
+  endCursor?: Maybe<Scalars['String']['output']>;
+  hasNextPage?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type PaginatedTransaction = {
@@ -117,7 +117,7 @@ export type Query = {
   __typename?: 'Query';
   account: Account;
   accounts: Array<Account>;
-  budget: Budget;
+  budget?: Maybe<Budget>;
   categories: Array<Category>;
   category: Category;
   transaction: Transaction;
@@ -131,7 +131,7 @@ export type QueryAccountArgs = {
 
 
 export type QueryCategoriesArgs = {
-  monthDate: Scalars['Date']['input'];
+  monthDate: Scalars['DateTime']['input'];
 };
 
 
@@ -146,7 +146,7 @@ export type QueryTransactionArgs = {
 
 
 export type QueryTransactionsArgs = {
-  monthDate: Scalars['Date']['input'];
+  monthDate: Scalars['DateTime']['input'];
   pagination?: InputMaybe<CursorPaginationInput>;
 };
 
@@ -181,7 +181,7 @@ export type Transaction = {
   accountId: Scalars['ID']['output'];
   amount: Scalars['Float']['output'];
   categoryId?: Maybe<Scalars['ID']['output']>;
-  date: Scalars['Date']['output'];
+  date: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   status: TransactionStatusEnum;
@@ -212,12 +212,17 @@ export type CreateAccountMutationVariables = Exact<{
 
 export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: Array<{ __typename?: 'Account', id: import('node:crypto').UUID }> };
 
+export type CreateBudgetMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateBudgetMutation = { __typename?: 'Mutation', createBudget: { __typename?: 'Budget', id: import('node:crypto').UUID } };
+
 export type GetAllCategoriesQueryVariables = Exact<{
-  monthDate: Scalars['Date']['input'];
+  monthDate: Scalars['DateTime']['input'];
 }>;
 
 
-export type GetAllCategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number }> };
+export type GetAllCategoriesQuery = { __typename?: 'Query', budget?: { __typename?: 'Budget', id: import('node:crypto').UUID } | null, categories: Array<{ __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number }> };
 
 export type CategoryQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -242,19 +247,19 @@ export type DeleteCategoryMutationVariables = Exact<{
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: import('node:crypto').UUID };
 
 export type GetTransactionsQueryVariables = Exact<{
-  monthDate: Scalars['Date']['input'];
+  monthDate: Scalars['DateTime']['input'];
 }>;
 
 
 export type GetTransactionsQuery = { __typename?: 'Query', transactions: { __typename?: 'PaginatedTransaction', items: Array<{ __typename?: 'Transaction', id: import('node:crypto').UUID, accountId: import('node:crypto').UUID, categoryId?: import('node:crypto').UUID | null, amount: number, date: Date, description: string, status: TransactionStatusEnum, type: string }> } };
 
 export type GetTransactionsWithPaginationQueryVariables = Exact<{
-  monthDate: Scalars['Date']['input'];
+  monthDate: Scalars['DateTime']['input'];
   pagination?: InputMaybe<CursorPaginationInput>;
 }>;
 
 
-export type GetTransactionsWithPaginationQuery = { __typename?: 'Query', transactions: { __typename?: 'PaginatedTransaction', items: Array<{ __typename?: 'Transaction', id: import('node:crypto').UUID, accountId: import('node:crypto').UUID, categoryId?: import('node:crypto').UUID | null, amount: number, date: Date, description: string, status: TransactionStatusEnum, type: string }>, pageInfo?: { __typename?: 'PageInformation', hasNextPage: boolean, endCursor: string } | null } };
+export type GetTransactionsWithPaginationQuery = { __typename?: 'Query', transactions: { __typename?: 'PaginatedTransaction', items: Array<{ __typename?: 'Transaction', id: import('node:crypto').UUID, tellerId: import('node:crypto').UUID, accountId: import('node:crypto').UUID, categoryId?: import('node:crypto').UUID | null, amount: number, date: Date, description: string, status: TransactionStatusEnum, type: string }>, pageInfo?: { __typename?: 'PageInformation', hasNextPage?: boolean | null, endCursor?: string | null } | null } };
 
 export type GetTransactionByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -262,3 +267,8 @@ export type GetTransactionByIdQueryVariables = Exact<{
 
 
 export type GetTransactionByIdQuery = { __typename?: 'Query', transaction: { __typename?: 'Transaction', id: import('node:crypto').UUID, accountId: import('node:crypto').UUID, categoryId?: import('node:crypto').UUID | null, amount: number, date: Date, description: string, status: TransactionStatusEnum, type: string } };
+
+export type SyncTransactionsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SyncTransactionsMutation = { __typename?: 'Mutation', syncTransactions: { __typename?: 'SyncTransactions', status: SyncStatusEnum, error?: string | null } };
