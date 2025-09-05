@@ -22,6 +22,7 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import RefreshTransactionsButton from '@/components/forms/RefreshTransactionsButton';
 import { cn } from '@/utils/tw';
+import Link from 'next/link';
 
 export default async function Home() {
 	const graphClient = await createGraphClient();
@@ -69,6 +70,7 @@ export default async function Home() {
 					<CardContent>
 						<div>
 							<RefreshTransactionsButton />
+							<Link href='/transactions'>See All</Link>
 						</div>
 						<div className='grid'>
 							{data.transactions.items.map((transaction, i) => (

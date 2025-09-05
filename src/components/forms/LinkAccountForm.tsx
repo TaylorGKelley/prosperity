@@ -1,9 +1,12 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { TellerConnect, type TellerConnectOnSuccess } from 'teller-connect-react';
 
 export default function LinkAccountForm() {
+	const router = useRouter();
+
 	const handleSuccess: TellerConnectOnSuccess = async (authorization) => {
 		try {
 			const res = await fetch('/api/teller-success', {
@@ -16,6 +19,7 @@ export default function LinkAccountForm() {
 				throw new Error((await res.json()).error);
 			} else if (res.status === 200) {
 				toast.success('Account linked successfully!');
+				router.refresh();
 			}
 		} catch (error) {
 			if (typeof error === 'string')

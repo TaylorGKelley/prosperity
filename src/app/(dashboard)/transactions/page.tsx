@@ -1,5 +1,3 @@
-'use server';
-
 import {
 	Breadcrumb,
 	BreadcrumbList,
@@ -11,22 +9,25 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { createGraphClient } from '@/lib/graphql';
-import { GET_TRANSACTIONS } from '@/lib/graphql/queries/transactions';
+import { GET_TRANSACTIONS_WITH_PAGINATION } from '@/lib/graphql/queries/transactions';
 import {
-	type GetTransactionsQuery,
-	type GetTransactionsQueryVariables,
+	type GetTransactionsWithPaginationQuery,
+	type GetTransactionsWithPaginationQueryVariables,
 } from '@/lib/graphql/schema/operations';
-import Link from 'next/link';
 import React from 'react';
+import Filters, { type FilterSearchParams } from './filters';
+import Format from '@/utils/Format';
+import TransactionList from './transaction-list';
+import getAllTransactions from '@/actions/transaction/getAll';
 
-export default async function Transactions() {
-	const graphClient = await createGraphClient();
-	const { data } = await graphClient.query<GetTransactionsQuery, GetTransactionsQueryVariables>({
-		query: GET_TRANSACTIONS,
-		variables: {
-			monthDate: new Date(),
-		},
-	});
+type TransactionsPageProps = {
+	searchParams: Promise<FilterSearchParams>;
+};
+
+export default async function Transactions({ searchParams }: TransactionsPageProps) {
+	const { monthDate } = await searchParams;
+
+	const transactionQuery = getAllTransactions({ monthDate: monthDate, count: 20 });
 
 	return (
 		<>
@@ -45,19 +46,17 @@ export default async function Transactions() {
 					</BreadcrumbList>
 				</Breadcrumb>
 			</header>
-			<div>
-				<div className='flex justify-between gap-6 max-w-md'>
-					<h4>Transactions</h4>
-					<Link href='/transactions/create' className='underline dark:text-gray-300'>
-						Add new
-					</Link>
+			<main>
+				<div>
+					<Filters />
+					<section className='px-4 sm:px-12 bg-gray-50 dark:bg-gray-900'>
+						<div className='mb-4'>
+							<h4 className='text-lg font-bold'>{Format.date(monthDate || new Date()).dateDay}</h4>
+						</div>
+						<TransactionList initialTransactionQuery={transactionQuery} />
+					</section>
 				</div>
-				{data.transactions.items.map((transaction) => (
-					<li key={transaction.id}>
-						{transaction.description} -- {transaction.amount}
-					</li>
-				))}
-			</div>
+			</main>
 		</>
 	);
 }

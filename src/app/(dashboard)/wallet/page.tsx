@@ -45,7 +45,6 @@ export default async function Wallet() {
 			<div className='flex flex-1 flex-col gap-4 p-4'>
 				<div className='flex gap-6 items-center'>
 					<h2>Wallet</h2>
-					<p>Link New Account</p>
 					<LinkAccountForm />
 				</div>
 				<Table>
