@@ -7,9 +7,28 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '@/components/ui/table';
+import { createGraphClient } from '@/lib/graphql';
+import { GET_ALL_ACCOUNTS } from '@/lib/graphql/queries/accounts';
+import {
+	type GetAllAccountsQuery,
+	type GetAllAccountsQueryVariables,
+} from '@/lib/graphql/schema/operations';
 import React from 'react';
 
-export default function Wallet() {
+export default async function Wallet() {
+	const graphClient = await createGraphClient();
+	const { data } = await graphClient.query<GetAllAccountsQuery, GetAllAccountsQueryVariables>({
+		query: GET_ALL_ACCOUNTS,
+	});
+
 	return (
 		<>
 			<header className='flex h-16 shrink-0 items-center gap-2 border-b px-4'>
@@ -29,6 +48,24 @@ export default function Wallet() {
 					<p>Link New Account</p>
 					<LinkAccountForm />
 				</div>
+				<Table>
+					<TableHeader>
+						<TableRow>
+							<TableHead>Name</TableHead>
+							<TableHead>Type</TableHead>
+							<TableHead>Last Four</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{data.accounts.map((account) => (
+							<TableRow key={account.id}>
+								<TableCell>{account.name}</TableCell>
+								<TableCell>{account.type}</TableCell>
+								<TableCell>{account.lastFour}</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
 			</div>
 		</>
 	);

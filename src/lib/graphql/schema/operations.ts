@@ -117,7 +117,7 @@ export type Query = {
   __typename?: 'Query';
   account: Account;
   accounts: Array<Account>;
-  budget?: Maybe<Budget>;
+  budget: Budget;
   categories: Array<Category>;
   category: Category;
   transaction: Transaction;
@@ -181,7 +181,7 @@ export type Transaction = {
   accountId: Scalars['ID']['output'];
   amount: Scalars['Float']['output'];
   categoryId?: Maybe<Scalars['ID']['output']>;
-  date: Scalars['DateTime']['output'];
+  date: Scalars['Date']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   status: TransactionStatusEnum;
@@ -205,6 +205,11 @@ export type UpdateCategoryInput = {
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type GetAllAccountsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllAccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: import('node:crypto').UUID, currency: string, enrollmentId: string, lastFour: number, name: string, type: TypeEnum, subtype: SubtypeEnum, status: StatusEnum }> };
+
 export type CreateAccountMutationVariables = Exact<{
   accessToken: Scalars['String']['input'];
 }>;
@@ -222,7 +227,7 @@ export type GetAllCategoriesQueryVariables = Exact<{
 }>;
 
 
-export type GetAllCategoriesQuery = { __typename?: 'Query', budget?: { __typename?: 'Budget', id: import('node:crypto').UUID } | null, categories: Array<{ __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number }> };
+export type GetAllCategoriesQuery = { __typename?: 'Query', budget: { __typename?: 'Budget', id: import('node:crypto').UUID }, categories: Array<{ __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number }> };
 
 export type CategoryQueryVariables = Exact<{
   id: Scalars['ID']['input'];

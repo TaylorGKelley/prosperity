@@ -5,6 +5,8 @@ import {
 	BreadcrumbList,
 	BreadcrumbItem,
 	BreadcrumbPage,
+	BreadcrumbSeparator,
+	BreadcrumbLink,
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -33,12 +35,12 @@ export default async function Transactions() {
 				<Separator orientation='vertical' className='mr-2 data-[orientation=vertical]:h-4' />
 				<Breadcrumb>
 					<BreadcrumbList>
-						{/* <BreadcrumbItem className='hidden md:block'>
+						<BreadcrumbItem className='hidden md:block'>
 							<BreadcrumbLink href='/'>Home</BreadcrumbLink>
 						</BreadcrumbItem>
-						<BreadcrumbSeparator className='hidden md:block' /> */}
+						<BreadcrumbSeparator className='hidden md:block' />
 						<BreadcrumbItem>
-							<BreadcrumbPage>Wallet</BreadcrumbPage>
+							<BreadcrumbPage>All Transactions</BreadcrumbPage>
 						</BreadcrumbItem>
 					</BreadcrumbList>
 				</Breadcrumb>

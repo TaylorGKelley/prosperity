@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { AuthProvider } from '@/context/AuthProvider';
 import { fetchWithAuth, type User } from 'authentication-service-nextjs-sdk/server';
 import './globals.css';
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter({
 	variable: '--font-inter-sans',
@@ -41,7 +42,10 @@ export default async function RootLayout({
 			permissions={response.success ? response.data.permissions : []}
 			user={response.success ? response.data.user : null}>
 			<html lang='en'>
-				<body className={`${inter.className} antialiased`}>{children}</body>
+				<body className={`${inter.className} antialiased`}>
+					{children}
+					<Toaster position='bottom-right' />
+				</body>
 			</html>
 		</AuthProvider>
 	);

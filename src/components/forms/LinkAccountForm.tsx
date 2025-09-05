@@ -1,11 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { toast } from 'sonner';
 import { TellerConnect, type TellerConnectOnSuccess } from 'teller-connect-react';
 
 export default function LinkAccountForm() {
-	const [error, setError] = useState<string>();
-
 	const handleSuccess: TellerConnectOnSuccess = async (authorization) => {
 		try {
 			const res = await fetch('/api/teller-success', {
@@ -16,11 +14,18 @@ export default function LinkAccountForm() {
 
 			if (res.status === 500) {
 				throw new Error((await res.json()).error);
+			} else if (res.status === 200) {
+				toast.success('Account linked successfully!');
 			}
 		} catch (error) {
-			if (typeof error === 'string') setError(error);
-			else if (error instanceof Error) setError(error.message);
-			else setError(JSON.stringify(error));
+			if (typeof error === 'string')
+				toast.error(error, {
+					duration: 5000,
+				});
+			else
+				toast.error((error as Error).message, {
+					duration: 5000,
+				});
 		}
 	};
 
@@ -38,7 +43,6 @@ export default function LinkAccountForm() {
 				}}>
 				Connect to bank
 			</TellerConnect>
-			{error && <p>{error}</p>}
 		</div>
 	);
 }
