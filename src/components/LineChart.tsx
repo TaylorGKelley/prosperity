@@ -38,7 +38,7 @@ export default function LineChart<T>({ config, data, YDataKey, XDataKey }: LineC
 				<Line
 					dataKey={YDataKey.toString()}
 					type='natural'
-					stroke='var(--color-desktop)'
+					stroke={config[YDataKey].color}
 					strokeWidth={2}
 					dot={false}
 				/>

@@ -6,7 +6,19 @@ import {
 	type GetTransactionsWithPaginationQuery,
 	type GetTransactionsWithPaginationQueryVariables,
 } from '@/lib/graphql/schema/operations';
+import Cursor from '@/lib/graphql/utils/Cursor';
 import { type UUID } from 'node:crypto';
+
+export type GetAllTransactionsResult =
+	| {
+			success: true;
+			items: GetTransactionsWithPaginationQuery['transactions']['items'];
+			pageInfo: GetTransactionsWithPaginationQuery['transactions']['pageInfo'];
+	  }
+	| {
+			success: false;
+			error: string;
+	  };
 
 export default async function getAllTransactions(
 	filterInfo: {
@@ -18,7 +30,7 @@ export default async function getAllTransactions(
 		};
 	},
 	config?: { fromServerComponent: boolean },
-) {
+): Promise<GetAllTransactionsResult> {
 	try {
 		const graphClient = await createGraphClient({
 			isInServerAction: config?.fromServerComponent == true ? false : true,
@@ -30,12 +42,21 @@ export default async function getAllTransactions(
 			query: GET_TRANSACTIONS_WITH_PAGINATION,
 			variables: {
 				monthDate: filterInfo.monthDate || new Date(),
+				pagination: {
+					count: filterInfo.count,
+					cursor: filterInfo.cursor && Cursor.encode(filterInfo.cursor),
+				},
 			},
 		});
 
-		return data.transactions;
+		return {
+			success: true,
+			items: data.transactions.items,
+			pageInfo: data.transactions.pageInfo,
+		};
 	} catch (error) {
 		return {
+			success: false,
 			error: (error as Error).message,
 		};
 	}

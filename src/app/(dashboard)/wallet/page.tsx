@@ -1,3 +1,4 @@
+import DeleteAccountButton from '@/components/forms/DeleteAccountButton';
 import LinkAccountForm from '@/components/forms/LinkAccountForm';
 import {
 	Breadcrumb,
@@ -50,6 +51,7 @@ export default async function Wallet() {
 				<Table>
 					<TableHeader>
 						<TableRow>
+							<TableHead></TableHead>
 							<TableHead>Name</TableHead>
 							<TableHead>Type</TableHead>
 							<TableHead>Last Four</TableHead>
@@ -58,6 +60,9 @@ export default async function Wallet() {
 					<TableBody>
 						{data.accounts.map((account) => (
 							<TableRow key={account.id}>
+								<TableCell>
+									<DeleteAccountButton id={account.id} />
+								</TableCell>
 								<TableCell>{account.name}</TableCell>
 								<TableCell>{account.type}</TableCell>
 								<TableCell>{account.lastFour}</TableCell>

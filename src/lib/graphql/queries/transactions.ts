@@ -17,6 +17,7 @@ export const GET_TRANSACTIONS_WITH_PAGINATION = gql`
 			pageInfo {
 				hasNextPage
 				endCursor
+				length
 			}
 		}
 	}
@@ -43,5 +44,11 @@ export const SYNC_TRANSACTIONS = gql`
 			status
 			error
 		}
+	}
+`;
+
+export const DELETE_TRANSACTION = gql`
+	mutation DeleteTransaction($id: ID!) {
+		deleteTransaction(id: $id)
 	}
 `;

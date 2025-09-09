@@ -26,6 +26,11 @@ class Format {
 			day: '2-digit', // numeric day of the month (e.g., '25')
 		};
 
+		const dateMonthOptions: globalThis.Intl.DateTimeFormatOptions = {
+			month: 'long',
+			year: 'numeric',
+		};
+
 		const dateOptions: globalThis.Intl.DateTimeFormatOptions = {
 			month: 'short', // abbreviated month name (e.g., 'Oct')
 			year: 'numeric', // numeric year (e.g., '2023')
@@ -42,6 +47,11 @@ class Format {
 
 		const formattedDateDay: string = new Date(dateString).toLocaleString('en-US', dateDayOptions);
 
+		const formattedDateMonth: string = new Date(dateString).toLocaleString(
+			'en-US',
+			dateMonthOptions,
+		);
+
 		const formattedDate: string = new Date(dateString).toLocaleString('en-US', dateOptions);
 
 		const formattedTime: string = new Date(dateString).toLocaleString('en-US', timeOptions);
@@ -51,6 +61,8 @@ class Format {
 			dateTime: formattedDateTime,
 			/** ddd, mm/dd/yyyy */
 			dateDay: formattedDateDay,
+			/** mmm yyyy */
+			dateMonth: formattedDateMonth,
 			/** mmm dd, yyyy */
 			dateOnly: formattedDate,
 			/** hh:mm tt */

@@ -2,7 +2,7 @@
 
 import React, { startTransition, useActionState } from 'react';
 import { Button } from '../ui/button';
-import { LoaderIcon, RefreshCw } from 'lucide-react';
+import { LoaderCircle, RefreshCw } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import syncTransactions from '@/actions/transaction/sync';
 import { type SyncTransactions } from '@/lib/graphql/schema/operations';
@@ -25,7 +25,11 @@ export default function RefreshTransactionsButton() {
 	return (
 		<>
 			<Button variant='outline' onClick={handleClick}>
-				{!isPending ? <RefreshCw className='size-4' /> : <LoaderIcon />}
+				{!isPending ? (
+					<RefreshCw className='size-4' />
+				) : (
+					<LoaderCircle className='size-4 animate-spin' />
+				)}
 				<span>Refresh</span>
 			</Button>
 			{state?.error && <p>{state.error}</p>}

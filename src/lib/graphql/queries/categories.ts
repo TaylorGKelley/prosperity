@@ -9,6 +9,7 @@ export const GET_ALL_CATEGORIES = gql`
 			id
 			name
 			amount
+			totalSpent
 		}
 	}
 `;

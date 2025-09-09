@@ -105,7 +105,7 @@ export default async function Home() {
 							<LineChart
 								data={chartData}
 								config={{
-									desktop: {
+									balance: {
 										label: 'Balance',
 										color: 'var(--chart-1)',
 									},
@@ -124,7 +124,7 @@ export default async function Home() {
 							<BarChart
 								data={chartData}
 								config={{
-									desktop: {
+									balance: {
 										label: 'Balance',
 										color: 'var(--chart-1)',
 									},
@@ -143,7 +143,7 @@ export default async function Home() {
 							<LineChart
 								data={chartData}
 								config={{
-									desktop: {
+									balance: {
 										label: 'Balance',
 										color: 'var(--chart-1)',
 									},

@@ -21,15 +21,9 @@ export default function BarChart<T>({ config, data, YDataKey, XDataKey }: LineCh
 		<ChartContainer config={config}>
 			<RechartBarChart accessibilityLayer data={data}>
 				<CartesianGrid vertical={false} />
-				<XAxis
-					dataKey={XDataKey.toString()}
-					tickLine={false}
-					tickMargin={10}
-					axisLine={false}
-					tickFormatter={(value) => value.slice(0, 3)}
-				/>
+				<XAxis dataKey={XDataKey.toString()} tickLine={false} tickMargin={10} axisLine={false} />
 				<ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-				<Bar dataKey={YDataKey.toString()} fill='var(--color-desktop)' radius={8} />
+				<Bar dataKey={YDataKey.toString()} fill={config[YDataKey].color} radius={8} />
 			</RechartBarChart>
 		</ChartContainer>
 	);

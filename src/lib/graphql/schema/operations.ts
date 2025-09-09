@@ -43,6 +43,7 @@ export type Category = {
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   startDate: Scalars['DateTime']['output'];
+  totalSpent?: Maybe<Scalars['Float']['output']>;
 };
 
 export type CreateAccountInput = {
@@ -72,6 +73,7 @@ export type Mutation = {
   createCategory: Category;
   deleteAccount?: Maybe<Scalars['ID']['output']>;
   deleteCategory: Scalars['ID']['output'];
+  deleteTransaction: Scalars['ID']['output'];
   syncTransactions: SyncTransactions;
   updateCategory: Category;
 };
@@ -97,6 +99,11 @@ export type MutationDeleteCategoryArgs = {
 };
 
 
+export type MutationDeleteTransactionArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type MutationUpdateCategoryArgs = {
   input: UpdateCategoryInput;
 };
@@ -104,7 +111,8 @@ export type MutationUpdateCategoryArgs = {
 export type PageInformation = {
   __typename?: 'PageInformation';
   endCursor?: Maybe<Scalars['String']['output']>;
-  hasNextPage?: Maybe<Scalars['Boolean']['output']>;
+  hasNextPage: Scalars['Boolean']['output'];
+  length: Scalars['Int']['output'];
 };
 
 export type PaginatedTransaction = {
@@ -117,7 +125,7 @@ export type Query = {
   __typename?: 'Query';
   account: Account;
   accounts: Array<Account>;
-  budget: Budget;
+  budget?: Maybe<Budget>;
   categories: Array<Category>;
   category: Category;
   transaction: Transaction;
@@ -181,7 +189,7 @@ export type Transaction = {
   accountId: Scalars['ID']['output'];
   amount: Scalars['Float']['output'];
   categoryId?: Maybe<Scalars['ID']['output']>;
-  date: Scalars['Date']['output'];
+  date: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   status: TransactionStatusEnum;
@@ -217,6 +225,13 @@ export type CreateAccountMutationVariables = Exact<{
 
 export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: Array<{ __typename?: 'Account', id: import('node:crypto').UUID }> };
 
+export type DeleteAccountMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount?: import('node:crypto').UUID | null };
+
 export type CreateBudgetMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -227,7 +242,7 @@ export type GetAllCategoriesQueryVariables = Exact<{
 }>;
 
 
-export type GetAllCategoriesQuery = { __typename?: 'Query', budget: { __typename?: 'Budget', id: import('node:crypto').UUID }, categories: Array<{ __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number }> };
+export type GetAllCategoriesQuery = { __typename?: 'Query', budget?: { __typename?: 'Budget', id: import('node:crypto').UUID } | null, categories: Array<{ __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number, totalSpent?: number | null }> };
 
 export type CategoryQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -251,20 +266,13 @@ export type DeleteCategoryMutationVariables = Exact<{
 
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: import('node:crypto').UUID };
 
-export type GetTransactionsQueryVariables = Exact<{
-  monthDate: Scalars['DateTime']['input'];
-}>;
-
-
-export type GetTransactionsQuery = { __typename?: 'Query', transactions: { __typename?: 'PaginatedTransaction', items: Array<{ __typename?: 'Transaction', id: import('node:crypto').UUID, accountId: import('node:crypto').UUID, categoryId?: import('node:crypto').UUID | null, amount: number, date: Date, description: string, status: TransactionStatusEnum, type: string }> } };
-
 export type GetTransactionsWithPaginationQueryVariables = Exact<{
   monthDate: Scalars['DateTime']['input'];
   pagination?: InputMaybe<CursorPaginationInput>;
 }>;
 
 
-export type GetTransactionsWithPaginationQuery = { __typename?: 'Query', transactions: { __typename?: 'PaginatedTransaction', items: Array<{ __typename?: 'Transaction', id: import('node:crypto').UUID, tellerId: import('node:crypto').UUID, accountId: import('node:crypto').UUID, categoryId?: import('node:crypto').UUID | null, amount: number, date: Date, description: string, status: TransactionStatusEnum, type: string }>, pageInfo?: { __typename?: 'PageInformation', hasNextPage?: boolean | null, endCursor?: string | null } | null } };
+export type GetTransactionsWithPaginationQuery = { __typename?: 'Query', transactions: { __typename?: 'PaginatedTransaction', items: Array<{ __typename?: 'Transaction', id: import('node:crypto').UUID, tellerId: import('node:crypto').UUID, accountId: import('node:crypto').UUID, categoryId?: import('node:crypto').UUID | null, amount: number, date: Date, description: string, status: TransactionStatusEnum, type: string }>, pageInfo?: { __typename?: 'PageInformation', hasNextPage: boolean, endCursor?: string | null, length: number } | null } };
 
 export type GetTransactionByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -277,3 +285,10 @@ export type SyncTransactionsMutationVariables = Exact<{ [key: string]: never; }>
 
 
 export type SyncTransactionsMutation = { __typename?: 'Mutation', syncTransactions: { __typename?: 'SyncTransactions', status: SyncStatusEnum, error?: string | null } };
+
+export type DeleteTransactionMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteTransactionMutation = { __typename?: 'Mutation', deleteTransaction: import('node:crypto').UUID };
