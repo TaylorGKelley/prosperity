@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 const protectedPaths: Record<string, string[]> = {
 	'/': ['default'],
 	'/budget': ['default'],
+	'/wallet': ['default'],
 	'/transactions': ['default'],
 	'/transactions/create': ['default'],
 };

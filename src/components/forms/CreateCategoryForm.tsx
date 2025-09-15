@@ -16,9 +16,8 @@ export default function CreateCategoryForm({ defaultStateQuery }: CreateCategory
 	const router = useRouter();
 
 	const handleSubmit = async (prevState: CreateCategoryFormState | null, formData: FormData) => {
-		console.log('submitting');
 		const result = await createCategory(prevState, formData);
-		console.log(result);
+
 		if (result?.category) {
 			router.push('/budget');
 		}

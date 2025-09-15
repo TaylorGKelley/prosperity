@@ -12,7 +12,7 @@ export const createGraphClient = async (config?: { isInServerAction?: boolean })
 	const authLink = setContext(async (_, { headers }) => {
 		let accessToken = await getToken('accessToken');
 
-		if (config?.isInServerAction && accessToken && isExpiredToken(accessToken)) {
+		if (config?.isInServerAction && (!accessToken || isExpiredToken(accessToken))) {
 			({ accessToken } = await refreshTokens());
 		}
 
