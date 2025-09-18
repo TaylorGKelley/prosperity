@@ -4,8 +4,6 @@ import { Inter } from 'next/font/google';
 import { AuthProvider } from '@/context/AuthProvider';
 import { fetchWithAuth, type User } from 'authentication-service-nextjs-sdk/server';
 import './globals.css';
-import { Toaster } from '@/components/ui/sonner';
-import { ThemeProvider } from '@/context/ThemeProvider';
 
 const inter = Inter({
 	variable: '--font-inter-sans',
@@ -44,10 +42,10 @@ export default async function RootLayout({
 				<AuthProvider
 					permissions={response.success ? response.data.permissions : []}
 					user={response.success ? response.data.user : null}>
-					<ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-						{children}
-						<Toaster position='bottom-right' />
-					</ThemeProvider>
+					{/* <ThemeProvider attribute='class' defaultTheme='system' enableSystem> */}
+					{children}
+					{/* <Toaster position='bottom-right' /> */}
+					{/* </ThemeProvider> */}
 				</AuthProvider>
 			</body>
 		</html>
