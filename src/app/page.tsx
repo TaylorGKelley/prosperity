@@ -4,7 +4,7 @@ import Navbar from '@/components/ui/navbar';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import Format from '@/utils/Format';
-import { CalendarIcon, ChevronDownIcon, PlusIcon } from 'lucide-react';
+import { PlusIcon } from 'lucide-react';
 
 export default async function Home() {
 	const wallets = [
