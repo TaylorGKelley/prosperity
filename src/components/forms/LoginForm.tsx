@@ -6,12 +6,13 @@ import { useActionState } from 'react';
 import { login } from '@/actions/forms/login';
 import loginFormSchema, { type LoginFormState } from '@/lib/zod/loginFormSchema';
 import { Input } from '../ui/input';
-import { cn } from '@/utils/tw';
+import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { LoaderCircleIcon } from 'lucide-react';
 
 type LoginFormProps = React.HTMLProps<HTMLFormElement>;
 
@@ -28,7 +29,7 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 		return result;
 	};
 
-	const [state, action] = useActionState(handleSubmit, null);
+	const [state, action, isPending] = useActionState(handleSubmit, null);
 
 	const form = useForm({
 		resolver: zodResolver(loginFormSchema),
@@ -76,11 +77,12 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 						)}
 					/>
 					{state?.error && <p>{state.error}</p>}
-					<Button type='submit' className='w-full'>
-						Login
+					<Button type='submit' className='w-full' disabled={isPending}>
+						{isPending && <LoaderCircleIcon className='size-4 mr-2 animate-spin' />}
+						<span>Login</span>
 					</Button>
 					<div className='after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t'>
-						<span className='bg-background text-muted-foreground relative z-10 px-2'>
+						<span className='bg-white text-muted-foreground relative z-10 px-2'>
 							Or continue with
 						</span>
 					</div>
