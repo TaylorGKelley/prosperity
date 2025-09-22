@@ -319,7 +319,7 @@ const colorClassNames = {
 	yellow: 'bg-yellow-100 text-yellow-500',
 	lime: 'bg-lime-100 text-lime-500',
 	green: 'bg-green-100 text-green-500',
-	emrald: 'bg-emrald-100 text-emrald-500',
+	emerald: 'bg-emerald-100 text-emerald-500',
 	teal: 'bg-teal-100 text-teal-500',
 	cyan: 'bg-cyan-100 text-cyan-500',
 	'light-blue': 'bg-light-blue-100 text-light-blue-500',

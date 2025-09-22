@@ -1,19 +1,13 @@
-import CategoryIcon from '@/components/ui/category-icon';
+import CategoryIcon, {
+	type CategoryColorKey,
+	type CategoryIconKey,
+} from '@/components/ui/category-icon';
 import Navbar from '@/components/ui/navbar';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import Format from '@/utils/Format';
 import MonthFilter from '@/components/month-filter';
-import { EllipsisVerticalIcon, PlusIcon, TrashIcon } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import CategoryDropdown from '@/components/category-dropdown';
+import { MoreHorizontalIcon, PlusIcon, TrendingUpIcon } from 'lucide-react';
 
 export default function Transactions() {
 	const wallets = [
@@ -73,40 +67,156 @@ export default function Transactions() {
 						</div>
 						<MonthFilter />
 					</section>
-					<div className='flex justify-between items-center'>
-						<h4 className='text-xl font-semibold'>Pending</h4>
-						<div className='flex gap-8 text-gray-500 font-medium'>
-							<p>Number of transactions: 20</p>
-							<p>Value: $2018.00</p>
+
+					{/* Pending Heading */}
+					<div className='content-stretch flex items-center justify-between overflow-clip relative shrink-0 w-full'>
+						<p className='font-semibold leading-[28px] not-italic relative shrink-0 text-[20px] text-black text-nowrap whitespace-pre'>
+							Pending
+						</p>
+						<div className='content-stretch flex font-medium gap-[32px] items-center leading-[24px] not-italic relative shrink-0 text-[16px] text-gray-500 text-nowrap text-right whitespace-pre'>
+							<p className='relative shrink-0'>Number of transactions: 20</p>
+							<p className='relative shrink-0'>Value: $2018.00</p>
 						</div>
 					</div>
-					<section className='flex flex-col gap-8'>
-						<div className='bg-white p-8 rounded-2xl shadow flex justify-between items-center'>
-							<div className='flex gap-4 items-center'>
-								<CategoryDropdown defaultValue={{ icon: 'beef', color: 'green' }} />
-								<div>
-									<h5 className='font-semibold text-xl'>Walmart</h5>
-									<p className='text-gray-500'>August 20 2025</p>
+
+					{/* Pending Transaction Cards */}
+					<div className='content-stretch flex flex-col gap-[32px] items-start relative shrink-0 w-full'>
+						{/* Walmart Transaction */}
+						<div className='bg-white relative rounded-[16px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.06)] shrink-0 w-full'>
+							<div className='flex flex-row items-center overflow-clip relative size-full'>
+								<div className='box-border content-stretch flex items-center justify-between p-[32px] relative w-full'>
+									<div className='content-stretch flex gap-[16px] items-center relative shrink-0'>
+										<CategoryIcon icon='shopping-cart' color='emerald' />
+										<div className='content-stretch flex flex-col items-start justify-center not-italic overflow-clip relative shrink-0 text-nowrap text-right whitespace-pre'>
+											<p className='font-semibold leading-[28px] relative shrink-0 text-[20px] text-black'>
+												Walmart
+											</p>
+											<p className='font-normal leading-[normal] relative shrink-0 text-[#555555] text-[16px]'>
+												August 20 2025
+											</p>
+										</div>
+									</div>
+									<div className='content-stretch flex gap-[32px] items-center overflow-clip relative shrink-0'>
+										<p className='font-semibold leading-[normal] not-italic relative shrink-0 text-[20px] text-black text-nowrap text-right whitespace-pre'>
+											-$76.40
+										</p>
+										<MoreHorizontalIcon className='size-[24px] text-gray-600' />
+									</div>
 								</div>
 							</div>
-							<div className='flex gap-8 items-center'>
-								<h5 className='text-2xl font-semibold'>-$76.40</h5>
-								<DropdownMenu>
-									<DropdownMenuTrigger className='p-2 rounded-full focus:outline-gray-700'>
-										<EllipsisVerticalIcon className='size-6 text-gray-600' />
-									</DropdownMenuTrigger>
-									<DropdownMenuContent className='bg-white border-gray-300 shadow w-40'>
-										<DropdownMenuItem className='flex gap-2 text-red-500 hover:bg-red-100/50 rounded'>
-											<TrashIcon className='size-4' />
-											<span>Delete</span>
-										</DropdownMenuItem>
-									</DropdownMenuContent>
-								</DropdownMenu>
+						</div>
+
+						{/* Amazon Transaction */}
+						<div className='bg-white relative rounded-[16px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.06)] shrink-0 w-full'>
+							<div className='flex flex-row items-center overflow-clip relative size-full'>
+								<div className='box-border content-stretch flex items-center justify-between p-[32px] relative w-full'>
+									<div className='content-stretch flex gap-[16px] items-center relative shrink-0'>
+										<CategoryIcon icon='banknote' color='blue' />
+										<div className='content-stretch flex flex-col items-start justify-center leading-[normal] not-italic overflow-clip relative shrink-0 text-nowrap text-right whitespace-pre'>
+											<p className='font-semibold relative shrink-0 text-[20px] text-black tracking-[-0.2px]'>
+												Amazon
+											</p>
+											<p className='font-normal relative shrink-0 text-[#555555] text-[16px]'>
+												August 20 2025
+											</p>
+										</div>
+									</div>
+									<div className='content-stretch flex gap-[32px] items-center relative shrink-0'>
+										<p className='font-semibold leading-[normal] not-italic relative shrink-0 text-[20px] text-black text-nowrap text-right whitespace-pre'>
+											-$99.00
+										</p>
+										<MoreHorizontalIcon className='size-[24px] text-gray-600' />
+									</div>
+								</div>
 							</div>
 						</div>
-					</section>
-					<h4 className='text-xl font-semibold'>Month Year</h4>
-					<section className='flex flex-col gap-8'></section>
+					</div>
+
+					{/* August 2025 Section */}
+					<div className='content-stretch flex gap-[16px] items-center overflow-clip relative shrink-0 w-full'>
+						<p className='font-semibold leading-[28px] not-italic relative shrink-0 text-[20px] text-black text-nowrap whitespace-pre'>
+							August 2025
+						</p>
+					</div>
+
+					{/* August Transaction Cards */}
+					<div className='content-stretch flex flex-col gap-[32px] items-start relative shrink-0 w-full'>
+						{/* Aldi Transaction */}
+						<div className='bg-white relative rounded-[16px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.06)] shrink-0 w-full'>
+							<div className='flex flex-row items-center overflow-clip relative size-full'>
+								<div className='box-border content-stretch flex items-center justify-between p-[32px] relative w-full'>
+									<div className='content-stretch flex gap-[16px] items-center relative shrink-0'>
+										<CategoryIcon color='emerald' icon='shopping-cart' />
+										<div className='content-stretch flex flex-col items-start justify-center leading-[normal] not-italic overflow-clip relative shrink-0 text-nowrap text-right whitespace-pre'>
+											<p className='font-semibold relative shrink-0 text-[20px] text-black tracking-[-0.2px]'>
+												Aldi
+											</p>
+											<p className='font-normal relative shrink-0 text-[#555555] text-[16px]'>
+												August 19 2025
+											</p>
+										</div>
+									</div>
+									<div className='content-stretch flex gap-[32px] items-center relative shrink-0'>
+										<p className='font-semibold leading-[normal] not-italic relative shrink-0 text-[20px] text-black text-nowrap text-right whitespace-pre'>
+											-$54.37
+										</p>
+										<MoreHorizontalIcon className='size-[24px] text-gray-600' />
+									</div>
+								</div>
+							</div>
+						</div>
+
+						{/* Water Bill Transaction */}
+						<div className='bg-white relative rounded-[16px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.06)] shrink-0 w-full'>
+							<div className='flex flex-row items-center overflow-clip relative size-full'>
+								<div className='box-border content-stretch flex items-center justify-between p-[32px] relative w-full'>
+									<div className='content-stretch flex gap-[16px] items-center relative shrink-0'>
+										<CategoryIcon icon='receipt-text' color='amber' />
+										<div className='content-stretch flex flex-col items-start justify-center leading-[normal] not-italic overflow-clip relative shrink-0 text-nowrap text-right whitespace-pre'>
+											<p className='font-semibold relative shrink-0 text-[20px] text-black tracking-[-0.2px]'>
+												Water Bill
+											</p>
+											<p className='font-normal relative shrink-0 text-[#555555] text-[16px]'>
+												August 17 2025
+											</p>
+										</div>
+									</div>
+									<div className='content-stretch flex gap-[32px] items-center relative shrink-0'>
+										<p className='font-semibold leading-[normal] not-italic relative shrink-0 text-[20px] text-black text-nowrap text-right whitespace-pre'>
+											-$40.20
+										</p>
+										<MoreHorizontalIcon className='size-[24px] text-gray-600' />
+									</div>
+								</div>
+							</div>
+						</div>
+
+						{/* Paycheck Transaction */}
+						<div className='bg-white relative rounded-[16px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.06)] shrink-0 w-full'>
+							<div className='flex flex-row items-center overflow-clip relative size-full'>
+								<div className='box-border content-stretch flex items-center justify-between p-[32px] relative w-full'>
+									<div className='content-stretch flex gap-[16px] items-center relative shrink-0'>
+										<div className='bg-gray-100 overflow-clip relative rounded-[8.727px] shadow-[0px_1.091px_3.273px_0px_rgba(0,0,0,0.1),0px_1.091px_2.182px_0px_rgba(0,0,0,0.06)] shrink-0 size-[48px] flex items-center justify-center'>
+											<TrendingUpIcon className='size-[26px] text-gray-600' />
+										</div>
+										<div className='content-stretch flex flex-col items-start justify-center leading-[normal] not-italic overflow-clip relative shrink-0 text-nowrap text-right whitespace-pre'>
+											<p className='font-semibold relative shrink-0 text-[20px] text-black tracking-[-0.2px]'>
+												Paycheck from company
+											</p>
+											<p className='font-normal relative shrink-0 text-[#555555] text-[16px]'>
+												August 15 2025
+											</p>
+										</div>
+									</div>
+									<div className='content-stretch flex gap-[32px] items-center relative shrink-0'>
+										<p className='font-semibold leading-[normal] not-italic relative shrink-0 text-[20px] text-emerald-600 text-nowrap text-right whitespace-pre'>
+											+$109.20
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</main>
 			</div>
 			<aside className='flex flex-col gap-18 bg-white p-12'>
@@ -123,7 +233,10 @@ export default function Transactions() {
 					<ul className='flex flex-col gap-9'>
 						{wallets.map((wallet) => (
 							<li key={wallet.title} className='flex gap-5 items-center'>
-								<CategoryIcon icon={wallet.icon} color={wallet.color} />
+								<CategoryIcon
+									icon={wallet.icon as CategoryIconKey}
+									color={wallet.color as CategoryColorKey}
+								/>
 								<div>
 									<h4 className='text-xl font-semibold'>{wallet.title}</h4>
 									<p>{Format.price(wallet.amount)}</p>
@@ -145,7 +258,10 @@ export default function Transactions() {
 							<li
 								key={category.title}
 								className='grid grid-cols-[auto_1fr_auto] gap-5 items-center'>
-								<CategoryIcon icon={category.icon} color={category.color} />
+								<CategoryIcon
+									icon={category.icon as CategoryIconKey}
+									color={category.color as CategoryColorKey}
+								/>
 								<div>
 									<h4 className='text-xl font-semibold'>{category.title}</h4>
 									<p>{Format.price(category.amount)}</p>
