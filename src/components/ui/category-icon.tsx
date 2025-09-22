@@ -308,6 +308,7 @@ const categoryIcons = {
 	wrench: <WrenchIcon />,
 	wallet: <WalletIcon />,
 };
+export type CategoryIconKey = keyof typeof categoryIcons;
 
 const colorClassNames = {
 	'blue-gray': 'bg-blue-gray-100 text-blue-gray-500',
@@ -330,10 +331,11 @@ const colorClassNames = {
 	pink: 'bg-pink-100 text-pink-500',
 	rose: 'bg-rose-100 text-rose-500',
 };
+export type CategoryColorKey = keyof typeof colorClassNames;
 
 type CategoryIconProps = Readonly<{
-	icon: keyof typeof categoryIcons;
-	color: keyof typeof colorClassNames;
+	icon: CategoryIconKey;
+	color: CategoryColorKey;
 	className?: string;
 }>;
 
