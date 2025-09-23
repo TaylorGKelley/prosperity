@@ -4,8 +4,12 @@
 import MonthFilter from '@/components/month-filter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import CategoryIcon from '@/components/ui/category-icon';
+import CategoryIcon, {
+	type CategoryColorKey,
+	type CategoryIconKey,
+} from '@/components/ui/category-icon';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import DonutProgressChart from '@/components/ui/donut-progress-chart';
 import Navbar from '@/components/ui/navbar';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
@@ -136,7 +140,7 @@ export default function Home() {
 							</div>
 							<div className=''>
 								<h3 className='text-xl font-semibold'>Budget</h3>
-								<div>{/* Pie Chart */}</div>
+								<DonutProgressChart />
 								<div className='grid grid-cols-2 gap-4'>
 									<div>
 										<h5 className='font-semibold'>$3,000</h5>
@@ -168,7 +172,10 @@ export default function Home() {
 							<li
 								key={category.title}
 								className='grid grid-cols-[auto_1fr_auto] gap-5 items-center'>
-								<CategoryIcon icon={category.icon} color={category.color} />
+								<CategoryIcon
+									icon={category.icon as CategoryIconKey}
+									color={category.color as CategoryColorKey}
+								/>
 								<div>
 									<h4 className='text-xl font-semibold'>{category.title}</h4>
 									<p>{Format.price(category.amount)}</p>
