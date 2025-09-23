@@ -15,8 +15,8 @@ const links = [
 		url: '/transactions',
 	},
 	{
-		title: 'Wallet',
-		url: '/wallet',
+		title: 'Budget',
+		url: '/budget',
 	},
 ];
 

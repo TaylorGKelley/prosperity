@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import Format from '@/utils/Format';
 import { PlusIcon } from 'lucide-react';
 
-export default function Transactions() {
+export default function Budget() {
 	const wallets = [
 		{
 			color: 'purple',

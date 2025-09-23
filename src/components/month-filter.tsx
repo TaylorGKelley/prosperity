@@ -19,9 +19,14 @@ export default function MonthFilter() {
 					1,
 			  )
 			: undefined;
+	const displayDate = new Date(
+		year ? parseInt(year) : today.getFullYear(),
+		month ? parseInt(month) - 1 : today.getMonth(),
+		1,
+	);
 
 	const yearItems = [];
-	for (let i = today.getFullYear() - 100; i < today.getFullYear() + 50; i++) {
+	for (let i = today.getFullYear() - 4; i < today.getFullYear() + 6; i++) {
 		yearItems.push(
 			<SelectItem key={i} value={i.toString()} className='hover:bg-gray-500/50'>
 				{i}
@@ -43,31 +48,25 @@ export default function MonthFilter() {
 					<label className='text-xs text-gray-500'>Month:</label>
 					<Select
 						onValueChange={(value) => {
-							if (!searchParams.get('year'))
-								searchParams.set('year', today.getFullYear().toString());
-							searchParams.set('month', value);
+							searchParams.set('month', (parseInt(value) + 1).toString());
 						}}
-						defaultValue={
-							selectedDate
-								? (selectedDate.getMonth() - 1).toString()
-								: (today.getMonth() - 1).toString()
-						}>
+						defaultValue={displayDate.getMonth().toString()}>
 						<SelectTrigger className='w-full border-gray-400'>
 							<SelectValue placeholder='Month' />
 						</SelectTrigger>
 						<SelectContent className='bg-white'>
-							<SelectItem value='1'>Jan</SelectItem>
-							<SelectItem value='2'>Fab</SelectItem>
-							<SelectItem value='3'>Mar</SelectItem>
-							<SelectItem value='4'>Apr</SelectItem>
-							<SelectItem value='5'>May</SelectItem>
-							<SelectItem value='6'>Jun</SelectItem>
-							<SelectItem value='7'>Jul</SelectItem>
-							<SelectItem value='8'>Aug</SelectItem>
-							<SelectItem value='9'>Sep</SelectItem>
-							<SelectItem value='10'>Oct</SelectItem>
-							<SelectItem value='11'>Nov</SelectItem>
-							<SelectItem value='12'>Dec</SelectItem>
+							<SelectItem value='0'>Jan</SelectItem>
+							<SelectItem value='1'>Feb</SelectItem>
+							<SelectItem value='2'>Mar</SelectItem>
+							<SelectItem value='3'>Apr</SelectItem>
+							<SelectItem value='4'>May</SelectItem>
+							<SelectItem value='5'>Jun</SelectItem>
+							<SelectItem value='6'>Jul</SelectItem>
+							<SelectItem value='7'>Aug</SelectItem>
+							<SelectItem value='8'>Sep</SelectItem>
+							<SelectItem value='9'>Oct</SelectItem>
+							<SelectItem value='10'>Nov</SelectItem>
+							<SelectItem value='11'>Dec</SelectItem>
 						</SelectContent>
 					</Select>
 				</div>
@@ -76,11 +75,8 @@ export default function MonthFilter() {
 					<Select
 						onValueChange={(value) => {
 							searchParams.set('year', value);
-							if (searchParams.get('month')) searchParams.set('month', today.getMonth().toString());
 						}}
-						defaultValue={
-							selectedDate ? selectedDate.getFullYear().toString() : today.getFullYear().toString()
-						}>
+						defaultValue={displayDate.getFullYear().toString()}>
 						<SelectTrigger className='w-full border-gray-400'>
 							<SelectValue placeholder='Year' />
 						</SelectTrigger>
