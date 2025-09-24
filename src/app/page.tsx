@@ -135,7 +135,7 @@ export default function Home() {
 							</div>
 							<div className=''>
 								<h3 className='text-xl font-semibold'>Budget</h3>
-								<DonutProgressChart />
+								<DonutProgressChart percentage='75%' />
 								<div className='grid grid-cols-2 gap-4'>
 									<div>
 										<h5 className='font-semibold'>$3,000</h5>
@@ -156,12 +156,7 @@ export default function Home() {
 					<div className='w-12 h-12 rounded-lg shadow bg-gray-500'>{/* Profile Photo */}</div>
 				</section>
 				<section className='flex flex-col gap-9'>
-					<div className='flex justify-between items-center'>
-						<h3 className='text-2xl font-semibold'>Categories</h3>
-						<button className='p-[7px] rounded-lg border-dashed border-gray-400 border cursor-pointer'>
-							<PlusIcon className='size-4 text-gray-400' />
-						</button>
-					</div>
+					<h3 className='text-2xl font-semibold'>Categories</h3>
 					<ul className='flex flex-col gap-9'>
 						{categories.map((category) => (
 							<li
