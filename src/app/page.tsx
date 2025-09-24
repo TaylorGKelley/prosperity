@@ -58,11 +58,6 @@ const monthExpenses = [
 	{ month: 'Nov', spent: 800, income: 1000 },
 	{ month: 'Dec', spent: 900, income: 800 },
 ] satisfies { month: string; spent: number; income: number }[];
-const budget = {
-	total: 3000,
-	spent: 2300.9,
-	remianing: 699.1,
-} satisfies { total: number; spent: number; remianing: number };
 
 export default function Home() {
 	return (

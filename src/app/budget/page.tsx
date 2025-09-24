@@ -5,7 +5,6 @@ import CategoryIcon, {
 } from '@/components/ui/category-icon';
 import Navbar from '@/components/ui/navbar';
 import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
 import Format from '@/utils/Format';
 import { ChevronDownIcon, EllipsisIcon, LinkIcon, PlusIcon } from 'lucide-react';
 
