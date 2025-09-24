@@ -1,5 +1,5 @@
 export default class Cookies {
-	static set(name: string, value: string, expirationDate: Date) {
+	static set(name: string, value: string, expirationDate?: Date) {
 		const expires = expirationDate ? '; expires=' + expirationDate.toUTCString() : '';
 		document.cookie = name + '=' + (value || '') + expires + '; path=/';
 	}
