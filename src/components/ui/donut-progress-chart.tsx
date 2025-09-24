@@ -34,10 +34,16 @@ export default function DonutProgressChart({ percentage }: DonutProgressChartPro
 						cy='108'
 						r='87'
 						stroke='currentColor'
-						className='text-amber-600'
+						className='text-amber-600 animate-stroke-dash animate'
+						style={{
+							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+							// @ts-expect-error
+							'--percentage': dashArr,
+							'--circumference': cir,
+						}}
 						strokeWidth='30'
 						strokeLinecap='round'
-						strokeDasharray={`${dashArr} ${cir}`}
+						// strokeDasharray={`${dashArr} ${cir}`}
 						strokeDashoffset='0'
 					/>
 				</g>

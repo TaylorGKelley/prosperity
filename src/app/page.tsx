@@ -15,7 +15,13 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import Format from '@/utils/Format';
-import { ChevronsUpDownIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
+import {
+	CheckIcon,
+	ChevronsUpDownIcon,
+	PlusIcon,
+	TrendingDownIcon,
+	TrendingUpIcon,
+} from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 
 // ! Mock Data
@@ -78,7 +84,27 @@ export default function Home() {
 										</h2>
 									</PopoverTrigger>
 									<PopoverContent>
-										<h5>Change Budget</h5>
+										<h5 className='text-lg font-semibold'>Change Budget</h5>
+										<Separator />
+										<ul className='grid gap-2 py-2'>
+											<li>
+												<Button
+													variant='ghost'
+													className='w-full h-min flex justify-start gap-4 cursor-pointer p-2'>
+													<CategoryIcon icon='wallet' color='amber' />
+													<span className='text-lg grow text-left'>Home</span>
+													<CheckIcon />
+												</Button>
+											</li>
+											<li>
+												<Button
+													variant='ghost'
+													className='w-full h-min flex justify-start gap-4 cursor-pointer p-2'>
+													<CategoryIcon icon='wallet' color='green' />
+													<span className='text-lg grow text-left'>Business</span>
+												</Button>
+											</li>
+										</ul>
 									</PopoverContent>
 								</Popover>
 								<p className='text-gray-500'>Change default budget</p>
