@@ -43,15 +43,17 @@ export default function MonthFilter() {
 					<ChevronDownIcon className='size-4' />
 				</div>
 			</PopoverTrigger>
-			<PopoverContent className='bg-white grid grid-cols-2 gap-4 border-gray-400 pt-2'>
+			<PopoverContent className='bg-white grid grid-cols-2 gap-4 border-none pt-2'>
 				<div>
-					<label className='text-xs text-gray-500'>Month:</label>
+					<label htmlFor='month-select' className='text-xs text-gray-700'>
+						Month:
+					</label>
 					<Select
 						onValueChange={(value) => {
 							searchParams.set('month', (parseInt(value) + 1).toString());
 						}}
 						defaultValue={displayDate.getMonth().toString()}>
-						<SelectTrigger className='w-full border-gray-400'>
+						<SelectTrigger id='month-select' className='w-full border-gray-400'>
 							<SelectValue placeholder='Month' />
 						</SelectTrigger>
 						<SelectContent className='bg-white'>
@@ -71,13 +73,15 @@ export default function MonthFilter() {
 					</Select>
 				</div>
 				<div>
-					<label className='text-xs text-gray-500'>Year:</label>
+					<label htmlFor='year-select' className='text-xs text-gray-700'>
+						Year:
+					</label>
 					<Select
 						onValueChange={(value) => {
 							searchParams.set('year', value);
 						}}
 						defaultValue={displayDate.getFullYear().toString()}>
-						<SelectTrigger className='w-full border-gray-400'>
+						<SelectTrigger id='year-select' className='w-full border-gray-400'>
 							<SelectValue placeholder='Year' />
 						</SelectTrigger>
 						<SelectContent className='bg-white'>{yearItems}</SelectContent>

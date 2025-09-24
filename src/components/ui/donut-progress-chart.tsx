@@ -132,7 +132,7 @@ export default function DonutProgressChart({ percentage }: DonutProgressChartPro
 				</defs>
 			</svg>
 			<div className='absolute top-1/2 left-1/2 -translate-1/2 text-center'>
-				<p className='font-semibold'>$money</p>
+				<p className='font-semibold'>$2300.10</p>
 				<p className='text-gray-500 font-medium text-sm'>Spent</p>
 			</div>
 		</div>

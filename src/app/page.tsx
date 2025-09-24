@@ -14,6 +14,7 @@ import Navbar from '@/components/ui/navbar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import Cookies from '@/utils/Cookies';
 import Format from '@/utils/Format';
 import {
 	CheckIcon,
@@ -22,7 +23,8 @@ import {
 	TrendingDownIcon,
 	TrendingUpIcon,
 } from 'lucide-react';
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
+// import { cookies } from 'next/headers';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 // ! Mock Data
 const categories = [
@@ -52,21 +54,18 @@ const categories = [
 	},
 ] satisfies { color: string; icon: string; title: string; amount: number }[];
 const monthExpenses = [
-	{ month: 'Jan', spent: 500, income: 800 },
-	{ month: 'Feb', spent: 800, income: 700 },
-	{ month: 'Mar', spent: 600, income: 800 },
 	{ month: 'Apr', spent: 700, income: 900 },
 	{ month: 'May', spent: 900, income: 850 },
 	{ month: 'Jun', spent: 400, income: 700 },
 	{ month: 'Jul', spent: 300, income: 700 },
 	{ month: 'Aug', spent: 500, income: 850 },
 	{ month: 'Sep', spent: 600, income: 700 },
-	{ month: 'Oct', spent: 700, income: 900 },
-	{ month: 'Nov', spent: 800, income: 1000 },
-	{ month: 'Dec', spent: 900, income: 800 },
 ] satisfies { month: string; spent: number; income: number }[];
 
 export default function Home() {
+	// const cookieStore = cookies();
+	// const selectedBudget: string | undefined = await cookieStore.get('selectedBudget')?.value;
+
 	return (
 		<div className='grid grid-cols-[auto_var(--container-sm)] bg-gray-100 min-h-screen'>
 			<div className='px-12'>
@@ -83,14 +82,18 @@ export default function Home() {
 											<ChevronsUpDownIcon className='size-5' />
 										</h2>
 									</PopoverTrigger>
-									<PopoverContent>
-										<h5 className='text-lg font-semibold'>Change Budget</h5>
+									<PopoverContent className='rounded-2xl'>
+										<h5 className='text-lg font-semibold mb-2 ml-2'>Change Budget</h5>
 										<Separator />
 										<ul className='grid gap-2 py-2'>
 											<li>
 												<Button
 													variant='ghost'
-													className='w-full h-min flex justify-start gap-4 cursor-pointer p-2'>
+													className='w-full h-min flex justify-start gap-4 cursor-pointer p-2'
+													onClick={() =>
+														// Cookies.set('selectedBudget', budget.id)
+														Cookies.set('selectedBudget', 'home')
+													}>
 													<CategoryIcon icon='wallet' color='amber' />
 													<span className='text-lg grow text-left'>Home</span>
 													<CheckIcon />
@@ -99,7 +102,11 @@ export default function Home() {
 											<li>
 												<Button
 													variant='ghost'
-													className='w-full h-min flex justify-start gap-4 cursor-pointer p-2'>
+													className='w-full h-min flex justify-start gap-4 cursor-pointer p-2'
+													onClick={() =>
+														// Cookies.set('selectedBudget', budget.id)
+														Cookies.set('selectedBudget', 'business')
+													}>
 													<CategoryIcon icon='wallet' color='green' />
 													<span className='text-lg grow text-left'>Business</span>
 												</Button>
@@ -112,30 +119,36 @@ export default function Home() {
 						</div>
 						<MonthFilter />
 					</section>
-					<Card className='bg-white shadow rounded-2xl p-6'>
-						<CardContent className='grid grid-cols-3 gap-6'>
-							<div className='col-span-2'>
+					<Card className='shadow rounded-2xl py-12 border-none'>
+						<CardContent className='grid grid-cols-3 gap-6 px-12'>
+							<div className='col-span-2 flex flex-col gap-8'>
 								<ul className='grid grid-cols-3 gap-4'>
-									<li>
+									<li className='flex flex-col gap-4'>
 										<div className='flex items-center justify-center rounded-2xl shadow bg-gray-100 size-12'>
 											<TrendingDownIcon className='size-6 text-red-500' />
 										</div>
-										<h4 className='text-xl font-semibold'>- $2,300</h4>
-										<p className='text-red-500'>Expenses</p>
+										<div>
+											<h4 className='text-xl font-semibold'>- $2,300</h4>
+											<p className='text-red-500'>Expenses</p>
+										</div>
 									</li>
-									<li>
+									<li className='flex flex-col gap-4'>
 										<div className='flex items-center justify-center rounded-2xl shadow bg-gray-100 size-12'>
 											<TrendingUpIcon className='size-6 text-blue-500' />
 										</div>
-										<h4 className='text-xl font-semibold'>$1,700</h4>
-										<p className='text-blue-500'>Difference</p>
+										<div>
+											<h4 className='text-xl font-semibold'>$1,700</h4>
+											<p className='text-blue-500'>Difference</p>
+										</div>
 									</li>
-									<li>
+									<li className='flex flex-col gap-4'>
 										<div className='flex items-center justify-center rounded-2xl shadow bg-gray-100 size-12'>
 											<TrendingUpIcon className='size-6 text-green-500' />
 										</div>
-										<h4 className='text-xl font-semibold'>$4,000</h4>
-										<p className='text-green-500'>Income</p>
+										<div>
+											<h4 className='text-xl font-semibold'>$4,000</h4>
+											<p className='text-green-500'>Income</p>
+										</div>
 									</li>
 								</ul>
 								<div>
@@ -150,22 +163,29 @@ export default function Home() {
 												color: 'var(--color-blue-100)',
 											},
 										}}
-										className='w-full h-28'>
+										className='w-full h-28 min-h-48'>
 										<BarChart accessibilityLayer data={monthExpenses}>
-											<CartesianGrid vertical={false} />
+											{/* <CartesianGrid vertical={false} /> */}
 											<XAxis
 												dataKey='month'
 												tickLine={false}
 												tickMargin={10}
-												axisLine={false}
+												// axisLine={false}
+												axisLine={{ strokeWidth: 0.5, className: 'mt-3' }}
 												tickFormatter={(value) => value.slice(0, 3)}
+											/>
+											<YAxis
+												tickLine={false}
+												axisLine={false}
+												tickFormatter={(value: number) => `${value / 1000}k`}
+												padding={{ bottom: 4 }}
 											/>
 											<ChartTooltip
 												cursor={false}
 												content={<ChartTooltipContent indicator='dashed' />}
 											/>
-											<Bar dataKey='income' fill='var(--color-blue-100)' radius={6} width={16} />
-											<Bar dataKey='spent' fill='var(--color-blue-500)' radius={6} width={16} />
+											<Bar dataKey='income' fill='var(--color-blue-100)' radius={6} barSize={16} />
+											<Bar dataKey='spent' fill='var(--color-blue-500)' radius={6} barSize={16} />
 										</BarChart>
 									</ChartContainer>
 								</div>
@@ -186,6 +206,80 @@ export default function Home() {
 							</div>
 						</CardContent>
 					</Card>
+					<section className='grid lg:grid-cols-2 gap-8'>
+						<div className='flex flex-col gap-4'>
+							<h3 className='text-lg font-semibold'>{`Saving's Goals`}</h3>
+							<Card className='border-none shadow rounded-2xl py-6'>
+								<CardContent className='flex flex-col gap-4 px-6'>
+									<div className='flex items-center gap-2'>
+										<CategoryIcon icon='ice-cream-cone' color='blue' className='size-8' />
+										<h4 className='font-medium text-lg grow'>Dessert Fund</h4>
+										<p className='text-sm text-gray-500'>$25 / month</p>
+									</div>
+									<div className='flex flex-col gap-1'>
+										<p className='text-sm text-gray-500 font-medium'>$250 / $500</p>
+										<div className='grid-cols-1 grid-rows-1 grid w-full rounded-full shadow-sm'>
+											<div className='col-start-1 row-start-1 bg-blue-100 h-2 rounded-full' />
+											<div className='col-start-1 row-start-1 bg-blue-500 h-2 rounded-full w-[70%]' />
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+						</div>
+						<div className='flex flex-col gap-4'>
+							<h3 className='text-lg font-semibold'>Trends</h3>
+							<div className='flex flex-wrap gap-6'>
+								<Card className='border-none shadow rounded-2xl py-5'>
+									<CardContent className='flex flex-col gap-4 px-6'>
+										<div className='flex items-center gap-4'>
+											<CategoryIcon icon='beef' color='green' />
+											<div>
+												<h5 className='font-medium'>Food</h5>
+												<p className='inline-flex gap-1.5 items-center'>
+													<span className='text-2xl'>$240</span>
+													<span className='text-xs text-red-500'>+10%</span>
+												</p>
+											</div>
+										</div>
+										<div className='grid grid-cols-2 gap-4'>
+											<div>
+												<h5 className='text-xs text-gray-500'>Last Month</h5>
+												<p>$640</p>
+											</div>
+											<div>
+												<h5 className='text-xs text-gray-500'>Average YTD</h5>
+												<p>$680</p>
+											</div>
+										</div>
+									</CardContent>
+								</Card>
+								<Card className='border-none shadow rounded-2xl py-5'>
+									<CardContent className='flex flex-col gap-4 px-6'>
+										<div className='flex items-center gap-4'>
+											<CategoryIcon icon='fuel' color='pink' />
+											<div>
+												<h5 className='font-medium'>Gas</h5>
+												<p className='inline-flex gap-1.5 items-center'>
+													<span className='text-2xl'>$240</span>
+													<span className='text-xs text-green-500'>-40%</span>
+												</p>
+											</div>
+										</div>
+										<div className='grid grid-cols-2 gap-4'>
+											<div>
+												<h5 className='text-xs text-gray-500'>Last Month</h5>
+												<p>$640</p>
+											</div>
+											<div>
+												<h5 className='text-xs text-gray-500'>Average YTD</h5>
+												<p>$680</p>
+											</div>
+										</div>
+									</CardContent>
+								</Card>
+							</div>
+						</div>
+					</section>
 				</main>
 			</div>
 			<aside className='flex flex-col gap-18 bg-white p-12'>
