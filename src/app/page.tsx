@@ -11,10 +11,11 @@ import CategoryIcon, {
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import DonutProgressChart from '@/components/ui/donut-progress-chart';
 import Navbar from '@/components/ui/navbar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import Format from '@/utils/Format';
-import { PlusIcon, TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
+import { ChevronsUpDownIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 
 // ! Mock Data
@@ -69,7 +70,17 @@ export default function Home() {
 						<div className='flex gap-6'>
 							<CategoryIcon icon='wallet' color='amber' className='size-14' />
 							<div>
-								<h2 className='text-2xl font-bold'>Home Budget</h2>
+								<Popover>
+									<PopoverTrigger className='cursor-pointer'>
+										<h2 className='text-2xl font-bold inline-flex items-center gap-2'>
+											<span>Home Budget</span>
+											<ChevronsUpDownIcon className='size-5' />
+										</h2>
+									</PopoverTrigger>
+									<PopoverContent>
+										<h5>Change Budget</h5>
+									</PopoverContent>
+								</Popover>
 								<p className='text-gray-500'>Change default budget</p>
 							</div>
 						</div>

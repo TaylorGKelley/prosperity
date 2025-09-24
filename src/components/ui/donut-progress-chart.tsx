@@ -50,8 +50,8 @@ export default function DonutProgressChart({ percentage }: DonutProgressChartPro
 						width='210'
 						height='210'
 						filterUnits='userSpaceOnUse'
-						color-interpolation-filters='sRGB'>
-						<feFlood flood-opacity='0' result='BackgroundImageFix' />
+						colorInterpolationFilters='sRGB'>
+						<feFlood floodOpacity='0' result='BackgroundImageFix' />
 						<feColorMatrix
 							in='SourceAlpha'
 							type='matrix'
@@ -90,8 +90,8 @@ export default function DonutProgressChart({ percentage }: DonutProgressChartPro
 						width='210'
 						height='210'
 						filterUnits='userSpaceOnUse'
-						color-interpolation-filters='sRGB'>
-						<feFlood flood-opacity='0' result='BackgroundImageFix' />
+						colorInterpolationFilters='sRGB'>
+						<feFlood floodOpacity='0' result='BackgroundImageFix' />
 						<feColorMatrix
 							in='SourceAlpha'
 							type='matrix'
