@@ -1,6 +1,4 @@
-'use client';
-// TODO: Move charts to client components and use server page
-
+import BudgetSelector from '@/components/budget-selector';
 import MonthFilter from '@/components/month-filter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,23 +6,15 @@ import CategoryIcon, {
 	type CategoryColorKey,
 	type CategoryIconKey,
 } from '@/components/ui/category-icon';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import DonutProgressChart from '@/components/ui/donut-progress-chart';
 import Navbar from '@/components/ui/navbar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import Cookies from '@/utils/Cookies';
 import Format from '@/utils/Format';
-import {
-	CheckIcon,
-	ChevronsUpDownIcon,
-	PlusIcon,
-	TrendingDownIcon,
-	TrendingUpIcon,
-} from 'lucide-react';
-// import { cookies } from 'next/headers';
-import { Bar, BarChart, XAxis, YAxis } from 'recharts';
+import { PlusIcon, TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
+import { type UUID } from 'node:crypto';
+import { cookies } from 'next/headers';
+import MonthlySpendingBarChart from '@/components/monthly-spending-bar-chart';
 
 // ! Mock Data
 const categories = [
@@ -62,9 +52,9 @@ const monthExpenses = [
 	{ month: 'Sep', spent: 600, income: 700 },
 ] satisfies { month: string; spent: number; income: number }[];
 
-export default function Home() {
-	// const cookieStore = cookies();
-	// const selectedBudget: string | undefined = await cookieStore.get('selectedBudget')?.value;
+export default async function Home() {
+	const cookieStore = await cookies();
+	const selectedBudgetId: string | undefined = await cookieStore.get('selectedBudget')?.value;
 
 	return (
 		<div className='grid grid-cols-[auto_var(--container-sm)] bg-gray-100 min-h-screen'>
@@ -72,51 +62,15 @@ export default function Home() {
 				<Navbar />
 				<main className='px-10 flex flex-col gap-6'>
 					<section className='flex justify-between items-center py-2'>
-						<div className='flex gap-6'>
-							<CategoryIcon icon='wallet' color='amber' className='size-14' />
-							<div>
-								<Popover>
-									<PopoverTrigger className='cursor-pointer'>
-										<h2 className='text-2xl font-bold inline-flex items-center gap-2'>
-											<span>Home Budget</span>
-											<ChevronsUpDownIcon className='size-5' />
-										</h2>
-									</PopoverTrigger>
-									<PopoverContent className='rounded-2xl'>
-										<h5 className='text-lg font-semibold mb-2 ml-2'>Change Budget</h5>
-										<Separator />
-										<ul className='grid gap-2 py-2'>
-											<li>
-												<Button
-													variant='ghost'
-													className='w-full h-min flex justify-start gap-4 cursor-pointer p-2'
-													onClick={() =>
-														// Cookies.set('selectedBudget', budget.id)
-														Cookies.set('selectedBudget', 'home')
-													}>
-													<CategoryIcon icon='wallet' color='amber' />
-													<span className='text-lg grow text-left'>Home</span>
-													<CheckIcon />
-												</Button>
-											</li>
-											<li>
-												<Button
-													variant='ghost'
-													className='w-full h-min flex justify-start gap-4 cursor-pointer p-2'
-													onClick={() =>
-														// Cookies.set('selectedBudget', budget.id)
-														Cookies.set('selectedBudget', 'business')
-													}>
-													<CategoryIcon icon='wallet' color='green' />
-													<span className='text-lg grow text-left'>Business</span>
-												</Button>
-											</li>
-										</ul>
-									</PopoverContent>
-								</Popover>
-								<p className='text-gray-500'>Change default budget</p>
-							</div>
-						</div>
+						<BudgetSelector
+							selected={{
+								id: (selectedBudgetId || 'a9626d4b-9cfa-45b0-b9da-35ffbc13d655') as UUID,
+							}}
+							budgets={[
+								{ id: (selectedBudgetId || 'a9626d4b-9cfa-45b0-b9da-35ffbc13d655') as UUID },
+								{ id: '4d9ac6ec-4b69-4eb9-9688-20c450221f22' as UUID },
+							]}
+						/>
 						<MonthFilter />
 					</section>
 					<Card className='shadow rounded-2xl py-12 border-none'>
@@ -152,42 +106,7 @@ export default function Home() {
 									</li>
 								</ul>
 								<div>
-									<ChartContainer
-										config={{
-											spent: {
-												label: 'Spent',
-												color: 'var(--color-blue-500)',
-											},
-											income: {
-												label: 'Income',
-												color: 'var(--color-blue-100)',
-											},
-										}}
-										className='w-full h-28 min-h-48'>
-										<BarChart accessibilityLayer data={monthExpenses}>
-											{/* <CartesianGrid vertical={false} /> */}
-											<XAxis
-												dataKey='month'
-												tickLine={false}
-												tickMargin={10}
-												// axisLine={false}
-												axisLine={{ strokeWidth: 0.5, className: 'mt-3' }}
-												tickFormatter={(value) => value.slice(0, 3)}
-											/>
-											<YAxis
-												tickLine={false}
-												axisLine={false}
-												tickFormatter={(value: number) => `${value / 1000}k`}
-												padding={{ bottom: 4 }}
-											/>
-											<ChartTooltip
-												cursor={false}
-												content={<ChartTooltipContent indicator='dashed' />}
-											/>
-											<Bar dataKey='income' fill='var(--color-blue-100)' radius={6} barSize={16} />
-											<Bar dataKey='spent' fill='var(--color-blue-500)' radius={6} barSize={16} />
-										</BarChart>
-									</ChartContainer>
+									<MonthlySpendingBarChart data={monthExpenses} />
 								</div>
 							</div>
 							<div className=''>
