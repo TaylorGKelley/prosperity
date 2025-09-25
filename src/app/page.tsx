@@ -24,7 +24,7 @@ import {
 	TrendingUpIcon,
 } from 'lucide-react';
 // import { cookies } from 'next/headers';
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, XAxis, YAxis } from 'recharts';
 
 // ! Mock Data
 const categories = [
@@ -208,7 +208,7 @@ export default function Home() {
 					</Card>
 					<section className='grid lg:grid-cols-2 gap-8'>
 						<div className='flex flex-col gap-4'>
-							<h3 className='text-lg font-semibold'>{`Saving's Goals`}</h3>
+							<h3 className='text-lg font-semibold'>Saving Goals</h3>
 							<Card className='border-none shadow rounded-2xl py-6'>
 								<CardContent className='flex flex-col gap-4 px-6'>
 									<div className='flex items-center gap-2'>
