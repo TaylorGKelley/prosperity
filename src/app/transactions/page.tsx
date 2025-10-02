@@ -8,8 +8,41 @@ import { cn } from '@/lib/utils';
 import Format from '@/utils/Format';
 import MonthFilter from '@/components/month-filter';
 import { MoreHorizontalIcon } from 'lucide-react';
+import { createGraphClient } from '@/lib/graphql';
+import { TRANSACTION_PAGE_QUERY } from '@/lib/graphql/queries/transactions';
+import {
+	type TransactionPageQuery,
+	type TransactionPageQueryVariables,
+} from '@/lib/graphql/schema/operations';
+import { cookies } from 'next/headers';
+import { type UUID } from 'node:crypto';
 
-export default function Transactions() {
+export type TransactionsPageProps = {
+	params: Promise<{
+		month?: string;
+		year?: string;
+	}>;
+};
+
+export default async function Transactions({ params }: TransactionsPageProps) {
+	const { month, year } = await params;
+	const selectedDate = new Date(
+		year ? parseInt(year) : new Date().getFullYear(),
+		month ? parseInt(month) - 1 : new Date().getMonth(),
+		1,
+	);
+	const cookieStore = await cookies();
+	const selectedBudgetId = cookieStore.get('selectedBudgetId')?.toString();
+
+	const graphClient = await createGraphClient();
+	const { data } = await graphClient.query<TransactionPageQuery, TransactionPageQueryVariables>({
+		query: TRANSACTION_PAGE_QUERY,
+		variables: {
+			monthDate: selectedDate,
+			budgetId: selectedBudgetId as UUID | undefined,
+		},
+	});
+
 	const wallets = [
 		{
 			color: 'purple',

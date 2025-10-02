@@ -1,13 +1,11 @@
 import { gql } from '@apollo/client';
 
-export const GET_TRANSACTIONS_WITH_PAGINATION = gql`
-	query GetTransactionsWithPagination($monthDate: DateTime!, $pagination: CursorPaginationInput) {
-		transactions(monthDate: $monthDate, pagination: $pagination) {
+export const TRANSACTION_PAGE_QUERY = gql`
+	query TransactionPage($monthDate: DateTime!, $budgetId: ID) {
+		transactions(monthDate: $monthDate, budgetId: $budgetId) {
 			items {
 				id
 				tellerId
-				accountId
-				categoryId
 				amount
 				date
 				description
@@ -15,40 +13,27 @@ export const GET_TRANSACTIONS_WITH_PAGINATION = gql`
 				type
 			}
 			pageInfo {
+				length
 				hasNextPage
 				endCursor
-				length
 			}
 		}
-	}
-`;
-
-export const GET_TRANSACTION_BY_ID = gql`
-	query GetTransactionById($id: ID!) {
-		transaction(id: $id) {
+		accounts(budgetId: $budgetId) {
 			id
-			accountId
-			categoryId
-			amount
-			date
-			description
-			status
+			currency
+			enrollmentId
+			lastFour
+			name
 			type
-		}
-	}
-`;
-
-export const SYNC_TRANSACTIONS = gql`
-	mutation SyncTransactions {
-		syncTransactions {
+			subtype
 			status
-			error
 		}
-	}
-`;
-
-export const DELETE_TRANSACTION = gql`
-	mutation DeleteTransaction($id: ID!) {
-		deleteTransaction(id: $id)
+		categories(monthDate: $monthDate, budgetId: $budgetId) {
+			id
+			name
+			amount
+			totalSpent
+			endDate
+		}
 	}
 `;

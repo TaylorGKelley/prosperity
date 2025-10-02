@@ -18,7 +18,7 @@ export type Scalars = {
 
 export type Account = {
   __typename?: 'Account';
-  budgetId: Scalars['ID']['output'];
+  budget: Budget;
   currency: Scalars['String']['output'];
   enrollmentId: Scalars['String']['output'];
   id: Scalars['ID']['output'];
@@ -30,29 +30,78 @@ export type Account = {
   type: TypeEnum;
 };
 
+export type BasicAccount = {
+  __typename?: 'BasicAccount';
+  currency: Scalars['String']['output'];
+  enrollmentId: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  institution: Institution;
+  lastFour: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  status: StatusEnum;
+  subtype: SubtypeEnum;
+  type: TypeEnum;
+};
+
+export type BasicCategory = {
+  __typename?: 'BasicCategory';
+  amount: Scalars['Float']['output'];
+  endDate?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  startDate: Scalars['DateTime']['output'];
+};
+
+export type BasicSavingGoal = {
+  __typename?: 'BasicSavingGoal';
+  contributionAmount: Scalars['Float']['output'];
+  currentAmount: Scalars['Float']['output'];
+  id: Scalars['ID']['output'];
+  lastContribution: Scalars['DateTime']['output'];
+  prioritize: Scalars['Boolean']['output'];
+  targetAmount: Scalars['Float']['output'];
+  title: Scalars['String']['output'];
+};
+
 export type Budget = {
   __typename?: 'Budget';
   id: Scalars['ID']['output'];
+  isDefault: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type Category = {
   __typename?: 'Category';
   amount: Scalars['Float']['output'];
-  budgetId: Scalars['ID']['output'];
+  budget: Budget;
   endDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   startDate: Scalars['DateTime']['output'];
-  totalSpent?: Maybe<Scalars['Float']['output']>;
+  totalSpent: Scalars['Float']['output'];
 };
 
 export type CreateAccountInput = {
   accessToken: Scalars['String']['input'];
 };
 
+export type CreateBudgetInput = {
+  isDefault?: InputMaybe<Scalars['Boolean']['input']>;
+  name: Scalars['String']['input'];
+};
+
 export type CreateCategoryInput = {
   amount: Scalars['Float']['input'];
+  budgetId: Scalars['ID']['input'];
   name: Scalars['String']['input'];
+};
+
+export type CreateSavingGoalInput = {
+  budgetId: Scalars['ID']['input'];
+  contributionAmount: Scalars['Float']['input'];
+  prioritize: Scalars['Boolean']['input'];
+  targetAmount: Scalars['Float']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type CursorPaginationInput = {
@@ -71,11 +120,16 @@ export type Mutation = {
   createAccount: Array<Account>;
   createBudget: Budget;
   createCategory: Category;
+  createSavingGoal: SavingGoal;
   deleteAccount?: Maybe<Scalars['ID']['output']>;
+  deleteBudget?: Maybe<Scalars['ID']['output']>;
   deleteCategory: Scalars['ID']['output'];
+  deleteSavingGoal: Scalars['ID']['output'];
   deleteTransaction: Scalars['ID']['output'];
   syncTransactions: SyncTransactions;
+  updateBudget: Budget;
   updateCategory: Category;
+  updateSavingGoal: SavingGoal;
 };
 
 
@@ -84,12 +138,27 @@ export type MutationCreateAccountArgs = {
 };
 
 
+export type MutationCreateBudgetArgs = {
+  input: CreateBudgetInput;
+};
+
+
 export type MutationCreateCategoryArgs = {
   input: CreateCategoryInput;
 };
 
 
+export type MutationCreateSavingGoalArgs = {
+  input: CreateSavingGoalInput;
+};
+
+
 export type MutationDeleteAccountArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteBudgetArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -99,13 +168,28 @@ export type MutationDeleteCategoryArgs = {
 };
 
 
+export type MutationDeleteSavingGoalArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type MutationDeleteTransactionArgs = {
   id: Scalars['ID']['input'];
 };
 
 
+export type MutationUpdateBudgetArgs = {
+  input: UpdateBudgetInput;
+};
+
+
 export type MutationUpdateCategoryArgs = {
   input: UpdateCategoryInput;
+};
+
+
+export type MutationUpdateSavingGoalArgs = {
+  input: UpdateSavingGoalInput;
 };
 
 export type PageInformation = {
@@ -125,9 +209,12 @@ export type Query = {
   __typename?: 'Query';
   account: Account;
   accounts: Array<Account>;
-  budget?: Maybe<Budget>;
+  budget: Budget;
+  budgets: Array<Budget>;
   categories: Array<Category>;
   category: Category;
+  savingGoal?: Maybe<SavingGoal>;
+  savingGoals: Array<SavingGoal>;
   transaction: Transaction;
   transactions: PaginatedTransaction;
 };
@@ -138,7 +225,18 @@ export type QueryAccountArgs = {
 };
 
 
+export type QueryAccountsArgs = {
+  budgetId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryBudgetArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type QueryCategoriesArgs = {
+  budgetId?: InputMaybe<Scalars['ID']['input']>;
   monthDate: Scalars['DateTime']['input'];
 };
 
@@ -148,14 +246,37 @@ export type QueryCategoryArgs = {
 };
 
 
+export type QuerySavingGoalArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QuerySavingGoalsArgs = {
+  budgetId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
 export type QueryTransactionArgs = {
   id: Scalars['ID']['input'];
 };
 
 
 export type QueryTransactionsArgs = {
+  budgetId?: InputMaybe<Scalars['ID']['input']>;
   monthDate: Scalars['DateTime']['input'];
   pagination?: InputMaybe<CursorPaginationInput>;
+};
+
+export type SavingGoal = {
+  __typename?: 'SavingGoal';
+  budget: Budget;
+  contributionAmount: Scalars['Float']['output'];
+  currentAmount: Scalars['Float']['output'];
+  id: Scalars['ID']['output'];
+  lastContribution: Scalars['DateTime']['output'];
+  prioritize: Scalars['Boolean']['output'];
+  targetAmount: Scalars['Float']['output'];
+  title: Scalars['String']['output'];
 };
 
 export enum StatusEnum {
@@ -186,9 +307,9 @@ export type SyncTransactions = {
 
 export type Transaction = {
   __typename?: 'Transaction';
-  accountId: Scalars['ID']['output'];
+  account: BasicAccount;
   amount: Scalars['Float']['output'];
-  categoryId?: Maybe<Scalars['ID']['output']>;
+  category?: Maybe<BasicCategory>;
   date: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
@@ -207,88 +328,30 @@ export enum TypeEnum {
   Depository = 'DEPOSITORY'
 }
 
+export type UpdateBudgetInput = {
+  id: Scalars['ID']['input'];
+  isDefault?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdateCategoryInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   id: Scalars['ID']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type GetAllAccountsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetAllAccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: import('node:crypto').UUID, currency: string, enrollmentId: string, lastFour: number, name: string, type: TypeEnum, subtype: SubtypeEnum, status: StatusEnum }> };
-
-export type CreateAccountMutationVariables = Exact<{
-  accessToken: Scalars['String']['input'];
-}>;
-
-
-export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: Array<{ __typename?: 'Account', id: import('node:crypto').UUID }> };
-
-export type DeleteAccountMutationVariables = Exact<{
+export type UpdateSavingGoalInput = {
+  contributionAmount?: InputMaybe<Scalars['Float']['input']>;
   id: Scalars['ID']['input'];
-}>;
+  prioritize?: InputMaybe<Scalars['Boolean']['input']>;
+  targetAmount?: InputMaybe<Scalars['Float']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
 
-
-export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount?: import('node:crypto').UUID | null };
-
-export type CreateBudgetMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CreateBudgetMutation = { __typename?: 'Mutation', createBudget: { __typename?: 'Budget', id: import('node:crypto').UUID } };
-
-export type GetAllCategoriesQueryVariables = Exact<{
+export type TransactionPageQueryVariables = Exact<{
   monthDate: Scalars['DateTime']['input'];
+  budgetId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type GetAllCategoriesQuery = { __typename?: 'Query', budget?: { __typename?: 'Budget', id: import('node:crypto').UUID } | null, categories: Array<{ __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number, totalSpent?: number | null }> };
-
-export type CategoryQueryVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type CategoryQuery = { __typename?: 'Query', category: { __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number } };
-
-export type CreateCategoryMutationVariables = Exact<{
-  name: Scalars['String']['input'];
-  amount: Scalars['Float']['input'];
-}>;
-
-
-export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number } };
-
-export type DeleteCategoryMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: import('node:crypto').UUID };
-
-export type GetTransactionsWithPaginationQueryVariables = Exact<{
-  monthDate: Scalars['DateTime']['input'];
-  pagination?: InputMaybe<CursorPaginationInput>;
-}>;
-
-
-export type GetTransactionsWithPaginationQuery = { __typename?: 'Query', transactions: { __typename?: 'PaginatedTransaction', items: Array<{ __typename?: 'Transaction', id: import('node:crypto').UUID, tellerId: import('node:crypto').UUID, accountId: import('node:crypto').UUID, categoryId?: import('node:crypto').UUID | null, amount: number, date: Date, description: string, status: TransactionStatusEnum, type: string }>, pageInfo?: { __typename?: 'PageInformation', hasNextPage: boolean, endCursor?: string | null, length: number } | null } };
-
-export type GetTransactionByIdQueryVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type GetTransactionByIdQuery = { __typename?: 'Query', transaction: { __typename?: 'Transaction', id: import('node:crypto').UUID, accountId: import('node:crypto').UUID, categoryId?: import('node:crypto').UUID | null, amount: number, date: Date, description: string, status: TransactionStatusEnum, type: string } };
-
-export type SyncTransactionsMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SyncTransactionsMutation = { __typename?: 'Mutation', syncTransactions: { __typename?: 'SyncTransactions', status: SyncStatusEnum, error?: string | null } };
-
-export type DeleteTransactionMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type DeleteTransactionMutation = { __typename?: 'Mutation', deleteTransaction: import('node:crypto').UUID };
+export type TransactionPageQuery = { __typename?: 'Query', transactions: { __typename?: 'PaginatedTransaction', items: Array<{ __typename?: 'Transaction', id: import('node:crypto').UUID, tellerId: import('node:crypto').UUID, amount: number, date: Date, description: string, status: TransactionStatusEnum, type: string }>, pageInfo?: { __typename?: 'PageInformation', length: number, hasNextPage: boolean, endCursor?: string | null } | null }, accounts: Array<{ __typename?: 'Account', id: import('node:crypto').UUID, currency: string, enrollmentId: string, lastFour: number, name: string, type: TypeEnum, subtype: SubtypeEnum, status: StatusEnum }>, categories: Array<{ __typename?: 'Category', id: import('node:crypto').UUID, name: string, amount: number, totalSpent: number, endDate?: Date | null }> };
